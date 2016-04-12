@@ -7,9 +7,23 @@
 <title>Insert title here</title>
 </head>
 <body>
-index
-<a href = "LoginPage"> Login Page </a>
-<a href = "LoadMovie"> Load Movie </a>
-<a href = "UserName"> UserName </a>
+<ul>
+<li>
+new
+${username}
+</li>
+<li>
+${sessionScope.username}
+</li>
+<li>
+${applicationScope.username}
+</li>
+</ul>
+<table>
+<tr>
+<td><input type="text" value="${requestScope.username}" /></td>
+<td><input type="text" value="${sessionScope.username}" /></td>
+</tr>
+</table>
 </body>
 </html>

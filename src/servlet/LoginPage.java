@@ -50,9 +50,9 @@ public class LoginPage extends HttpServlet {
         
         
         out.print("<br/>");
-        //out.print("SIZE: " + Cache.movies_id.size());
-        out.print(Cache.count);
+        out.print("SIZE: " + Cache.movies_id.size());
         out.print("<br/>");
+        out.print("<a href=\"LoadMovie\"> LoadMovie </a>");
 
         
         
