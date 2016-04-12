@@ -1,14 +1,12 @@
 package cache;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import objects.Genre;
 import objects.Movie;
 import objects.Star;
-import java.util.List;
 
 public class Cache {
 
@@ -16,7 +14,7 @@ public class Cache {
 	public static final String DB_URL = "jdbc:mysql:///moviedb"; 
 	public static  String db = "moviedb";
 	public static  String user = "root";
-	public static  String pass = "pass";
+	public static  String pass = "futurama5";
     
 	public static  Map<Integer, Movie> movies_id;
     public static  Map<Integer, Star> stars_id;
@@ -29,6 +27,7 @@ public class Cache {
     public static Statement stmt = null;
     
     public static int count = 0;
+    public static String error = "";
     
     
     static{
@@ -38,15 +37,16 @@ public class Cache {
 			conn = DriverManager.getConnection("jdbc:mysql:///"+db, user, pass);
 			stmt = conn.createStatement();
 			
-			/*
+			
 			movies_id = moviesFromDatabase(stmt);
 			stars_id = starsFromDatabase(stmt);
 			genres_id = genresFromDatabase(stmt);
 			movie_star(movies_id, stars_id, stmt);
 			movie_genre(movies_id, genres_id, stmt);
 			Cache.stars_name = starsByName(stars_id);
-			*/
+			
 		} catch (Exception e) {
+			error = e.getLocalizedMessage();
 		} //finally { try { conn.close(); stmt.close(); } catch (Exception e2) {} }
     }
     
@@ -236,14 +236,4 @@ public class Cache {
 		rs.close();
 		return genres;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

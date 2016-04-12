@@ -1,8 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.sql.*;
-
 import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
@@ -12,15 +10,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import objects.*;
+
 import cache.Cache;
+
 /**
- * Servlet implementation class LoginPage
+ * Servlet implementation class LoadMovie
  */
-@WebServlet("/LoginPage")
-public class LoginPage extends HttpServlet {
+@WebServlet("/LoadMovie")
+public class LoadMovie extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	protected boolean verifyCredentials(String user, String pass){
 		// TODO
 		
@@ -50,9 +49,9 @@ public class LoginPage extends HttpServlet {
         
         
         out.print("<br/>");
-        out.print("SIZE: " + Cache.movies_id.size());
+        out.print("SIZE: " + Cache.error);
         out.print("<br/>");
-        out.print("<a href=\"LoadMovie\"> LoadMovie </a>");
+        out.print("<a href=\"LoginPage\"> LoginPage </a>");
 
         
         
