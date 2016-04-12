@@ -5,6 +5,7 @@ import java.sql.*;
 
 import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,8 +28,8 @@ public class LoginPage extends HttpServlet {
 		return false;
 	}
 	
-	protected void login(){
-		// TODO
+	protected void login(HttpServletResponse response) throws IOException{
+		response.sendRedirect("GrabSession");
 	}
 	
 	protected void writeHTML(PrintWriter out){
@@ -55,7 +56,7 @@ public class LoginPage extends HttpServlet {
 
         
         
-        out.println("make pass = 'pass' to mimmick logging in'");
+        out.println("maker pass = 'pass' to mimmick logging in'");
         out.println("<br/> make password != 'pass' to mimmick invalid login credentials");
         
         writeHTML(out);
@@ -76,7 +77,13 @@ public class LoginPage extends HttpServlet {
 	        	out.print("<br/>");
 	            out.print("James go to this page <a href=\"GrabSession\">page</a>");
 	            
-	            login();
+	            
+	            // redirects
+	            response.sendRedirect("GrabSession");
+	            
+	            // Forwards
+	            RequestDispatcher rd = request.getRequestDispatcher("GrabSession");
+	            rd.forward(request, response);
         	} else {
         		out.print("Invalid login credentials please try again");
         	}
