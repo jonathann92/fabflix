@@ -1,12 +1,14 @@
 package cache;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import objects.Genre;
 import objects.Movie;
 import objects.Star;
+import java.util.List;
 
 public class Cache {
 
@@ -234,4 +236,14 @@ public class Cache {
 		rs.close();
 		return genres;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
