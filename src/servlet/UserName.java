@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import cache.Cache;
+import objects.Star;
 import site.Site;
 
 /**
@@ -24,7 +26,10 @@ public class UserName extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String usernamee = "request";
+		Star s = Cache.stars_id.get(911);
 		request.setAttribute("username", usernamee);
+		
+		request.setAttribute("star", s);
 		
 		
 		HttpSession session = request.getSession(true);

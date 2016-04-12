@@ -16,7 +16,7 @@ ${username}
 ${sessionScope.username}
 </li>
 <li>
-${applicationScope.username}
+${star}
 </li>
 </ul>
 <table>
