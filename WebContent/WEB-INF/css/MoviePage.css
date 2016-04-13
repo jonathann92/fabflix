@@ -1,0 +1,14 @@
+#director {
+	display: inline-block;
+	padding: 20px;	
+}
+
+#genre {
+	display: inline-block;
+	padding: 20px;
+}
+
+#trailer {
+	display: inline-block;
+	padding: 20px;
+}
