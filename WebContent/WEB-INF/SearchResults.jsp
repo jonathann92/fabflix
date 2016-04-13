@@ -1,14 +1,13 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"
-    import="objects.*, java.util.*, java.io.*"%>
-<%@include file="/WEB-INF/includes/head.jsp" %>
+<%@include file="/WEB-INF/includes/jspheader.jsp" %>
+<html>
+<%@include file="/WEB-INF/includes/header.jsp" %>
 <body>
 <div class="container" >
 <%@include file="/WEB-INF/includes/navbar.jsp" %>
 	<div>
 		<div class="text-center">
 			<h1>Search Results</h1>
+			<p>${movieList.size() }
 		</div>
 </div>
 		<div class="results" align="center">
@@ -28,11 +27,11 @@
 				<tr>
 					<td class="table-cell-pad">${movie.id}</td>
 					<td class="table-cell-photo"><img src="${movie.banner }" width=90 height=120></td>
-					<td class="table-cell-pad">"${movie.title}"</td>
-					<td class="table-cell-pad">"${movie.year}"</td>
-					<td class="table-cell-pad">"${movie.director}"</td>
-					<td class="table-cell-pad">"${movie.stars}"</td>
-					<td class="table-cell-pad">"${movie.genres}"</td>
+					<td class="table-cell-pad">${movie.title}</td>
+					<td class="table-cell-pad">${movie.year}</td>
+					<td class="table-cell-pad">${movie.director}</td>
+					<td class="table-cell-pad">${movie.stars}</td>
+					<td class="table-cell-pad">${movie.genres}</td>
 				</tr>
 
 		        </c:forEach>

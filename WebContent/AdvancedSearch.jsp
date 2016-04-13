@@ -1,13 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@include file="/WEB-INF/includes/jspheader.jsp" %>
 <html>
-<%@include file="/WEB-INF/includes/head.jsp" %>
+<%@include file="/WEB-INF/includes/header.jsp" %>
 <body>
 <div class="container">
 <%@include file="/WEB-INF/includes/navbar.jsp" %>
   <h2>Movie Search</h2>
-  <form action="AdvSearch" role="form" method=POST>
+  <form action="AdvSearch" role="form" method=GET>
 
     <div class="form-group">
       <label>Title:</label>
