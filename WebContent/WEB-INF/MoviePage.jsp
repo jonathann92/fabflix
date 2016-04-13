@@ -23,23 +23,33 @@
 			<div class="container" >
 				<h2><p>${movie.title} (${movie.year})</p></h2>
 				<hr/>
-				<div class="info-item">
-					<div style="display: inline-block;">
-						<h4>Director:</h4>
-						<span class="label label-default">"${movie.director}"</span><br>
+				<div>
+					<div style="display: block;">
+						<h4 style="display: inline-block; font-weight: bold;">Director: </h4>
+						<p style="display: inline-block;">${movie.director}</p>
 					</div>					
-					<div>
-						<span class="label label-default">"${movie.director}"</span><br>
+					<div style="display: block;">
+						<h4 style="display: inline-block; font-weight: bold;">Trailer:</h4>
+						<p style="display:inline-block;"><a href="${movie.trailer}">CLICK HERE</a></p>
+					</div>
+					<div style="display: block;">
+						<h4 style="display: inline-block; font-weight: bold;">Genre:</h4>
+						<c:choose>
+							<c:when test="${not empty genreList}">
+								<c:forEach var="genres" items="${genreList}">
+									<a style="display: inline-block;" href="${genres.genre}">${genres.genre}</a>
+								</c:forEach>
+							</c:when>
+						</c:choose>					
 					</div>
 				</div>
 				
 			</div>			
 		</div>
 		
+		<!--  NOW TIME FOR STAR LISTINGS -->
 		
-		
-		
-		<% 
+		<%
 		/*
 		<div class="star-row">
 			<c:choose>
@@ -61,6 +71,6 @@
 			</c:choose>
 		</div>
 		*/
-		%>
+		%>		
 	</body>
 </html>

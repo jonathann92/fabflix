@@ -19,8 +19,7 @@ public class MoviePage extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		
-		ms = new MovieService(135005);
-		
+		ms = new MovieService(490011);
 		request.setAttribute("movieInfo", ms.getMovieInfo());
 		request.setAttribute("starList", ms.getStarList());		
 		request.setAttribute("genreList", ms.getGenreList());

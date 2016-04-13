@@ -94,7 +94,7 @@ public class MovieService extends Service {
 			Class.forName(JDBC_DRIVER);
 			conn = (Connection) DriverManager.getConnection(DB_URL, user, pass);
 			select = (Statement) conn.createStatement();
-			String sql = "SELECT g.* FROM genres as g, movies as m, genres_in_movies as gm WHERE m.id = 135005 and gm.genre_id=g.id and gm.movie_id=m.id;";
+			String sql = "SELECT g.* FROM genres as g, movies as m, genres_in_movies as gm WHERE m.id = " + movieId + " and gm.genre_id=g.id and gm.movie_id=m.id;";
 			rs = (ResultSet) select.executeQuery(sql);
 			g = new ArrayList<>();
 			
