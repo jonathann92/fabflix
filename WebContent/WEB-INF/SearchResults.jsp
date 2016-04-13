@@ -4,10 +4,13 @@
 <body>
 <div class="container" >
 <%@include file="/WEB-INF/includes/navbar.jsp" %>
+<%
+	List<Movie> fullList = (List<Movie>) request.getAttribute("fullMovieList");
+%>
 	<div>
 		<div class="text-center">
 			<h1>Search Results</h1>
-			<p>${movieList.size() }
+			<p>
 		</div>
 </div>
 		<div class="results" align="center">

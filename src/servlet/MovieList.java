@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import objects.Movie;
+import site.Site;
 
 /**
  * Servlet implementation class MovieList
@@ -26,13 +27,24 @@ public class MovieList extends HttpServlet {
 		response.setContentType("text/html");
         PrintWriter out = response.getWriter();
         
-        List<Movie> movieList = (List<Movie>) request.getAttribute("movieList");
+        List<Movie> movieList = (List<Movie>) request.getAttribute("fullMovieList");
+//        if(movieList == null){
+//        	// TODO Handle exception
+//        }
+//        
+        int page = (int) (request.getAttribute("page") != null ? request.getAttribute("page") : 1 );
+        int rows = 5; //(int) (request.getAttribute("rows") != null ? request.getAttribute("rows") : 1 );
+//        
+//        String sort = (String) request.getAttribute("sortby");
+//        
+//        sortList(sort, movieList);
         
-        if(movieList == null){
-        	// TODO Handle exception
-        }
+        //List<Movie> subList = Site.subMovieList(movieList, 0, 10);
+        List<Movie> subList = Site.subMovieList(movieList, rows * page - rows, rows * page - 1);
+        request.setAttribute("movieList", subList);
+        request.setAttribute("fullMovieList", movieList);
         
-        request.setAttribute("movieList", movieList);
+        Site.forward(request, response, "/WEB-INF/SearchResults.jsp");
 	}
 
 	/**
@@ -41,6 +53,16 @@ public class MovieList extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
+	}
+	
+	protected List<Movie> sortList(String sort, List<Movie> list){
+		if(sort.equals(null)) return list;
+		
+		if(sort.equals("yearascend")){
+			
+		}
+		
+		return list;
 	}
 
 }

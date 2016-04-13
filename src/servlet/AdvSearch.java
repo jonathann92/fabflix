@@ -34,14 +34,12 @@ public class AdvSearch extends HttpServlet {
         String director = request.getParameter("director");
         String first = request.getParameter("first");
         String last = request.getParameter("last");
-
-        
-        List<Movie> movieList;
         
         try{
+        	List<Movie> movieList;
         	movieList = Site.searchMovie(title, year, director, first, last);
-        	request.setAttribute("movieList", movieList);
-        	Site.forward(request, response, "/WEB-INF/SearchResults.jsp");
+        	request.setAttribute("fullMovieList", movieList);
+        	Site.forward(request, response, "/MovieList");
         } catch (Exception e){
         	error = e.getMessage();
         	request.setAttribute("error", error);
