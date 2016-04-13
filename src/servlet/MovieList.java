@@ -34,17 +34,17 @@ public class MovieList extends HttpServlet {
 //        
         int page = (int) (request.getAttribute("page") != null ? request.getAttribute("page") : 1 );
         int rows = 5; //(int) (request.getAttribute("rows") != null ? request.getAttribute("rows") : 1 );
-//        
-//        String sort = (String) request.getAttribute("sortby");
-//        
-//        sortList(sort, movieList);
+        
+        String sort = (String) request.getAttribute("sortby");
+        
+        //sortList(sort, movieList);
         
         //List<Movie> subList = Site.subMovieList(movieList, 0, 10);
         List<Movie> subList = Site.subMovieList(movieList, rows * page - rows, rows * page - 1);
         request.setAttribute("movieList", subList);
         request.setAttribute("fullMovieList", movieList);
         
-        Site.forward(request, response, "/WEB-INF/SearchResults.jsp");
+        //Site.forward(request, response, "/WEB-INF/SearchResults.jsp");
 	}
 
 	/**
@@ -55,8 +55,11 @@ public class MovieList extends HttpServlet {
 		doGet(request, response);
 	}
 	
-	protected List<Movie> sortList(String sort, List<Movie> list){
-		if(sort.equals(null)) return list;
+	protected List<Movie> sortList(String sort, List<Movie> list, PrintWriter out){
+		if(sort.equals(null)){
+			out.print("sort==null");
+			return list;
+		}
 		
 		if(sort.equals("yearascend")){
 			
