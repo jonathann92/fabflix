@@ -28,11 +28,11 @@
 				<tr>
 					<td class="table-cell-pad">${movie.id}</td>
 					<td class="table-cell-photo"><img src="${movie.banner }" width=90 height=120></td>
-					<td class="table-cell-pad">"${movie.title}"</td>
-					<td class="table-cell-pad">"${movie.year}"</td>
-					<td class="table-cell-pad">"${movie.director}"</td>
-					<td class="table-cell-pad">"${movie.stars}"</td>
-					<td class="table-cell-pad">"${movie.genres}"</td>
+					<td class="table-cell-pad">${movie.title}</td>
+					<td class="table-cell-pad">${movie.year}</td>
+					<td class="table-cell-pad">${movie.director}</td>
+					<td class="table-cell-pad">${movie.stars}</td>
+					<td class="table-cell-pad">${movie.genres}</td>
 				</tr>
 
 		        </c:forEach>

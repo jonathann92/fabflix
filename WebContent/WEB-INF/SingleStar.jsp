@@ -15,10 +15,10 @@ Set<Movie> m = s.getMovies();
 Star Details:
 </h1>
 <div class="row">
-	<div class="col-md-2 col-md-offset-4">
+	<div class="col-sm-2 col-sm-offset-4">
 		<img src="${star.photo}">
 	</div>
-	<div class="col-md-4">
+	<div class="col-sm-4">
 		<p>Name: ${star.first} ${star.last}</p>
 		<p>DOB: ${star.dob} </p>
 	</div>
@@ -28,7 +28,7 @@ Star Details:
 <%
 for(Movie movie : m){
 %>
-<div class="col-md-4">
+<div class="col-sm-4">
 	<h5><%= movie.getTitle() %>	</h5>
 	<img src="<%= movie.getBanner() %>" height="120" width="90" />
 </div>

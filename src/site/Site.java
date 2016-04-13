@@ -86,5 +86,9 @@ public class Site {
 
 		return new ArrayList<Movie>(movieList);
 	}
+	
+	List<Movie> subMovieList(List<Movie> movieList, int low, int high){
+		return movieList.subList(low, high > movieList.size() ? movieList.size() : high);
+	}
 
 }
