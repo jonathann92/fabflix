@@ -16,8 +16,19 @@
               <li><a href="/filmdb/StarPage">StarPage Test</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="#">Login</a></li>
-              <li><a href="#">Cart</a></li>
+            
+              <li>
+              	<c:choose>
+              		<c:when test="${sessionScope.user != null }">
+              			${sessionScope.user }
+              		</c:when>
+              		<c:otherwise>
+              			<a href="/filmdb/LoginPrompt.jsp">Login</a>
+              		</c:otherwise>
+              	</c:choose>
+              
+              </li>
+              <li><a href="/filmdb/Cart">Cart</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->

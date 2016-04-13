@@ -2,6 +2,9 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -9,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import objects.Movie;
 import site.Site;
@@ -26,25 +30,28 @@ public class MovieList extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
         PrintWriter out = response.getWriter();
+        HttpSession session = request.getSession(true);
         
-        List<Movie> movieList = (List<Movie>) request.getAttribute("fullMovieList");
-//        if(movieList == null){
-//        	// TODO Handle exception
-//        }
-//        
-        int page = (int) (request.getAttribute("page") != null ? request.getAttribute("page") : 1 );
-        int rows = 5; //(int) (request.getAttribute("rows") != null ? request.getAttribute("rows") : 1 );
+        List<Movie> movieList = (List<Movie>) session.getAttribute("fullMovieList");
+        if(movieList == null){
+        	movieList = new ArrayList<Movie>();
+        }
         
-        String sort = (String) request.getAttribute("sortby");
+        int page = requestInt("page", 1, request);
+        int rows = requestInt("rows", 10, request); 
         
-        //sortList(sort, movieList);
-        
-        //List<Movie> subList = Site.subMovieList(movieList, 0, 10);
+        String sort = (String) request.getParameter("sortby");
+
+        movieList = sortList(sort, movieList, out);
+                
         List<Movie> subList = Site.subMovieList(movieList, rows * page - rows, rows * page - 1);
         request.setAttribute("movieList", subList);
-        request.setAttribute("fullMovieList", movieList);
+        session.setAttribute("fullMovieList", movieList);
+        request.setAttribute("page", page);
+        request.setAttribute("sortby", sort);
+        request.setAttribute("rows", rows);
         
-        //Site.forward(request, response, "/WEB-INF/SearchResults.jsp");
+        Site.forward(request, response, "/WEB-INF/SearchResults.jsp");
 	}
 
 	/**
@@ -55,15 +62,53 @@ public class MovieList extends HttpServlet {
 		doGet(request, response);
 	}
 	
+	protected int requestInt(String attr, int init, HttpServletRequest request){
+		attr = request.getParameter(attr);
+		if(attr == null || attr.length() == 0)
+			return init;
+		
+		int num = Integer.parseInt(attr);
+		
+		return Math.max(num, init);
+	}
+	
 	protected List<Movie> sortList(String sort, List<Movie> list, PrintWriter out){
-		if(sort.equals(null)){
-			out.print("sort==null");
+		if(sort == null || sort.length() == 0){
 			return list;
 		}
 		
-		if(sort.equals("yearascend")){
-			
+		if(sort.equals("yearup")){
+			Collections.sort(list, Movie.MovieYearComparatorAsc);
+			return list;
 		}
+		
+		if(sort.equals("yeardown")){
+			Collections.sort(list, Movie.MovieYearComparatorDesc);
+			return list;
+		}
+		
+		if(sort.equals("idup")){
+			Collections.sort(list, Movie.MovieIdComparatorAsc);
+			return list;
+		}
+		
+		if(sort.equals("iddown")){
+			Collections.sort(list, Movie.MovieIdComparatorDesc);
+			return list;
+		}
+		
+		if(sort.equals("titleup")){
+			Collections.sort(list, Movie.MovieTitleComparatorAsc);
+			return list;
+		}
+		
+		if(sort.equals("titledown")){
+			Collections.sort(list, Movie.MovieTitleComparatorDesc);
+			return list;
+		}
+		
+		
+		
 		
 		return list;
 	}

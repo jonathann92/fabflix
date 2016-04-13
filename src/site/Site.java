@@ -88,6 +88,7 @@ public class Site {
 	}
 	
 	public static List<Movie> subMovieList(List<Movie> movieList, int low, int high){
+		if(low > movieList.size() - 1) return movieList;
 		return movieList.subList(low, high > movieList.size() ? movieList.size() : high);
 	}
 

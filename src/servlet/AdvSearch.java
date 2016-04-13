@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import objects.Movie;
 import site.Site;
@@ -26,6 +27,7 @@ public class AdvSearch extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
         PrintWriter out = response.getWriter();
+        HttpSession session = request.getSession(true);
         
         String error = "No error";
         
@@ -38,8 +40,9 @@ public class AdvSearch extends HttpServlet {
         try{
         	List<Movie> movieList;
         	movieList = Site.searchMovie(title, year, director, first, last);
-        	request.setAttribute("fullMovieList", movieList);
-        	Site.forward(request, response, "/MovieList");
+        	session.setAttribute("fullMovieList", movieList);
+        	response.sendRedirect("/filmdb/MovieList");
+        	//Site.forward(request, response, "/MovieList");
         } catch (Exception e){
         	error = e.getMessage();
         	request.setAttribute("error", error);

@@ -1,6 +1,7 @@
 package objects;
 
 import java.util.Set;
+import java.util.Comparator;
 import java.util.HashSet;
 
 
@@ -78,17 +79,82 @@ public class Movie {
 		return trailer;
 	}
 	
+	public static Comparator<Movie> MovieTitleComparatorAsc 
+    = new Comparator<Movie>() {
+
+		public int compare(Movie a, Movie b) {
+		
+		String movie1 = a.getTitle().toLowerCase();
+		String movie2 = b.getTitle().toLowerCase();
+		
+		return movie1.compareTo(movie2);
+
+		}
+		
+		};
+		
+	public static Comparator<Movie> MovieTitleComparatorDesc
+    = new Comparator<Movie>() {
+
+		public int compare(Movie a, Movie b) {
+		
+		String movie1 = a.getTitle().toLowerCase();
+		String movie2 = b.getTitle().toLowerCase();
+
+		return movie2.compareTo(movie1);
+		}
+		
+		};
+		
+	public static Comparator<Movie> MovieYearComparatorAsc
+    = new Comparator<Movie>() {
+
+		public int compare(Movie a, Movie b) {
+		return a.getYear() - b.getYear();
+		}
+		
+		};
+	
+	public static Comparator<Movie> MovieYearComparatorDesc
+    = new Comparator<Movie>() {
+
+		public int compare(Movie a, Movie b) {
+		return b.getYear() - a.getYear();
+		}
+		
+		};
+		
+	public static Comparator<Movie> MovieIdComparatorAsc
+    = new Comparator<Movie>() {
+
+		public int compare(Movie a, Movie b) {
+		
+		return a.getId() - b.getId();
+		}
+		
+		};
+	
+	public static Comparator<Movie> MovieIdComparatorDesc
+    = new Comparator<Movie>() {
+
+		public int compare(Movie a, Movie b) {
+		
+		return b.getId() - a.getId();
+		}
+		
+		};
+	
 	@Override
 	public String toString() {
 		return "Movie: [id=" + id + ", title=" + title + ", year=" + year + ", director=" + director + ", banner="
-				+ banner + ", trailer=" + trailer + ", \n\tgenre=" + genres + ", \n\tstars=" + starNames() + "]";
+				+ banner + ", trailer=" + trailer + ", \n\tgenre=" + genreNames() + ", \n\tstars=" + starNames() + "]";
 	}
 	
 	private String genreNames(){
 		String names = "";
 		
 		for(Genre g : genres){
-			names += g.getGenre();
+			names += g.getGenre() + ", ";
 		}
 		
 		return names;
