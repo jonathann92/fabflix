@@ -27,13 +27,30 @@ public class AdvSearch extends HttpServlet {
 		response.setContentType("text/html");
         PrintWriter out = response.getWriter();
         
+        String error = "No error";
+        
         String title = request.getParameter("title");
         String year = request.getParameter("year");
         String director = request.getParameter("director");
         String first = request.getParameter("first");
         String last = request.getParameter("last");
+
+	
         
-        List<Movie> movieList = Site.searchMovie(title, year, director, first, last);
+        List<Movie> movieList;
+        
+        try{
+        	movieList = Site.searchMovie(title, year, director, first, last);
+        	request.setAttribute("movieList", movieList);
+        	Site.forward(request, response, "/WEB-INF/SearchResults.jsp");
+        } catch (Exception e){
+        	error = e.getMessage();
+        	request.setAttribute("error", error);
+        	out.print(error);
+        }
+        
+        
+        
 	}
 
 	/**

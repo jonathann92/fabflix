@@ -6,10 +6,13 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.sql.DriverManager;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -33,22 +36,12 @@ public class Site {
         rd.forward(request, response);
 	}
 	
-	public static List<Movie> searchMovie(String title, String year, String director, String first, String last){
-		List<Movie> movieList = new ArrayList<Movie>();
-		String query = "select * from movies, stars, stars_in_movies " 
-		+ "where movies.title like '%"+ title + "%' "
-		+ "and movies.director like '%" + director +"%' "
-		+ "and movies.year like '%" + year+ "%' "
-		+ "and stars.first like '%" + first + "%' "
-		+ "and stars.last like '%" + last + "%' "
-		+ "and stars.id = stars_in_movies.star_id "
-		+ "and movies.id = stars_in_movies.movie_id"; 
-		
+	private static Set<Movie> queryMovieList(String query) throws Exception{
+		Set<Movie> movieList = new HashSet<Movie>();
 		Connection conn = null;
 		Statement select = null;
 		ResultSet rs = null;
 		
-		try{
 		Class.forName(JDBC_DRIVER);
 		conn = DriverManager.getConnection("jdbc:mysql:///"+db, user, pass);
 		select = conn.createStatement();
@@ -60,11 +53,38 @@ public class Site {
 			movieList.add(m);
 		}
 		
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally { try{ rs.close(); select.close(); conn.close(); } catch (Exception n) {} }
 		
+		rs.close();
+		select.close();
+		conn.close();
 		return movieList;
+	}
+	
+	public static List<Movie> searchMovie(String title, String year, String director, String first, String last) throws Exception{
+		if(title == null)
+			throw new Exception("No search arguments given");
+		
+		String query1 = "select distinct movies.* from movies, stars, stars_in_movies " 
+		+ "where movies.title like '%"+ title + "%' "
+		+ "and movies.director like '%" + director +"%' "
+		+ "and movies.year like '%" + year+ "%' "
+		+ "and stars.first like '%" + first + "%' "
+		+ "and stars.last like '%" + last + "%' "
+		+ "and stars.id = stars_in_movies.star_id "
+		+ "and movies.id = stars_in_movies.movie_id"; 
+		
+		// Query 2 is because you get a smaller number if a movie doesn't have stars in it
+		String query2 = "select distinct * from movies "
+		+ "where title like '%"+ title + "%' "
+		+ "and director like '%" + director +"%' "
+		+ "and year like '%" + year+ "%' ";
+
+		Set<Movie> movieList = new HashSet<Movie>();
+		movieList.addAll(queryMovieList(query1));
+		movieList.addAll(queryMovieList(query2));
+		
+
+		return new ArrayList<Movie>(movieList);
 	}
 
 }

@@ -4,7 +4,7 @@
 <html>
 <%@include file="/WEB-INF/includes/head.jsp" %>
 <body>
-<div class="container-fluid">
+<div class="container">
 <%@include file="/WEB-INF/includes/navbar.jsp" %>
   <h2>Movie Search</h2>
   <form action="AdvSearch" role="form" method=POST>
