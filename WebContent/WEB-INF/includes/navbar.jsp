@@ -12,7 +12,7 @@
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
               <li ><a href="#">Home</a></li>
-              <li><a href="/filmdb/SearchBox.jsp">Search</a></li>
+              <li><a href="/filmdb/AdvancedSearch.jsp">Search</a></li>
               <li><a href="/filmdb/StarPage">StarPage Test</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">

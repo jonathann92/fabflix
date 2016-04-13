@@ -7,15 +7,31 @@
 <div class="container-fluid">
 <%@include file="/WEB-INF/includes/navbar.jsp" %>
   <h2>Movie Search</h2>
-  <form action="Search" role="form">
+  <form action="AdvSearch" role="form" method=POST>
+
     <div class="form-group">
-      <label for="email">Email:</label>
-      <input type="email" class="form-control" id="email" placeholder="Enter email">
+      <label>Title:</label>
+      <input type="text" class="form-control" name=title placeholder="Enter title">
     </div>
-    
+
     <div class="form-group">
-      <label for="pwd">Password:</label>
-      <input type="password" class="form-control" id="pwd" placeholder="Enter password">
+      <label>Year:</label>
+      <input type="text" class="form-control" name=year placeholder="Enter year">
+    </div>
+
+    <div class="form-group">
+      <label>Director:</label>
+      <input type="text" class="form-control" name=director placeholder="Enter director">
+    </div>
+
+    <div class="form-group">
+      <label>Star's First Name:</label>
+      <input type="text" class="form-control" name=first placeholder="Enter Star's first name">
+    </div>
+
+    <div class="form-group">
+      <label>Star's Last name:</label>
+      <input type="text" class="form-control" name=last placeholder="Enter Star's last name">
     </div>
 
     <button type="submit" class="btn btn-default">Submit</button>
@@ -23,3 +39,4 @@
 </div>
 </body>
 </html>
+
