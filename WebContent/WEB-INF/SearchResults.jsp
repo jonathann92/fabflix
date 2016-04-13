@@ -1,14 +1,13 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"
-    import="objects.*, java.util.*, java.io.*"%>
-<%@include file="/WEB-INF/includes/head.jsp" %>
+<%@include file="/WEB-INF/includes/jspheader.jsp" %>
+<html>
+<%@include file="/WEB-INF/includes/header.jsp" %>
 <body>
 <div class="container" >
 <%@include file="/WEB-INF/includes/navbar.jsp" %>
 	<div>
 		<div class="text-center">
 			<h1>Search Results</h1>
+			<p>${movieList.size() }
 		</div>
 </div>
 		<div class="results" align="center">
