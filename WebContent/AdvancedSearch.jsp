@@ -5,7 +5,7 @@
 <div class="container">
 <%@include file="/WEB-INF/includes/navbar.jsp" %>
   <h2>Movie Search</h2>
-  <form action="AdvSearch" role="form" method=POST>
+  <form action="AdvSearch" role="form" method=GET>
 
     <div class="form-group">
       <label>Title:</label>

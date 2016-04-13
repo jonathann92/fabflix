@@ -35,7 +35,6 @@ public class AdvSearch extends HttpServlet {
         String first = request.getParameter("first");
         String last = request.getParameter("last");
 
-	
         
         List<Movie> movieList;
         

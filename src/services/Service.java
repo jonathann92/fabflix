@@ -1,32 +1,27 @@
 package services;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class Service {
 	public static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	public static final String DB_URL = "jdbc:mysql:///moviedb"; 
 	public static  String db = "moviedb";
 	public static  String user = "root";
-	public static  String pass = "pass";	
-	public static Connection conn = null;
-    public static Statement stmt = null;
-    
-    public Service() {
-    	try {
-    		Class.forName(JDBC_DRIVER).newInstance();
-    		conn = DriverManager.getConnection("jdbc:mysql:///"+db, user, pass);
-    		stmt = conn.createStatement();	
-    	} catch (SQLException e) {
-    		e.printStackTrace();
-    	} catch (InstantiationException e) {
+	public static  String pass = "futurama5";	
+	
+	public void forward(HttpServletRequest request, HttpServletResponse response, String url) {
+		try {
+			RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+			dispatcher.forward(request, response);
+		} catch (ServletException e) {
 			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-    }
+	}
 }
