@@ -35,7 +35,6 @@ public class Movie {
 		this.genres = new HashSet<Genre>();
 	}
 	
-	
 	public void addGenre(Genre g){
 		genres.add(g);
 	}

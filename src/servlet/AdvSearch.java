@@ -50,7 +50,6 @@ public class AdvSearch extends HttpServlet {
         }
         
         
-        
 	}
 
 	/**
