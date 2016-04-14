@@ -33,6 +33,11 @@ public class MovieList extends HttpServlet {
         HttpSession session = request.getSession(true);
         
         List<Movie> movieList = (List<Movie>) session.getAttribute("fullMovieList");
+        String prevPage = (String) request.getAttribute("prevpage");
+        String query = (String) request.getAttribute("query");
+        
+        out.print(query);
+        
         if(movieList == null){
         	movieList = new ArrayList<Movie>();
         }
@@ -42,6 +47,7 @@ public class MovieList extends HttpServlet {
         
         String sort = (String) request.getParameter("sortby");
 
+
         movieList = sortList(sort, movieList, out);
                 
         List<Movie> subList = Site.subMovieList(movieList, rows * page - rows, rows * page - 1);
@@ -50,6 +56,7 @@ public class MovieList extends HttpServlet {
         request.setAttribute("page", page);
         request.setAttribute("sortby", sort);
         request.setAttribute("rows", rows);
+        request.setAttribute("prevpage", prevPage);
         
         Site.forward(request, response, "/WEB-INF/SearchResults.jsp");
 	}

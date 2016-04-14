@@ -9,10 +9,11 @@
 	<body>
 		<div class="container" style="padding-bottom: 200px;">
 			<%@include file="/WEB-INF/includes/navbar.jsp" %>
-			<a href = "LoginPage"> Login Page </a>
-			<a href = "LoadMovie"> Load Movie </a>
-			<a href = "UserName"> UserName </a>
-			<a href = "MoviePage"> Movie Page</a>
+
+
+
+
+
 		</div>
 		
 		<div class="row">

@@ -46,16 +46,16 @@ public class LoginPage extends HttpServlet {
         String referrer = (String) session.getAttribute("Referer");
         
         try{
-        Customer user = custInfo(username, password);
-        if(user != null){
-        	out.print("SUCCESS");
-        	session.setAttribute("user", user);
-        	session.removeAttribute("referrer");
-        	response.sendRedirect(referrer);
-        } else {
-        	session.setAttribute("error", "Invalid Credentials");
-        	response.sendRedirect("/filmdb/LoginPrompt.jsp");
-        }
+        	Customer user = custInfo(username, password);
+	        if(user != null){
+	        	out.print("SUCCESS");
+	        	session.setAttribute("user", user);
+	        	session.removeAttribute("referrer");
+	        	response.sendRedirect(referrer);
+	        } else {
+	        	session.setAttribute("error", "Invalid Credentials");
+	        	response.sendRedirect("/filmdb/LoginPrompt.jsp");
+	        }
         } catch (Exception e){
         	error = e.getMessage();
         	session.setAttribute("error", error);

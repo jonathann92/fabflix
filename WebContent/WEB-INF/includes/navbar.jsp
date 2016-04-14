@@ -13,9 +13,17 @@
             <ul class="nav navbar-nav">
               <li ><a href="/filmdb/">Home</a></li>
               <li><a href="/filmdb/AdvancedSearch.jsp">Search</a></li>
-              <li><a href="/filmdb/StarPage?id=634005">StarPage Test</a></li>
-              <li><a href="/filmdb/MoviePage?id=135005">MoviePage Test</a></li>
-              <li><a href="/filmdb/MoviesByTitle?letter=a">Movies By Character Test</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">ALL KINDS OF TESTS <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/filmdb/StarPage?id=634005">StarPage Test</a></li>
+	              <li><a href="/filmdb/MoviePage?id=135005">MoviePage Test</a></li>
+	              <li><a href="/filmdb/MoviesByTitle?letter=a">Movies By Character Test</a></li>
+	              <li><a href="/filmdb/GenreSearch?id=872004">Movie List by Genre ID Test</a></li>
+	              <li><a href="/filmdb/GenreSearch?name=adventure">Movie List by Genre Name Test</a></li>
+                </ul>
+              </li>
+              
             </ul>
             <ul class="nav navbar-nav navbar-right">
             

@@ -19,8 +19,8 @@ public class StarService extends Service{
 		
 		try {
 			Class.forName(JDBC_DRIVER);
-			conn = (Connection) DriverManager.getConnection(DB_URL, user, pass);
-			select = (Statement) conn.createStatement();
+			conn = DriverManager.getConnection(DB_URL, user, pass);
+			select = conn.createStatement();
 			String sql = "SELECT * FROM stars where id = " + starId + ";";
 			
 			rs =  select.executeQuery(sql);

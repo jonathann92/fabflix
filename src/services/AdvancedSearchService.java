@@ -27,16 +27,19 @@ public class AdvancedSearchService extends Service{
 		+ "and stars.last like '%" + last + "%' "
 		+ "and stars.id = stars_in_movies.star_id "
 		+ "and movies.id = stars_in_movies.movie_id"; 
-		
-		// Query 2 is because you get a smaller number if a movie doesn't have stars in it
-		String query2 = "select distinct * from movies "
-		+ "where title like '%"+ title + "%' "
-		+ "and director like '%" + director +"%' "
-		+ "and year like '%" + year+ "%' ";
 
 		Set<Movie> movieList = new HashSet<Movie>();
 		movieList.addAll(queryMovieList(query1));
-		movieList.addAll(queryMovieList(query2));
+		
+		if(first.length() != 0 && last.length() != 0){
+			// Query 2 is because you get a smaller number if a movie doesn't have stars in it
+			String query2 = "select distinct * from movies "
+			+ "where title like '%"+ title + "%' "
+			+ "and director like '%" + director +"%' "
+			+ "and year like '%" + year+ "%' ";
+		
+			movieList.addAll(queryMovieList(query2));
+		}
 		
 		MovieService.populateMovieStars(movieList);
 		MovieService.populateMovieGenres(movieList);
