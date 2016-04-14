@@ -66,7 +66,7 @@
 				<td class="table-cell-pad">
 					
 						<c:forEach items="${movie.stars}" var="star">
-							<a href="/filmdb/StarPage?id=${star.id }" class="movielist-star"> ${star.first } ${star.last } </a>
+							<a href="/filmdb/StarPage?id=${star.id }" class="movielist-star" style="padding-bottom: 10px; display: block;"> ${star.first } ${star.last } </a>
 						</c:forEach>
 					
 				</td>
