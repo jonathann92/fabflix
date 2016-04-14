@@ -1,0 +1,33 @@
+div p {
+	display: inline-block;
+}
+
+div a {
+	display: inline-block;
+}
+
+.row-centered {
+	padding: 10px 10px 40px;
+	text-align: center;
+}
+
+.star-list {
+	overflow-x: scroll;
+	overflow-y: hidden;
+	height: 200px;
+	width: 100%;
+	padding: 0 15px;
+}
+
+.star-item {
+	padding: 0;
+	height: 150px;
+	text-align: center;
+}
+.list-inline {
+	white-space: nowrap;
+}
+
+ul p {
+	
+}

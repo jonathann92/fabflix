@@ -1,14 +1,12 @@
-#director {
+div h4 {
 	display: inline-block;
-	padding: 20px;	
+	font-weight: bold;
 }
 
-#genre {
+div p {
 	display: inline-block;
-	padding: 20px;
 }
 
-#trailer {
-	display: inline-block;
-	padding: 20px;
+html {
+	background-color: red;
 }
