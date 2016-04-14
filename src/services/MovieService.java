@@ -113,6 +113,39 @@ public class MovieService extends Service {
 		return g;
 	}
 	
+	public static Movie getMovieInfo(int id) {
+		Movie m = null;
+		Connection conn = null;
+		Statement select = null;
+		ResultSet rs = null;
+		
+		try {
+			Class.forName(JDBC_DRIVER);
+			conn = (Connection) DriverManager.getConnection(DB_URL, user, pass);
+			select = (Statement) conn.createStatement();
+			String sql = "SELECT * FROM movies where movies.id = " + id + ";";
+			
+			rs = (ResultSet) select.executeQuery(sql);
+			while (rs.next()){
+				m = new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6));
+				
+			}
+			
+			rs.close();
+			select.close();
+			conn.close();
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		} catch(ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}	
+		
+		return m;
+	}
+	
 	public static Set<Star> getStarList(int id) {
 		// This only makes a Set of Stars with id, first, and last name
 		Set<Star> s = null;
@@ -187,6 +220,26 @@ public class MovieService extends Service {
 	}
 	
 	public static Set<Movie> populateMovieGenres(Set<Movie> movies){
+		for(Movie m : movies){
+			int id = m.getId();
+			Set<Genre> genres = getGenreList(id);
+			m.setGenres(genres);
+		}
+		
+		return movies;
+	}
+	
+	public static List<Movie> populateMovieStars(List<Movie> movies){
+		for(Movie m : movies){
+			int id = m.getId();
+			Set<Star> stars = getStarList(id);
+			m.setStars(stars);
+		}
+		
+		return movies;
+	}
+	
+	public static List<Movie> populateMovieGenres(List<Movie> movies){
 		for(Movie m : movies){
 			int id = m.getId();
 			Set<Genre> genres = getGenreList(id);

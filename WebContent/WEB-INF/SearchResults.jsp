@@ -77,7 +77,7 @@
 				</td>
 				<td class="table-cell-pad">
 					<c:forEach items="${movie.genres }" var="genre">
-						<p style="line-height: .5;"> ${genre.genre } </p>
+						<a href="/filmdb/GenreSearch?id=${genre.id }" class="movielist-star"><p style="line-height: .5;"> ${genre.genre } </p></a>
 					</c:forEach>
 					
 				</td>

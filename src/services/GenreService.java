@@ -63,6 +63,9 @@ public class GenreService extends Service {
 			e.printStackTrace();
 		} finally { try { rs.close(); select.close(); conn.close(); } catch (Exception e2) {} }
 		
+		MovieService.populateMovieGenres(movies);
+		MovieService.populateMovieStars(movies);
+		
 		return movies;
 	}
 	
@@ -90,6 +93,9 @@ public class GenreService extends Service {
 		} catch(Exception e) {
 			e.printStackTrace();
 		} finally { try { rs.close(); select.close(); conn.close(); } catch (Exception e2) {} }
+		
+		MovieService.populateMovieGenres(movies);
+		MovieService.populateMovieStars(movies);
 		
 		return movies;
 	}
