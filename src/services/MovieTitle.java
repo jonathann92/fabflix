@@ -8,7 +8,7 @@ import objects.*;
 public class MovieTitle extends Service {
 	
 	public static List<Movie> getMovieList(char letter){
-		Set<Movie> movieList = null;
+		Set<Movie> movieList = new HashSet<Movie>();
 		String query = "select * from movies where title like '" + letter + "%'";
 		
 		Connection conn = null;
@@ -19,7 +19,7 @@ public class MovieTitle extends Service {
 			Class.forName(JDBC_DRIVER);
 			conn = DriverManager.getConnection(DB_URL, user, pass);
 			select =  conn.createStatement();
-			movieList = new HashSet<Movie>();
+			//movieList = new HashSet<Movie>();
 			
 			rs =  select.executeQuery(query);
 			while(rs.next()){
