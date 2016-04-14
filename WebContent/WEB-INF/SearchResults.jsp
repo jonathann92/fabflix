@@ -7,6 +7,10 @@
 <%
 	request.setAttribute("fullMovieList", request.getAttribute("fullMovieList"));
 %>
+	<c:choose>
+	<c:when test="${not empty movieList and movieList != null}">
+		
+	
 	<div>
 		<div class="text-center">
 			<h1>Search Results</h1>
@@ -92,6 +96,11 @@
 			<p>Page</p>
 		</div>
 	</div>
+</c:when>
+<c:otherwise>
+	<h1>No Results</h1>
+</c:otherwise>
+</c:choose>
 </div>
 
 </body>
