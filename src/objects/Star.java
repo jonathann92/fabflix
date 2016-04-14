@@ -29,6 +29,13 @@ public class Star {
 		this.movies = new HashSet<Movie>();
 	}
 	
+	public Star(int id, String first, String last){
+		this.id = id;
+		this.first = first;
+		this.last = last;
+		this.movies = new HashSet<Movie>();
+	}
+	
 	public void addMovie(Movie m){
 		movies.add(m);
 	}

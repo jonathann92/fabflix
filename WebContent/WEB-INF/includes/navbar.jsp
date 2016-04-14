@@ -13,7 +13,9 @@
             <ul class="nav navbar-nav">
               <li ><a href="/filmdb/">Home</a></li>
               <li><a href="/filmdb/AdvancedSearch.jsp">Search</a></li>
-              <li><a href="/filmdb/StarPage">StarPage Test</a></li>
+              <li><a href="/filmdb/StarPage?id=634005">StarPage Test</a></li>
+              <li><a href="/filmdb/MoviePage?id=135005">MoviePage Test</a></li>
+              <li><a href="/filmdb/MoviesByTitle?letter=a">Movies By Character Test</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
             

@@ -34,6 +34,7 @@
 
     <button type="submit" class="btn btn-default">Submit</button>
   </form>
+  <h4 class="error-message">${error }</h4>
 </div>
 </body>
 </html>

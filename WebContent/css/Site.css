@@ -15,3 +15,11 @@ table, th, td {
 .table-cell-photo{
 	padding: 20px;
 }
+
+.movielist-star{
+	line-height: .5;
+}
+
+.error-message{
+	color: red;
+}

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import cache.Cache;
 import objects.Star;
+import services.StarService;
 import site.Site;
 
 /**
@@ -27,24 +28,24 @@ public class StarPage extends HttpServlet {
 		response.setContentType("text/html");
         PrintWriter out = response.getWriter();
         
-        /* TEST */
-        // Example id = 631010
-		int id = 634005;
-		Star s = Cache.stars_id.get(id);
-		/* TEST */
-		
-//		String queryID = request.getParameter("id");
-//		int id = 0;
-//		Star s = null;
-//		if(queryID != null){
-//			id = Integer.parseInt(queryID);
-//			s = Cache.stars_id.get(id);
-//		}
-		
-		
+		int id = -1;
+		String param = request.getParameter("id");
+		if(param != null && param.length() != 0)
+			id = Integer.parseInt(param);
+
+		Star s = starInfo(id);
+			
 		request.setAttribute("star", s);
-		
+
 		Site.forward(request, response, "/WEB-INF/SingleStar.jsp");
+	}
+	
+	protected Star starInfo(int id){
+		Star s = StarService.getStarInfo(id);
+		if(s != null)
+			s.setMovies(StarService.getMovieList(id));
+		
+		return s;
 	}
 
 	/**
