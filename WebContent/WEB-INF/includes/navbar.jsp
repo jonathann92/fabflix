@@ -17,17 +17,25 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
             
-              <li>
+              
               	<c:choose>
               		<c:when test="${sessionScope.user != null }">
-              			${sessionScope.user }
+              		<li>
+              			<a href="/filmdb/Logout">Logout</a>
+              		</li>
+              		<li>
+              			<a class ="navbar-user">${sessionScope.user.email }</a>
+              		</li>
+              		
               		</c:when>
               		<c:otherwise>
+              		<li>
               			<a href="/filmdb/LoginPrompt.jsp">Login</a>
+              		</li>
               		</c:otherwise>
               	</c:choose>
               
-              </li>
+              
               <li><a href="/filmdb/Cart">Cart</a></li>
             </ul>
           </div><!--/.nav-collapse -->

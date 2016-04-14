@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import objects.*;
+import site.Site;
 import cache.Cache;
 /**
  * Servlet implementation class LoginPage
@@ -21,24 +22,15 @@ import cache.Cache;
 public class LoginPage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	protected boolean verifyCredentials(String user, String pass){
-		// TODO
-		
-		
-		return false;
+	protected Customer custInfo(String username, String password) throws Exception{
+		Customer cust = null;
+		if(username != null && password != null)
+			cust = Site.verifyCredentials(username, password);
+
+
+		return cust;
 	}
-	
-	protected void login(HttpServletResponse response) throws IOException{
-		response.sendRedirect("GrabSession");
-	}
-	
-	protected void writeHTML(PrintWriter out){
-		 out.print("<!DOCTYPE html><html><head><meta charset=\"UTF-8\"><title>Insert title here</title></head>");
-	     out.print("<body><form action=\"LoginPage\" method=POST>Username:  <input type=text length=20 name=username><br>");
-	     out.print("Password:  <input type=text length=20 name=password><br><input type=submit></form></body></html>");
-	}
-	
-	
+
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -46,50 +38,31 @@ public class LoginPage extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
         PrintWriter out = response.getWriter();
-        
-        
-        
-        out.print("<br/>");
-        out.print("SIZE: " + Cache.movies_id.size());
-        out.print("<br/>");
-        out.print("<a href=\"LoadMovie\"> LoadMovie </a>");
-
-        
-        
-        out.println("maker pass = 'pass' to mimmick logging in'");
-        out.println("<br/> make password != 'pass' to mimmick invalid login credentials");
-        
-        writeHTML(out);
-        
         HttpSession session = request.getSession(true);
         
+        String error = null;
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        String referrer = (String) session.getAttribute("Referer");
         
-        if(username != null){ // checks for first time loading
-        	//if(verifyCredentials(username, password)){
-        	if(password.equals("pass")){
-	        	session.setAttribute("username", username);
-	        	session.setAttribute("password", password);
-	        	
-	        	out.print("<br/>");
-	        	out.print("Login success!");
-	        	out.print("<br/>");
-	            out.print("James go to this page <a href=\"GrabSession\">page</a>");
-	            
-	            
-	            // redirects
-	            response.sendRedirect("GrabSession");
-	            
-	            // Forwards
-	            RequestDispatcher rd = request.getRequestDispatcher("GrabSession");
-	            rd.forward(request, response);
-        	} else {
-        		out.print("Invalid login credentials please try again");
-        	}
-        } else
-        	out.println("FIRST LOAD");
+        try{
+        Customer user = custInfo(username, password);
+        if(user != null){
+        	out.print("SUCCESS");
+        	session.setAttribute("user", user);
+        	session.removeAttribute("referrer");
+        	response.sendRedirect(referrer);
+        } else {
+        	session.setAttribute("error", "Invalid Credentials");
+        	response.sendRedirect("/filmdb/LoginPrompt.jsp");
+        }
+        } catch (Exception e){
+        	error = e.getMessage();
+        	session.setAttribute("error", error);
+        	response.sendRedirect("/filmdb/LoginPrompt.jsp");
+        }
         
+
 	}
 
 	/**
