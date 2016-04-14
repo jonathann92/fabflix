@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import objects.Movie;
 import services.MovieTitle;
-import site.Site;
+import services.Service;
 
 /**
  * Servlet implementation class MoviesByTitle
@@ -42,7 +42,7 @@ public class MoviesByTitle extends HttpServlet {
 			session.setAttribute("fullMovieList", list);
         	request.setAttribute("prevpage", "MoviesByTitle");
         	request.setAttribute("query", query);
-        	Site.forward(request, response, "/MovieList");
+        	Service.forward(request, response, "/MovieList");
 		}
 		
 	}

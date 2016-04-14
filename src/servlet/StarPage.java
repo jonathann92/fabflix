@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import cache.Cache;
 import objects.Star;
+import services.Service;
 import services.StarService;
-import site.Site;
 
 /**
  * Servlet implementation class StarPage
@@ -37,7 +37,7 @@ public class StarPage extends HttpServlet {
 			
 		request.setAttribute("star", s);
 
-		Site.forward(request, response, "/WEB-INF/SingleStar.jsp");
+		Service.forward(request, response, "/WEB-INF/SingleStar.jsp");
 	}
 	
 	protected Star starInfo(int id){

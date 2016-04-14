@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import objects.Genre;
 import objects.Movie;
 import services.GenreService;
-import site.Site;
+import services.Service;
 
 /**
  * Servlet implementation class GenreSearch
@@ -55,7 +55,7 @@ public class GenreSearch extends HttpServlet {
 		session.setAttribute("fullMovieList", movies);
 		request.setAttribute("prevpage", "GenreSearch");
     	request.setAttribute("query", query);
-    	Site.forward(request, response, "MovieList");
+    	Service.forward(request, response, "MovieList");
 	}
 	
 	protected void listMovies(HttpServletRequest request, HttpServletResponse response, String name) throws ServletException, IOException {
@@ -65,7 +65,7 @@ public class GenreSearch extends HttpServlet {
 		session.setAttribute("fullMovieList", movies);
 		request.setAttribute("prevpage", "GenreSearch");
     	request.setAttribute("query", query);
-    	Site.forward(request, response, "MovieList");
+    	Service.forward(request, response, "MovieList");
 	}
 	
 	protected void listAllGenres(){

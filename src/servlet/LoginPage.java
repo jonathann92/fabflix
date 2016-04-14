@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import objects.*;
-import site.Site;
+import services.CustomerService;
 import cache.Cache;
 /**
  * Servlet implementation class LoginPage
@@ -25,7 +25,7 @@ public class LoginPage extends HttpServlet {
 	protected Customer custInfo(String username, String password) throws Exception{
 		Customer cust = null;
 		if(username != null && password != null)
-			cust = Site.verifyCredentials(username, password);
+			cust = CustomerService.verifyCredentials(username, password);
 
 
 		return cust;
