@@ -17,6 +17,10 @@
 	<body>
 		<div class="container">	
 			<%@include file="/WEB-INF/includes/navbar.jsp" %>
+			<c:choose>
+				<c:when test="${movie != null }">
+					
+				
 			<div class="jumbotron">
 				<center><img src="${movie.banner}" style="height: 350px" /></center>
 			</div>		
@@ -27,11 +31,11 @@
 			<div class="row row-centered">
 			    <div class="col-sm-4">
 			      <p style="display: inline-block; font-weight: bold;">Director:</p>
-			      <p style="display: inline-block;"> James Griffin</p>
+			      <p style="display: inline-block;"> ${movie.director }</p>
 			    </div>
 			    <div class="col-sm-4">
 			      <p style="display: inline-block; font-weight: bold;">Trailer:</p>
-			      <a href="${movie.trailer}"><p>CLICK HERE</p></a>
+			      <a href="${movie.trailer}">CLICK HERE</a>
 			    </div>
 			    <div class="col-md-4">
 					<p style="font-weight: bold;">Genre:</p>
@@ -50,15 +54,20 @@
 						<c:when test="${not empty starList}">
 							<c:forEach var="star" items="${starList}">
 								<li class="star-item">
-									<p style="display: block;">${star.first} ${star.last}</p>
-									<img src="${star.photo} alt="Image not found" onError="this.src='https://escherdax.files.wordpress.com/2009/12/illustration.jpg';" width="100" height="150" />
-
+									<a href="/filmdb/StarPage?id=${star.id }" style="display: block;">${star.first} ${star.last}</a>
+									<a href="/filmdb/StarPage?id=${star.id }"><img src="${star.photo} alt="Image not found" onError="this.src='https://escherdax.files.wordpress.com/2009/12/illustration.jpg';" width="100" height="150" /></a>
 								</li>
 							</c:forEach>
 						</c:when>
 					</c:choose>
 				</ul>
 			</div>
+			
+			</c:when>
+			<c:otherwise>
+				<h1>No Movie matching id ${param.id} </h1>
+			</c:otherwise>
+			</c:choose>
 		</div>			
 	</body>
 </html>

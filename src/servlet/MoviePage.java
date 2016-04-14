@@ -17,9 +17,12 @@ public class MoviePage extends HttpServlet {
     private MovieService ms;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int id = -1;
+		String param = request.getParameter("id");
+		if(param != null && param.length() != 0)
+			id = Integer.parseInt(param);
 		
-		
-		ms = new MovieService(135005);
+		ms = new MovieService(id);
 		
 		request.setAttribute("movieInfo", ms.getMovieInfo());
 		request.setAttribute("starList", ms.getStarList());		

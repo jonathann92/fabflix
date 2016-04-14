@@ -52,13 +52,30 @@
 		</thead>
 			<c:forEach items="${movieList}" var="movie">
 			<tr>
-				<td class="table-cell-pad">${movie.id}</td>
-				<td class="table-cell-photo"><img src="${movie.banner }" width=90 height=120></td>
-				<td class="table-cell-pad">${movie.title}</td>
+				<td class="table-cell-pad">
+					<a href="/filmdb/MoviePage?id=${movie.id }">${movie.id}</a>
+				</td>
+				<td class="table-cell-photo">
+					<a href="/filmdb/MoviePage?id=${movie.id }"><img src="${movie.banner }" onError="this.src='https://escherdax.files.wordpress.com/2009/12/illustration.jpg';" width=90 height=120></a>
+				</td>
+				<td class="table-cell-pad">
+					<a href="/filmdb/MoviePage?id=${movie.id }">${movie.title}</a>
+				</td>
 				<td class="table-cell-pad">${movie.year}</td>
 				<td class="table-cell-pad">${movie.director}</td>
-				<td class="table-cell-pad">${movie.stars}</td>
-				<td class="table-cell-pad">${movie.genres}</td>
+				<td class="table-cell-pad">
+					
+						<c:forEach items="${movie.stars}" var="star">
+							<a href="/filmdb/StarPage?id=${star.id }" class="movielist-star"> ${star.first } ${star.last } </a>
+						</c:forEach>
+					
+				</td>
+				<td class="table-cell-pad">
+					<c:forEach items="${movie.genres }" var="genre">
+						<p style="line-height: .5;"> ${genre.genre } </p>
+					</c:forEach>
+					
+				</td>
 			</tr>
 
 	        </c:forEach>

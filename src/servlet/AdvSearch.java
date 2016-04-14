@@ -1,6 +1,7 @@
 package servlet;
 
 import java.util.List;
+import java.util.Set;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import objects.Movie;
+import services.AdvancedSearchService;
 import site.Site;
 
 /**
@@ -39,13 +41,13 @@ public class AdvSearch extends HttpServlet {
         
         try{
         	List<Movie> movieList;
-        	movieList = Site.searchMovie(title, year, director, first, last);
+        	movieList = AdvancedSearchService.advSearch(title, year, director, first, last);
         	session.setAttribute("fullMovieList", movieList);
         	response.sendRedirect("/filmdb/MovieList");
-        	//Site.forward(request, response, "/MovieList");
         } catch (Exception e){
         	error = e.getMessage();
         	request.setAttribute("error", error);
+        	Site.forward(request, response, "/AdvancedSearch.jsp");
         	out.print(error);
         }
         

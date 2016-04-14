@@ -1,13 +1,11 @@
 package services;
 
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.ResultSet;
-import com.mysql.jdbc.Statement;
 import java.util.List;
+import java.util.Set;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import objects.Star;
 import objects.Movie;
@@ -113,6 +111,89 @@ public class MovieService extends Service {
 		}
 		
 		return g;
+	}
+	
+	public static Set<Star> getStarList(int id) {
+		// This only makes a Set of Stars with id, first, and last name
+		Set<Star> s = null;
+		Connection conn = null;
+		Statement select = null;
+		ResultSet rs = null;
+		
+		try {
+			Class.forName(JDBC_DRIVER);
+			conn = DriverManager.getConnection(DB_URL, user, pass);
+			select =  conn.createStatement();
+			String sql = "SELECT s.* FROM stars as s, movies as m, stars_in_movies as sm WHERE m.id = " + id + " AND sm.movie_id = m.id AND sm.star_id = s.id;";
+			rs = select.executeQuery(sql);
+			s = new HashSet<Star>();
+			
+			while (rs.next()) {
+				s.add(new Star(rs.getInt(1), rs.getString(2), rs.getString(3)));
+			}
+			
+			rs.close();
+			select.close();
+			conn.close();
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		} catch(ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		return s;
+	}
+	
+	public static Set<Genre> getGenreList(int id) {
+		Set<Genre> g = null;
+		Connection conn = null;
+		Statement select = null;
+		ResultSet rs = null;
+		
+		try {
+			Class.forName(JDBC_DRIVER);
+			conn = DriverManager.getConnection(DB_URL, user, pass);
+			select =  conn.createStatement();
+			String sql = "SELECT g.* FROM genres as g, movies as m, genres_in_movies as gm WHERE m.id = " + id + " and gm.genre_id=g.id and gm.movie_id=m.id;";
+			rs = select.executeQuery(sql);
+			g = new HashSet<Genre>();
+			
+			while (rs.next()) {
+				g.add(new Genre(rs.getInt(1), rs.getString(2)));
+			}
+			
+			rs.close();
+			select.close();
+			conn.close();
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		} catch(ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		return g;
+	}
+	
+	public static Set<Movie> populateMovieStars(Set<Movie> movies){
+		for(Movie m : movies){
+			int id = m.getId();
+			Set<Star> stars = getStarList(id);
+			m.setStars(stars);
+		}
+		
+		return movies;
+	}
+	
+	public static Set<Movie> populateMovieGenres(Set<Movie> movies){
+		for(Movie m : movies){
+			int id = m.getId();
+			Set<Genre> genres = getGenreList(id);
+			m.setGenres(genres);
+		}
+		
+		return movies;
 	}
 	
 }
