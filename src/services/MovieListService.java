@@ -19,6 +19,10 @@ public class MovieListService extends Service {
 		this.listSize = size;
 	}
 	
+	public MovieListService() {
+		this.listSize = -1;
+	}
+	
 	public List<Movie> getMovieList() {
 		List<Movie> m = new ArrayList<>();
 		Connection conn = null;
@@ -50,6 +54,36 @@ public class MovieListService extends Service {
 			e.printStackTrace();
 		}
 		
+		
+		return m;
+	}
+	
+	public List<Movie> getRandomMovieList(int listSize) {
+		List<Movie> m = new ArrayList<>();
+		Connection conn = null;
+		Statement select = null;
+		ResultSet rs = null;
+		
+		try {
+			Class.forName(JDBC_DRIVER);
+			conn = (Connection) DriverManager.getConnection(DB_URL, user, pass);
+			select =  (Statement) conn.createStatement();
+			String sql = "select * from movies order by RAND() limit " + listSize + ";";
+			rs = (ResultSet) select.executeQuery(sql);
+			
+			while (rs.next()) {
+				m.add(new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6)));
+			}
+			
+			rs.close();
+			select.close();
+			conn.close();
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		} catch(ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 		
 		return m;
 	}
