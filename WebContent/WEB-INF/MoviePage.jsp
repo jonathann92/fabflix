@@ -1,10 +1,8 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>	
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"
-    import="objects.*, java.util.List, java.util.ArrayList, java.io.*"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@include file="/WEB-INF/includes/jspheader.jsp" %>
 <html>
-	<%@include file="/WEB-INF/includes/header.jsp" %>
+	<head>
+		<%@include file="/WEB-INF/includes/head.jsp" %>
+	</head>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
