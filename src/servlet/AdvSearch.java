@@ -50,9 +50,8 @@ public class AdvSearch extends HttpServlet {
         	//response.sendRedirect("/filmdb/MovieList");
         } catch (Exception e){
         	error = e.getMessage();
-        	request.setAttribute("error", error);
+        	request.setAttribute("error", "SQL Server Down");
         	Service.forward(request, response, "/AdvancedSearch.jsp");
-        	out.print(error);
         }
 	}
 

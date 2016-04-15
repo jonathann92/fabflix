@@ -4,7 +4,7 @@
     import="objects.*, java.util.List, java.util.ArrayList, java.io.*, services.MovieListService"%>
 <%@include file="/WEB-INF/includes/jspheader.jsp" %>
 <html>
-	<link rel="stylesheet" href="/filmdb/MovieScrollList.css" type="text/css">
+	<link rel="stylesheet" href="${context}/MovieScrollList.css" type="text/css">
 	<%@include file="/WEB-INF/includes/header.jsp" %>
 	<body>
 		<div class="container" style="padding-bottom: 200px;">

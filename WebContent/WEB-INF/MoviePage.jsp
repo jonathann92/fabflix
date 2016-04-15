@@ -10,7 +10,7 @@
 		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-		<link rel="stylesheet" href="/filmdb/MoviePage.css" type="text/css">
+		<link rel="stylesheet" href="${context}/MoviePage.css" type="text/css">
 		<c:set var="movie" value="${movieInfo}"/>
 		<title>${movie.title}</title>
 	</head>
@@ -54,8 +54,8 @@
 						<c:when test="${not empty starList}">
 							<c:forEach var="star" items="${starList}">
 								<li class="star-item">
-									<a href="/filmdb/StarPage?id=${star.id }" style="display: block;">${star.first} ${star.last}</a>
-									<a href="/filmdb/StarPage?id=${star.id }"><img src="${star.photo} alt="Image not found" onError="this.src='https://escherdax.files.wordpress.com/2009/12/illustration.jpg';" width="100" height="150" /></a>
+									<a href="${context}/StarPage?id=${star.id }" style="display: block;">${star.first} ${star.last}</a>
+									<a href="${context}/StarPage?id=${star.id }"><img src="${star.photo} alt="Image not found" onError="this.src='https://escherdax.files.wordpress.com/2009/12/illustration.jpg';" width="100" height="150" /></a>
 								</li>
 							</c:forEach>
 						</c:when>

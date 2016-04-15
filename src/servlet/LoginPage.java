@@ -44,6 +44,9 @@ public class LoginPage extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String referrer = (String) session.getAttribute("refpage");
+        String context = request.getContextPath();
+        
+        out.print(context);
         
         try{
         	Customer user = custInfo(username, password);
@@ -54,12 +57,11 @@ public class LoginPage extends HttpServlet {
 	        	response.sendRedirect(referrer);
 	        } else {
 	        	session.setAttribute("error", "Invalid Credentials");
-	        	response.sendRedirect("/filmdb/LoginPrompt.jsp");
+	        	response.sendRedirect(context + "/LoginPrompt.jsp");
 	        }
         } catch (Exception e){
-        	error = e.getMessage();
-        	session.setAttribute("error", error);
-        	response.sendRedirect("/filmdb/LoginPrompt.jsp");
+        	session.setAttribute("error", "SQL Server Down");
+        	response.sendRedirect(context + "/LoginPrompt.jsp");
         }
         
 

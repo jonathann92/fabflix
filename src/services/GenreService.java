@@ -59,12 +59,13 @@ public class GenreService extends Service {
 				movies.add(m);
 			}
 			
+			MovieService.populateMovieGenres(movies);
+			MovieService.populateMovieStars(movies);
 		} catch(Exception e) {
 			e.printStackTrace();
 		} finally { try { rs.close(); select.close(); conn.close(); } catch (Exception e2) {} }
 		
-		MovieService.populateMovieGenres(movies);
-		MovieService.populateMovieStars(movies);
+		
 		
 		return movies;
 	}
@@ -89,13 +90,13 @@ public class GenreService extends Service {
 				Movie m = new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6));
 				movies.add(m);
 			}
-			
+			MovieService.populateMovieGenres(movies);
+			MovieService.populateMovieStars(movies);
 		} catch(Exception e) {
 			e.printStackTrace();
 		} finally { try { rs.close(); select.close(); conn.close(); } catch (Exception e2) {} }
 		
-		MovieService.populateMovieGenres(movies);
-		MovieService.populateMovieStars(movies);
+		
 		
 		return movies;
 	}

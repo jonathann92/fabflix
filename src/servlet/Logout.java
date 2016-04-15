@@ -26,6 +26,7 @@ public class Logout extends HttpServlet {
         PrintWriter out = response.getWriter();
 		String ref = request.getHeader("Referer");
 		HttpSession session = request.getSession(true);
+		String context = request.getContextPath();
 		
 		Enumeration e = request.getHeaderNames();
 		while (e.hasMoreElements()) {
@@ -35,10 +36,11 @@ public class Logout extends HttpServlet {
 		out.println("<br/>");
 		}
 		
+		out.print(context);
+		
 		session.removeAttribute("user");
 		
-		//response.sendRedirect(ref);
-		
+		response.sendRedirect(ref);
 	}
 
 	/**
