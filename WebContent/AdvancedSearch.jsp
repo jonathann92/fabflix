@@ -1,6 +1,8 @@
 <%@include file="/WEB-INF/includes/jspheader.jsp" %>
 <html>
-<%@include file="/WEB-INF/includes/header.jsp" %>
+<head>
+<%@include file="/WEB-INF/includes/head.jsp" %>
+</head>
 <body>
 <div class="container">
 <%@include file="/WEB-INF/includes/navbar.jsp" %>

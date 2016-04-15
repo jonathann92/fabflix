@@ -1,4 +1,3 @@
-<c:set var="context" value="${pageContext.request.contextPath}" />
 <nav class="navbar navbar-default">
         <div class="container-fluid">
           <div class="navbar-header">
