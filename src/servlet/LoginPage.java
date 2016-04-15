@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import objects.*;
-import site.Site;
+import services.CustomerService;
 import cache.Cache;
 /**
  * Servlet implementation class LoginPage
@@ -25,7 +25,7 @@ public class LoginPage extends HttpServlet {
 	protected Customer custInfo(String username, String password) throws Exception{
 		Customer cust = null;
 		if(username != null && password != null)
-			cust = Site.verifyCredentials(username, password);
+			cust = CustomerService.verifyCredentials(username, password);
 
 
 		return cust;
@@ -43,23 +43,25 @@ public class LoginPage extends HttpServlet {
         String error = null;
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String referrer = (String) session.getAttribute("Referer");
+        String referrer = (String) session.getAttribute("refpage");
+        String context = request.getContextPath();
+        
+        out.print(context);
         
         try{
-        Customer user = custInfo(username, password);
-        if(user != null){
-        	out.print("SUCCESS");
-        	session.setAttribute("user", user);
-        	session.removeAttribute("referrer");
-        	response.sendRedirect(referrer);
-        } else {
-        	session.setAttribute("error", "Invalid Credentials");
-        	response.sendRedirect("/filmdb/LoginPrompt.jsp");
-        }
+        	Customer user = custInfo(username, password);
+	        if(user != null){
+	        	out.print("SUCCESS");
+	        	session.setAttribute("user", user);
+	        	session.removeAttribute("Referer");
+	        	response.sendRedirect(referrer);
+	        } else {
+	        	session.setAttribute("error", "Invalid Credentials");
+	        	response.sendRedirect(context + "/LoginPrompt.jsp");
+	        }
         } catch (Exception e){
-        	error = e.getMessage();
-        	session.setAttribute("error", error);
-        	response.sendRedirect("/filmdb/LoginPrompt.jsp");
+        	session.setAttribute("error", "SQL Server Down");
+        	response.sendRedirect(context + "/LoginPrompt.jsp");
         }
         
 

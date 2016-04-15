@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import objects.Movie;
-import site.Site;
+import services.Service;
 
 /**
  * Servlet implementation class MovieList
@@ -33,6 +33,11 @@ public class MovieList extends HttpServlet {
         HttpSession session = request.getSession(true);
         
         List<Movie> movieList = (List<Movie>) session.getAttribute("fullMovieList");
+        String prevPage = (String) request.getAttribute("prevpage");
+        String query = (String) request.getAttribute("query");
+        
+        out.print(query);
+        
         if(movieList == null){
         	movieList = new ArrayList<Movie>();
         }
@@ -42,16 +47,18 @@ public class MovieList extends HttpServlet {
         
         String sort = (String) request.getParameter("sortby");
 
+
         movieList = sortList(sort, movieList, out);
                 
-        List<Movie> subList = Site.subMovieList(movieList, rows * page - rows, rows * page - 1);
+        List<Movie> subList = Service.subMovieList(movieList, rows * page - rows, rows * page - 1);
         request.setAttribute("movieList", subList);
         session.setAttribute("fullMovieList", movieList);
         request.setAttribute("page", page);
         request.setAttribute("sortby", sort);
         request.setAttribute("rows", rows);
+        request.setAttribute("prevpage", prevPage);
         
-        Site.forward(request, response, "/WEB-INF/SearchResults.jsp");
+        Service.forward(request, response, "/WEB-INF/SearchResults.jsp");
 	}
 
 	/**

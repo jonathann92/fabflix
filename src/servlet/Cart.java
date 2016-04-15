@@ -8,17 +8,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import cache.Cache;
-import objects.Star;
-import services.Service;
-import services.StarService;
+import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class StarPage
+ * Servlet implementation class Cart
  */
-@WebServlet("/StarPage")
-public class StarPage extends HttpServlet {
+@WebServlet("/Cart")
+public class Cart extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -27,25 +23,9 @@ public class StarPage extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
         PrintWriter out = response.getWriter();
+        HttpSession session = request.getSession(true);
         
-		int id = -1;
-		String param = request.getParameter("id");
-		if(param != null && param.length() != 0)
-			id = Integer.parseInt(param);
-
-		Star s = starInfo(id);
-			
-		request.setAttribute("star", s);
-
-		Service.forward(request, response, "/WEB-INF/SingleStar.jsp");
-	}
-	
-	protected Star starInfo(int id){
-		Star s = StarService.getStarInfo(id);
-		if(s != null)
-			s.setMovies(StarService.getMovieList(id));
-		
-		return s;
+        
 	}
 
 	/**

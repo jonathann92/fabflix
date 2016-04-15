@@ -5,8 +5,8 @@
 <div class="container">
 <%@include file="/WEB-INF/includes/navbar.jsp" %>
 <%  
-if(session.getAttribute("Referer") == null)
-	session.setAttribute("Referer",request.getHeader("Referer"));
+if(session.getAttribute("refpage") == null)
+	session.setAttribute("refpage",request.getHeader("Referer"));
 %> 
 <form action="LoginPage" role="form" method=POST>
 

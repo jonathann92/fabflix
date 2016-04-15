@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import objects.Movie;
 import services.MovieTitle;
+import services.Service;
 
 /**
  * Servlet implementation class MoviesByTitle
@@ -31,14 +32,17 @@ public class MoviesByTitle extends HttpServlet {
         HttpSession session = request.getSession(true);
 
 		String parameter = request.getParameter("letter");
+		String query = "letter="+parameter;
 		
 		if(parameter == null || parameter.length() == 0)
-			response.sendRedirect("/filmdb/");
+			response.sendRedirect(request.getContextPath());
 		else {
 			char letter = parameter.charAt(0);
 			List<Movie> list = MovieTitle.getMovieList(letter);
 			session.setAttribute("fullMovieList", list);
-	    	response.sendRedirect("/filmdb/MovieList");
+        	request.setAttribute("prevpage", "MoviesByTitle");
+        	request.setAttribute("query", query);
+        	Service.forward(request, response, "/MovieList");
 		}
 		
 	}

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import objects.Movie;
 import services.AdvancedSearchService;
-import site.Site;
+import services.Service;
 
 /**
  * Servlet implementation class AdvSearch
@@ -38,20 +38,21 @@ public class AdvSearch extends HttpServlet {
         String director = request.getParameter("director");
         String first = request.getParameter("first");
         String last = request.getParameter("last");
+        String query = "title=" + title + "&year=" + year + "&director=" + director + "&first=" + first + "&last="+last;
         
         try{
         	List<Movie> movieList;
         	movieList = AdvancedSearchService.advSearch(title, year, director, first, last);
         	session.setAttribute("fullMovieList", movieList);
-        	response.sendRedirect("/filmdb/MovieList");
+        	request.setAttribute("prevpage", "AdvSearch");
+        	request.setAttribute("query", query);
+        	Service.forward(request, response, "/MovieList");
+        	//response.sendRedirect("/filmdb/MovieList");
         } catch (Exception e){
         	error = e.getMessage();
-        	request.setAttribute("error", error);
-        	Site.forward(request, response, "/AdvancedSearch.jsp");
-        	out.print(error);
+        	request.setAttribute("error", "SQL Server Down");
+        	Service.forward(request, response, "/AdvancedSearch.jsp");
         }
-        
-        
 	}
 
 	/**

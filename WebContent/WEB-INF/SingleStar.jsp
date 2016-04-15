@@ -22,8 +22,8 @@
 <div class="row">
 	<c:forEach items="${star.movies}" var="movie">
 		<div class="col-xs-6 col-sm-4">
-			<a href="/filmdb/MoviePage?id=${movie.id }"><h5>${movie.title}</h5></a>
-			<a href="/filmdb/MoviePage?id=${movie.id }"><img src="${movie.banner }" onError="this.src='https://escherdax.files.wordpress.com/2009/12/illustration.jpg';" width=90 height=120></a>
+			<a href="${context}/MoviePage?id=${movie.id }"><h5>${movie.title}</h5></a>
+			<a href="${context}/MoviePage?id=${movie.id }"><img src="${movie.banner }" onError="this.src='https://escherdax.files.wordpress.com/2009/12/illustration.jpg';" width=90 height=120></a>
 		</div>
 	</c:forEach>
 </div>
