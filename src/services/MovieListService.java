@@ -58,7 +58,7 @@ public class MovieListService extends Service {
 		return m;
 	}
 	
-	public List<Movie> getRandomMovieList(int listSize) {
+	public static List<Movie> getRandomMovieList(int listSize) {
 		List<Movie> m = new ArrayList<>();
 		Connection conn = null;
 		Statement select = null;

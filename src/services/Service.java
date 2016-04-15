@@ -1,12 +1,20 @@
 package services;
 
 import java.io.IOException;
-import java.util.List;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
+import objects.*;
+import java.util.List;
+import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.ResultSet;
+import com.mysql.jdbc.Statement;
 
 import objects.Movie;
 
@@ -26,6 +34,37 @@ public class Service {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static List<Genre> getAllGenres() {
+		List<Genre> g = new ArrayList<>();
+		Connection conn = null;
+		Statement select = null;
+		ResultSet rs = null;
+		
+		try {
+			Class.forName(JDBC_DRIVER);
+			conn = (Connection) DriverManager.getConnection(DB_URL, user, pass);
+			select = (Statement) conn.createStatement();
+			String sql = "SELECT * FROM genres;";
+			
+			rs = (ResultSet) select.executeQuery(sql);
+			while (rs.next()){
+				g.add(new Genre(rs.getInt(1), rs.getString(2)));
+			}
+			
+			rs.close();
+			select.close();
+			conn.close();
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		} catch(ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+		return g;
 	}
 	
 	public static List<Movie> subMovieList(List<Movie> movieList, int low, int high){
