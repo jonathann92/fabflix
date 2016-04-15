@@ -33,12 +33,23 @@ public class AdvSearch extends HttpServlet {
         
         String error = "No error";
         
+        int id = 0;
+        String idParam = request.getParameter("id");
         String title = request.getParameter("title");
         String year = request.getParameter("year");
         String director = request.getParameter("director");
         String first = request.getParameter("first");
         String last = request.getParameter("last");
         String query = "title=" + title + "&year=" + year + "&director=" + director + "&first=" + first + "&last="+last;
+        
+        try{
+        	id = Integer.parseInt(idParam);
+        } catch ( Exception e){
+        	error = "Id is not an integer";
+        	setParams(request, error, idParam, title, year, director, first, last);
+        	Service.forward(request, response, "/AdvancedSearch.jsp");
+        }
+        
         
         try{
         	List<Movie> movieList;
@@ -53,6 +64,17 @@ public class AdvSearch extends HttpServlet {
         	request.setAttribute("error", "SQL Server Down");
         	Service.forward(request, response, "/AdvancedSearch.jsp");
         }
+	}
+
+	private void setParams(HttpServletRequest request, String error, String id, String title, String year, String director,
+			String first, String last) {
+		request.setAttribute("error", error);
+		request.setAttribute("id", id);
+		request.setAttribute("title", title);
+		request.setAttribute("year", year);
+		request.setAttribute("director", director);
+		request.setAttribute("first", first);
+		request.setAttribute("last", last);
 	}
 
 	/**

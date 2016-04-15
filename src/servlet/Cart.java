@@ -24,7 +24,9 @@ public class Cart extends HttpServlet {
 		response.setContentType("text/html");
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession(true);
+        String error = (String) request.getAttribute("error");
         
+        out.print(error);
         
 	}
 
