@@ -43,14 +43,14 @@ public class LoginPage extends HttpServlet {
         String error = null;
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String referrer = (String) session.getAttribute("Referer");
+        String referrer = (String) session.getAttribute("refpage");
         
         try{
         	Customer user = custInfo(username, password);
 	        if(user != null){
 	        	out.print("SUCCESS");
 	        	session.setAttribute("user", user);
-	        	session.removeAttribute("referrer");
+	        	session.removeAttribute("Referer");
 	        	response.sendRedirect(referrer);
 	        } else {
 	        	session.setAttribute("error", "Invalid Credentials");
