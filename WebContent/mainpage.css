@@ -1,0 +1,15 @@
+.titles {
+	padding-top: 100px;
+	font-weight: bold;
+	color: red;
+}
+
+#carousel-inner > .item > img, 
+.carousel-inner > .item > a > img {
+	width: 20%;
+	margin: auto;
+}
+
+#randomCarousel {
+	padding-bottom: 150px;
+}
