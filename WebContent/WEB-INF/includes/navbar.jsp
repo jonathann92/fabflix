@@ -12,7 +12,44 @@
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
               <li ><a href="${context}/">Home</a></li>
-              <li><a href="${context}/AdvancedSearch.jsp">Search</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Search <span class="caret"></span></a>                
+                
+                <form class="dropdown-menu" action="AdvSearch" role="form" method=GET style="padding-left: 15px; padding-right: 15px;">
+					<div class="form-group" >
+				      <label>ID:</label>
+				      <input style="width: 500px;" type="text" class="form-control" name=id placeholder="Enter id">
+				    </div>
+				    
+				    <div class="form-group">
+				      <label>Title:</label>
+				      <input type="text" class="form-control" name=title placeholder="Enter title">
+				    </div>
+				
+				    <div class="form-group">
+				      <label>Year:</label>
+				      <input type="text" class="form-control" name=year placeholder="Enter year">
+				    </div>
+				
+				    <div class="form-group">
+				      <label>Director:</label>
+				      <input type="text" class="form-control" name=director placeholder="Enter director">
+				    </div>
+				
+				    <div class="form-group">
+				      <label>Star's First Name:</label>
+				      <input type="text" class="form-control" name=first placeholder="Star's first name">
+				    </div>
+				
+				    <div class="form-group">
+				      <label>Star's Last name:</label>
+				      <input type="text" class="form-control" name=last placeholder="Star's last name">
+				    </div>
+				
+				    <input type="submit" style="position: absolute; left: -9999px"/>
+			  </form>
+
+              
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">ALL KINDS OF TESTS <span class="caret"></span></a>
                 <ul class="dropdown-menu">

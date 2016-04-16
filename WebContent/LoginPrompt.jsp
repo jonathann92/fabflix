@@ -22,7 +22,7 @@ if(session.getAttribute("refpage") == null)
       <input type="password" class="form-control" name=password placeholder="Enter password">
     </div>
 	<input type="hidden" name="from" value="${pageContext.request.requestURI}" />
-    <button type="submit" class="btn btn-default">Submit</button>
+    <button type="submit" class="btn btn-default"></button>
   </form>
   
   <c:if test="${not empty sessionScope.error}">
