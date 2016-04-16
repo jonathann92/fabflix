@@ -11,6 +11,8 @@
 			<h2 class="titles">Genres</h2>
 			<hr/>
 			
+			<!-- try slick..  http://kenwheeler.github.io/slick/ -->
+			
 			<div id="genreCarousel" class="carousel slide">
 				<div class="carousel-inner">
 					<div class="item active">
