@@ -1,25 +1,11 @@
 .titles {
 	font-weight: bold;
-	color: red;
+	color: blue;
 }
 
 .random-title {
 	font-weight: bold;
-	color: red;
+	color: blue;
 	padding-top: 100px;
 }
 
-#carousel-inner > .item > img, 
-.carousel-inner > .item > a > img {
-	width: 20%;
-	margin: auto;
-}
-
-#randomCarousel {
-	padding-bottom: 350px;
-}
-
-.img-border {
-	border-width: 3px;
-	border-color: blue;
-}
