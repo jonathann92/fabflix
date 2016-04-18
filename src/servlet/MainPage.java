@@ -15,7 +15,7 @@ import services.MovieListService;
 import services.MovieService;
 import services.Service;
 
-@WebServlet("/")
+@WebServlet("/MainPage")
 public class MainPage extends HttpServlet {
     private static final long serialVersionUID = 1L;
  
