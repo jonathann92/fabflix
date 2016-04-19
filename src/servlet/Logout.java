@@ -36,11 +36,10 @@ public class Logout extends HttpServlet {
 		out.println("<br/>");
 		}
 		
-		out.print(context);
-		
 		session.removeAttribute("user");
 		
 		response.sendRedirect(ref);
+		return;
 	}
 
 	/**

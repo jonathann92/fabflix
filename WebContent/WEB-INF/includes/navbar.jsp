@@ -58,6 +58,7 @@
 	              <li><a href="${context}/MoviesByTitle?letter=a">Movies By Character Test</a></li>
 	              <li><a href="${context}/GenreSearch?id=872004">Movie List by Genre ID Test</a></li>
 	              <li><a href="${context}/GenreSearch?name=adventure">Movie List by Genre Name Test</a></li>
+	              <li><a href="${context}/AddToCart?id=135005">Add to the cart</a></li>
                 </ul>
               </li>
               
