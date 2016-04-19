@@ -83,7 +83,7 @@
               	</c:choose>
               
               
-              <li><a href="${context}/Cart">Cart</a></li>
+              <li><a href="${context}/cart.jsp">Cart</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->

@@ -31,8 +31,12 @@ public class AddToCart extends HttpServlet {
 		response.setContentType("text/html");
         PrintWriter out = response.getWriter();
         String ref = request.getHeader("Referer");
-        out.print(ref);
         HttpSession session = request.getSession(true);
+        String context = request.getContextPath();
+
+        if(ref == null || ref.length() == 0){
+        	ref = context;
+        }
               
         Map<Movie, MutableInt> cart = (Map<Movie, MutableInt>) session.getAttribute("cart");
         if(cart == null){
@@ -51,14 +55,16 @@ public class AddToCart extends HttpServlet {
 	        	throw new Exception("no movie found");
 	        
 	        addMovie(cart, m);
-	        	
+	        session.setAttribute("cart", cart);
         } catch (Exception e){
         	String error = e.getMessage();
-        	request.setAttribute("error", error);
-        	//Service.forward(request, response, ref);
+        	session.setAttribute("error", error);
+        	//Service.forward(request, response, context + "cart.jsp");
         } 
         
-        Service.forward(request, response, "/Cart");
+        
+        response.sendRedirect(context + "/cart.jsp");
+        //Service.forward(request, response, "cart.jsp");
 	}
 	
 	protected void addMovie(Map<Movie, MutableInt> cart, Movie m){
