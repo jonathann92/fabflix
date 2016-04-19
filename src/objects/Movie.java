@@ -36,6 +36,11 @@ public class Movie {
 		this.genres = new HashSet<Genre>();
 	}
 	
+	public Movie(int id, String title){
+		this.id = id;
+		this.title = title;
+	}
+	
 	public void addGenre(Genre g){
 		genres.add(g);
 	}
