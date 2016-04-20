@@ -32,15 +32,12 @@
 				  	var frm1 = document.getElementById("frm1").search.value;
 					switch(filter) {
 					case "title":
-						//window.location = "http://www.google.com";
 						window.location = "./AdvSearch?id=&title=" + frm1 + "&year=&director=&first=&last=";
 						break;
 					case "first":
-						//window.location = "http://www.google.com";
 						window.location = "./AdvSearch?id=&title=&year=&director=&first=" + frm1 + "&last=";
 						break;
 					case "last":
-						//window.location = "http://www.google.com";
 						window.location = context + "./AdvSearch?id=&title=&year=&director=&first=&last=" + frm1;
 						break;
 					}

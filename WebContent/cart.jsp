@@ -53,7 +53,7 @@
 				</table>
 				<div class="checkout " >
 					<p style="float: right;">Total: ${total }</p>
-					<form action="UpdateCart" role="form" method=GET>
+					<form action="checkout.jsp" role="form" method=GET>
 				      <button type="submit" class="btn btn-default" style="float: right;" >Checkout</button>
 			      	</form>
 				</div>
