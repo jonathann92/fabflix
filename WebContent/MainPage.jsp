@@ -83,11 +83,11 @@
       		<hr/>
 			<div class="row-fluid text-center slick-multislider">
 				<c:forEach var="movies" items="${randomList}">
-					<div class="col-xs-4 col-md-6">	
+					<div class="col-xs-4 col-md-6" style="padding: 40px;">	
 						<div style="min-height: 60px;">					
 							<h5><a href="${context}/MoviePage?id=${movies.id}">${movies.title}</a></h5>
 						</div>				
-						<a href="${context}/MoviePage?id=${movies.id}"><img style="padding-bottom: 30px; height: 250px; width: 250px;" src="${movies.banner}" alt="Image not found" onError="this.src='http://placehold.it/700x300';" width="700" height="300"/></a>
+						<a href="${context}/MoviePage?id=${movies.id}"><img style="padding-bottom: 30px; height: 250px; width: 200px;" src="${movies.banner}" alt="Image not found" onError="this.src='http://placehold.it/700x300';" width="700" height="300"/></a>
 						<p>$15.99</p>
 						<p><button type="button" class="btn btn-primary">Add to Cart</button></p>
 					</div>
