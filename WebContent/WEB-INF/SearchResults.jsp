@@ -19,7 +19,7 @@
 			<h1>Search Results</h1>
 		</div>
 	</div>
-	<p>Rows: </p>
+	<p style="display: inline; font-size: 18px;">Row Count: </p>
 	<a href="${context}/${prevpage}?${query}&page=${page}&sortby=${sortby}&rows=10">10</a>
 	<a href="${context}/${prevpage}?${query}&page=${page}&sortby=${sortby}&rows=25">25</a>
 	<a href="${context}/${prevpage}?${query}&page=${page}&sortby=${sortby}&rows=50">50</a>
@@ -73,7 +73,7 @@
 					<div style="display: block;">
 						<p style="font-weight: bold; display: inline;">Genres:</p>	
 						<c:forEach var="genre" items="${movie.genres}">
-              				<p style="display: inline;"><a style="text-decoration: underline;" href="${context}/GenreSearch?id=${genre.id}">${genre.genre}</a></p>
+              				<p style="display: inline; margin-right: 10px"><a style="text-decoration: underline;" href="${context}/GenreSearch?id=${genre.id}">${genre.genre}</a></p>
 						</c:forEach>				
 					</div>
 					<div style="display: block;">
@@ -83,7 +83,7 @@
 					<div style="display: block;">
 						<p style="font-weight: bold; display: inline;">Stars:</p>
 						<c:forEach var="star" items="${movie.stars}">
-              				<p style="display: inline;"><a style="text-decoration: underline;" href="${context}/StarPage?id=${star.id}">${star.first} ${star.last}</a></p>
+              				<p style="display: inline; margin-right: 10px"><a style="text-decoration: underline;" href="${context}/StarPage?id=${star.id}">${star.first} ${star.last}</a></p>
 						</c:forEach>
 					</div>
 					<div style="display: block; display: inline;">
