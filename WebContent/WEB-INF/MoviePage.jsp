@@ -34,7 +34,7 @@
 					<c:choose>
 						<c:when test="${not empty genreList}">
 							<c:forEach var="genres" items="${genreList}">
-								<p><a style="display: inline-block;" href="${genres.genre}">${genres.genre}</a></p>
+								<p><a href="${context}/GenreSearch?id=${genres.id}">${genres.genre}</a></p>
 							</c:forEach>
 						</c:when>
 				 	</c:choose>					
