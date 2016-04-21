@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import objects.*;
 import services.CustomerService;
-import cache.Cache;
 /**
  * Servlet implementation class LoginPage
  */
