@@ -50,10 +50,7 @@
 			</form>
 			<ul class="nav navbar-nav">
 				<li>
-					<a href="${context}/search.jsp">			  	
-			  		<p style="display: block; padding: 0; margin: 0; bottom: 0;">Advanced</p>
-			  		<p style="display: block; padding: 0; margin: 0;">Search</p>
-	  			</a>
+					<a href="${context}/search.jsp" style="text-decoration: underline;">Advanced Search</a>
 				</li>    
 			</ul>
 	        <ul class="nav navbar-nav navbar-right">           
