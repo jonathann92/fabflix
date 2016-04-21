@@ -55,7 +55,7 @@ public class Checkout extends HttpServlet {
         		transactions = CheckoutService.recordTransaction(user, cart);
         		System.out.println("After transactions");
         		session.removeAttribute("cart");
-        		request.setAttribute("purchases", transactions);
+        		request.setAttribute("transactions", transactions);
         		Service.forward(request, response, "/WEB-INF/CheckoutSuccess.jsp");
         		return;
         	} else {

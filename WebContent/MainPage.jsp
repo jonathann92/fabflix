@@ -89,7 +89,7 @@
 						</div>				
 						<a href="${context}/MoviePage?id=${movies.id}"><img style="padding-bottom: 30px; height: 250px; width: 200px;" src="${movies.banner}" alt="Image not found" onError="this.src='http://placehold.it/700x300';" width="700" height="300"/></a>
 						<p>$15.99</p>
-						<p><button type="button" class="btn btn-primary">Add to Cart</button></p>
+						<p><a href="${context }/AddToCart?id=${movies.id }" class="btn btn-primary">Add to Cart</a></p>
 					</div>
 				</c:forEach>
 			</div>		

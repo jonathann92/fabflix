@@ -92,7 +92,7 @@
 					</div>
 				</div>
 				<div class="col-sm-12" style="">
-					<p style="position: bottom; float: right;"><button type="button" class="btn btn-primary">Add to Cart</button></p>						
+					<p style="position: bottom; float: right;"><a href="${context }/AddToCart?id=${movies.id }" class="btn btn-primary">Add to Cart</a></p>						
 					<p style="margin-right: 15px; float: right;">$15.99</p>
 				</div>
 			</div>

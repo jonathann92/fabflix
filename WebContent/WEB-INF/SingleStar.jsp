@@ -31,7 +31,7 @@
 		<div class="col-xs-6 col-md-6">
 			<h4 style="padding-top: 30px;"><a href="${context}/MoviePage?id=${movie.id }">${movie.title}</a></h4>
 			<a href="${context}/MoviePage?id=${movie.id }"><img src="${movie.banner }" onError="this.src='https://escherdax.files.wordpress.com/2009/12/illustration.jpg';" width=90 height=120></a>
-			<p style="display: block; padding-top: 10px;"><button type="button" class="btn btn-primary">Add to Cart</button></p>
+			<p style="display: block; padding-top: 10px;"><a href="${context }/AddToCart?id=${movies.id }" class="btn btn-primary">Add to Cart</a></p>
 		</div>
 	</c:forEach>
 </div>
