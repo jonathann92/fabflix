@@ -23,7 +23,7 @@
 				<div class="col-md-6">
 					<div style="float: right;">
 						<p style="margin-right: 10px;">$15.99</p>
-						<p><a href="${context }/AddToCart?id=${movies.id }" class="btn btn-primary">Add to Cart</a></p>
+						<p><a href="${context }/AddToCart?id=${movie.id }" class="btn btn-primary">Add to Cart</a></p>
 					</div>
 				</div>
 			</div>
