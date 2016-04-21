@@ -45,15 +45,17 @@
 				}
 			  </script>
 			  
-			  
-			  <div style="font-size: 10px; position: relative;">
-			  <a href="${context}/search.jsp">			  	
+		
+	  		
+			</form>
+			<ul class="nav navbar-nav">
+				<li>
+					<a href="${context}/search.jsp">			  	
 			  		<p style="display: block; padding: 0; margin: 0; bottom: 0;">Advanced</p>
 			  		<p style="display: block; padding: 0; margin: 0;">Search</p>
 	  			</a>
-	  		</div>
-	  		
-			</form>    
+				</li>    
+			</ul>
 	        <ul class="nav navbar-nav navbar-right">           
 	         	<c:choose>
               		<c:when test="${sessionScope.user != null }">
