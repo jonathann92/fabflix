@@ -19,6 +19,14 @@
 	        	display: inline-block;
 	        	font-size: 24px;
 	        }
+	        .slick-prev:before, .slick-next:before { font-family: FontAwesome; font-size: 40px; line-height: 1; color: red; opacity: 0.75; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }   
+
+			.slick-prev:before { content: "\f137"; }
+			[dir="rtl"] .slick-prev:before { content: "\f138"; }
+
+			[dir="rtl"] .slick-next { left: -10px; top: 70px; right: auto; }
+			.slick-next:before { content: "\f138"; }
+			[dir="rtl"] .slick-next:before { content: "\f137"; }
     	</style>
 	</head>
 	<body>
@@ -26,7 +34,7 @@
 			<%@include file="/WEB-INF/includes/navbar.jsp" %>
 			<c:set var="carousel-size" value="5"/>
 			
-			<h2 style="padding-top: 20px; font-weight: bold; color: #347BCD">Browse by Title</h2>
+			<h2 style="padding-top: 20px; font-weight: bold; color: red;">Browse by Title</h2>
 			<hr/>
 			<div class="container" style="text-align: center;">
 				<p class="alphabet"><a href="${context}/MoviesByTitle?letter=0">0</a></p>
@@ -87,7 +95,7 @@
 						<div style="min-height: 60px;">					
 							<h5><a href="${context}/MoviePage?id=${movies.id}">${movies.title}</a></h5>
 						</div>				
-						<a href="${context}/MoviePage?id=${movies.id}"><img style="padding-bottom: 30px; height: 250px; width: 200px;" src="${movies.banner}" alt="Image not found" onError="this.src='http://placehold.it/700x300';" width="700" height="300"/></a>
+						<a href="${context}/MoviePage?id=${movies.id}"><img class="img-responsive img-center" style="padding-bottom: 30px; height: 250px; width: 200px; margin: 0 auto;" src="${movies.banner}" alt="Image not found" onError="this.src='http://placehold.it/700x300';" width="700" height="300"/></a>
 						<p>$15.99</p>
 						<p><a href="${context }/AddToCart?id=${movies.id }" class="btn btn-primary">Add to Cart</a></p>
 					</div>
