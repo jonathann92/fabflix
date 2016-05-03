@@ -1,0 +1,8 @@
+We use the like predicate in our Advanced search to search for title, star's first name, last name, genres, and director.
+for example if we wanted to find the matrix, there are 3 matrix movies. we would search "select * from movies where title like '%matrix%'"
+we did the same thing for the other fields.
+
+We also used it for browse by letter's first name. 
+for example if we want to search for movies by the letter 'A' we would query: "select * from movies where title like 'A%'"
+
+The java files that we use the like predicate in are: AdvancedSearchService.java and MovieTitle.java
