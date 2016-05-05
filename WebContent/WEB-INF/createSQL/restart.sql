@@ -1,4 +1,4 @@
-drop schema moviedb;
+drop schema if exists moviedb;
 
 CREATE SCHEMA `moviedb` ;
 
