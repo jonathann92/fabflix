@@ -58,7 +58,7 @@ public class LoginPage extends HttpServlet {
 	        	session.setAttribute("user", user);
 	        	session.removeAttribute("Referer");
 	        	session.removeAttribute("refpage");
-	        	redirect = referrer;
+	        	redirect = context;
 	        } else {
 	        	session.setAttribute("error", "Invalid Credentials");
 	        	redirect = context + "/LoginPrompt.jsp";
