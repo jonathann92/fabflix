@@ -67,6 +67,7 @@
    				</div>
 	   		</form>
 	   		
+	   		<h2>XML Parser</h2>
 	   		<form action="XMLParser" 
 				class="form-horizontal" role="form" method="POST">
 			
