@@ -1,4 +1,4 @@
-drop schema moviedb_project3_grading;
+drop schema if exists moviedb_project3_grading;
 
 CREATE SCHEMA `moviedb_project3_grading` ;
 
