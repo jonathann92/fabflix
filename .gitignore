@@ -3,5 +3,4 @@ build/
 .class
 .project
 .settings/
-.jar
 web.xml
