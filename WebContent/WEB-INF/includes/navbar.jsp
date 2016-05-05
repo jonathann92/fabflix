@@ -66,6 +66,9 @@
               		</c:when>
               		<c:otherwise>
               		<li>
+              			<a href="${context}/EmployeePage">Employee Login</a>
+              		</li>
+              		<li>              			
               			<a href="${context}/LoginPrompt.jsp">Login</a>
               		</li>
               		</c:otherwise>
