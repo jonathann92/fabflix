@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import objects.*;
 import services.CustomerService;
+import services.VerifyRecaptcha;
 /**
  * Servlet implementation class LoginPage
  */
@@ -48,9 +49,11 @@ public class LoginPage extends HttpServlet {
         out.print(context);
         out.print("REF: " + referrer);
         
+        String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
+        
         try{
         	Customer user = custInfo(username, password);
-	        if(user != null){
+	        if(user != null && VerifyRecaptcha.verify(gRecaptchaResponse)){
 	        	out.print("SUCCESS");
 	        	session.setAttribute("user", user);
 	        	session.removeAttribute("Referer");
