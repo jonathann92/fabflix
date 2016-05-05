@@ -71,4 +71,22 @@ public class Service {
 		if(low > movieList.size() - 1) return movieList;
 		return movieList.subList(low, high > movieList.size() ? movieList.size() : high);
 	}
+	
+	public static void doXMLStuff(String title, String director, String year, String starFirst, String starLast, String genre)
+	 {
+		 	try {
+	        	Class.forName("com.mysql.jdbc.Driver").newInstance();
+	            Connection connection = (Connection) DriverManager.getConnection("jdbc:mysql:///"+db,user, pass);
+	            Statement stmt = (Statement) connection.createStatement();
+	            
+	            String sql = "call add_movie('" + title + "', '" + director + "', " + year + ",'" + starFirst + "', '" + starLast + "', '" + genre + "');";
+	        	
+	        	stmt.execute(sql);
+	            
+	            connection.close();	        
+			} 
+           catch (Exception e) {
+	            e.printStackTrace();
+	        }
+   }
 }

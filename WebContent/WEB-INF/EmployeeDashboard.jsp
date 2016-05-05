@@ -67,6 +67,52 @@
    				</div>
 	   		</form>
 	   		
+	   		<form action="XMLParser" 
+				class="form-horizontal" role="form" method="POST">
+			
+				<div class="form-group">
+					<label class="col-xs-3 control-label">Title</label>
+					<div class="col-xs-5">
+						<input type="text" class="form-control lgn" name="title">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-xs-3 control-label">Director</label>
+					<div class="col-xs-5">
+						<input type="text" class="form-control lgn" name="director">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-xs-3 control-label">Year</label>
+					<div class="col-xs-5">
+						<input type="text" class="form-control lgn" name="year">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-xs-3 control-label">Genre</label>
+					<div class="col-xs-5">
+						<input type="text" class="form-control lgn" name="genre">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-xs-3 control-label">Star First Name</label>
+					<div class="col-xs-5">
+						<input type="text" class="form-control lgn" name="starFirst">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-xs-3 control-label">Star Last Name</label>
+					<div class="col-xs-5">
+						<input type="text" class="form-control lgn" name="starLast">
+					</div>
+				</div>				
+			</form>
+	   		
 	   		<hr/>
 	   		<h2>Database Metadata</h2>
 		   	<div id="metadataTable">
