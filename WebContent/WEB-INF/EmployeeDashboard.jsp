@@ -201,13 +201,6 @@
 		            validating: 'glyphicon glyphicon-refresh'
 		        },
 		        fields: {
-		            firstName: {
-		                validators: {
-		                    notEmpty: {
-		                        message: 'First Name Required'
-		                    } 
-		                }
-		            },
 		            lastName: {
 		                validators: {
 		                    notEmpty: {
