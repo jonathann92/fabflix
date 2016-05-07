@@ -3,3 +3,4 @@ build/
 .class
 .project
 .settings/
+WebContent/WEB-INF/sources/
