@@ -43,37 +43,33 @@ public class AdvSearch extends HttpServlet {
         
         if(checkParameters(request, response, id, title, year, director, first, last) && checkIntParam(request, response, id, title, year, director, first, last) )
         {
-        	String query = "title=" + title + "&year=" + year + "&director=" + director + "&first=" + first + "&last="+last;
-        	List<Movie> movieList;
-
-	    	try {
-				movieList = AdvancedSearchService.advSearch(id, title, year, director, first, last);
-				session.setAttribute("fullMovieList", movieList);
-		    	request.setAttribute("prevpage", "AdvSearch");
-		    	request.setAttribute("query", query);
-		    	Service.forward(request, response, "/MovieList");
-			} catch (Exception e) {
-				error = e.getMessage();
-	        	request.setAttribute("error", error);
-	        	Service.forward(request, response, "/AdvancedSearch.jsp");
-			}
-        } // END IF
+        	String query = "id=" + id + "&title=" + title + "&year=" + year + "&director=" + director + "&first=" + first + "&last="+last;
+        	String sql;
+        	if(first.length() > 0 || last.length() > 0){
+    			sql = "select movies.* from movies, stars, stars_in_movies " 
+    					+ (title.length() > 0 ? "where movies.title like '%"+ title + "%' " : "" )
+    					+ (director.length() > 0 ? "and movies.director like '%" + director +"%' " : "")
+    					+ (year.length() > 0 ? "and movies.year like '%" + year+ "%' " : "" )
+    					+ (first.length() > 0 ? "and stars.first like '%" + first + "%' " : "" )
+    					+ (last.length() > 0 ? "and stars.last like '%" + last + "%' " : "" )
+    					+ "and stars.id = stars_in_movies.star_id "
+    					+ "and movies.id = stars_in_movies.movie_id "
+    					+ (id.length() > 0 ? "and movies.id = " + id : "") ;
+    		} else {
+    			sql = "select * from movies "
+    					+ (title.length() > 0 ? "where title like '%"+ title + "%' " : "" )
+    					+ (director.length() > 0 ? "and director like '%" + director +"%' " : "")
+    					+ (year.length() > 0 ? "and year like '%" + year+ "%' " : "")
+    					+ (id.length() > 0 ? "and id = " + id : "");				
+    		} 
+        	
+	    	request.setAttribute("prevpage", "AdvSearch");
+	    	request.setAttribute("query", query);
+        	request.setAttribute("sql", sql);
+	    	Service.forward(request, response, "/MovieList");
+			
+        }
         
-//        try{
-//        	
-//        	
-//        	List<Movie> movieList;
-//        	movieList = AdvancedSearchService.advSearch(title, year, director, first, last);
-//        	session.setAttribute("fullMovieList", movieList);
-//        	request.setAttribute("prevpage", "AdvSearch");
-//        	request.setAttribute("query", query);
-//        	Service.forward(request, response, "/MovieList");
-//        	//response.sendRedirect("/filmdb/MovieList");
-//        } catch (Exception e){
-//        	error = e.getMessage();
-//        	request.setAttribute("error", "SQL Server Down");
-//        	Service.forward(request, response, "/AdvancedSearch.jsp");
-//        }
 	}
 	
 	private boolean checkParameters(HttpServletRequest request, HttpServletResponse response, String idParam, String title,
@@ -100,7 +96,6 @@ public class AdvSearch extends HttpServlet {
         } catch (Exception e){
         	String error = "ID or Year is not an integer";
         	setParams(request, error, idParam, title, year, director, first, last);
-        	request.setAttribute("error", error);
         	Service.forward(request, response, "/AdvancedSearch.jsp");
         	return false;
         }

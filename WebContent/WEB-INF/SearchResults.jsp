@@ -34,21 +34,21 @@
 			<tr>
 				<th>
 					id
-					<a href="${context}/${prevpage}?${query}&page=${page}&sortby=idup&rows=${rows}"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
-					<a href="${context}/${prevpage}?${query}&page=${page}&sortby=iddown&rows=${rows}"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+					<a href="${context}/${prevpage}?${query}&page=${page}&sortby=id asc&rows=${rows}"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+					<a href="${context}/${prevpage}?${query}&page=${page}&sortby=id desc&rows=${rows}"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
 				</th>
 				<th>
 					photo
 				</th>
 				<th>
 					title
-					<a href="${context}/${prevpage}?${query}&page=${page}&sortby=titleup&rows=${rows}"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
-					<a href="${context}/${prevpage}?${query}&page=${page}&sortby=titledown&rows=${rows}"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+					<a href="${context}/${prevpage}?${query}&page=${page}&sortby=title asc&rows=${rows}"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+					<a href="${context}/${prevpage}?${query}&page=${page}&sortby=title desc&rows=${rows}"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
 				</th>
 				<th>
 					year
-					<a href="${context}/${prevpage}?${query}&page=${page}&sortby=yearup&rows=${rows}"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
-					<a href="${context}/${prevpage}?${query}&page=${page}&sortby=yeardown&rows=${rows}"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+					<a href="${context}/${prevpage}?${query}&page=${page}&sortby=year asc&rows=${rows}"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+					<a href="${context}/${prevpage}?${query}&page=${page}&sortby=year desc&rows=${rows}"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
 				</th>
 			</tr>
 		</thead>			
@@ -107,7 +107,7 @@
 			<p>Page</p>
 		</div>
 		</c:if>
-		<c:if test="${fn:length(fullMovieList) > rows*page}">
+		<c:if test="${count > rows * page}">
 		<div class="next-page pull-right">
 			<a href="${context}/${prevpage}?${query}&page=${page+1 }&sortby=${sortby}&rows=${rows}" rel="next"><i class="fa fa-long-arrow-right fa-5x"></i></a>
 			<p>Page</p>

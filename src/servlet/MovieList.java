@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import objects.Movie;
+import services.SearchService;
 import services.Service;
 
 /**
@@ -32,41 +33,57 @@ public class MovieList extends HttpServlet {
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession(true);
         
-        List<Movie> movieList = (List<Movie>) session.getAttribute("fullMovieList");
         String prevPage = (String) request.getAttribute("prevpage");
-        String query = (String) request.getAttribute("query");
+        String sql = processQuery(request);
         
-        out.print(query);
+        out.print(sql);
+        System.out.println(sql);
         
-        if(movieList == null){
-        	movieList = new ArrayList<Movie>();
-        }
+        List<Movie> movieList = SearchService.movieListQuery(sql);
         
-        int page = requestInt("page", 1, request);
-        int rows = requestInt("rows", 10, request); 
-        
-        String sort = (String) request.getParameter("sortby");
-
-
-        movieList = sortList(sort, movieList, out);
-                
-        List<Movie> subList = Service.subMovieList(movieList, rows * page - rows, rows * page - 1);
-        request.setAttribute("movieList", subList);
-        session.setAttribute("fullMovieList", movieList);
-        request.setAttribute("page", page);
-        request.setAttribute("sortby", sort);
-        request.setAttribute("rows", rows);
+        request.setAttribute("movieList", movieList);
         request.setAttribute("prevpage", prevPage);
         
         Service.forward(request, response, "/WEB-INF/SearchResults.jsp");
+        System.out.println();
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+	private String processQuery(HttpServletRequest request) {
+        String sql = (String) request.getAttribute("sql");
+        
+        int count = SearchService.querySize(sql);
+        request.setAttribute("count", count);
+        System.out.println("SIZE: " + count);
+        
+        sql = addParameters(request, sql, count);
+        
+		return sql;
+	}
+
+	private String addParameters(HttpServletRequest request, String sql, int size) {
+		String sort = request.getParameter("sortby");
+        if(sort != null && sort.length() > 0 && !sort.equals("null")){
+        	sql += " order by " + sort;
+        }
+        
+        int page = requestInt("page", 1, request);        		
+        int rows = requestInt("rows", 10, request); 
+        if(size < rows * (page - 1 )){
+        	int temp = page;
+        	page = (size / rows) + 1;
+        	
+        	System.out.println("Page out of index resetting page from " + temp + " to " + page);
+        }
+        int offset = rows * page - rows;
+        
+        
+        sql += " limit " + rows;
+        sql += " offset " + offset;
+        
+        request.setAttribute("page", page);
+        request.setAttribute("sortby", sort);
+        request.setAttribute("rows", rows);
+		return sql;
 	}
 	
 	protected int requestInt(String attr, int init, HttpServletRequest request){
@@ -78,46 +95,13 @@ public class MovieList extends HttpServlet {
 		
 		return Math.max(num, init);
 	}
-	
-	protected List<Movie> sortList(String sort, List<Movie> list, PrintWriter out){
-		if(sort == null || sort.length() == 0){
-			return list;
-		}
-		
-		if(sort.equals("yearup")){
-			Collections.sort(list, Movie.MovieYearComparatorAsc);
-			return list;
-		}
-		
-		if(sort.equals("yeardown")){
-			Collections.sort(list, Movie.MovieYearComparatorDesc);
-			return list;
-		}
-		
-		if(sort.equals("idup")){
-			Collections.sort(list, Movie.MovieIdComparatorAsc);
-			return list;
-		}
-		
-		if(sort.equals("iddown")){
-			Collections.sort(list, Movie.MovieIdComparatorDesc);
-			return list;
-		}
-		
-		if(sort.equals("titleup")){
-			Collections.sort(list, Movie.MovieTitleComparatorAsc);
-			return list;
-		}
-		
-		if(sort.equals("titledown")){
-			Collections.sort(list, Movie.MovieTitleComparatorDesc);
-			return list;
-		}
-		
-		
-		
-		
-		return list;
-	}
 
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+	
 }

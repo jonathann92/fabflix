@@ -32,15 +32,15 @@ public class MoviesByTitle extends HttpServlet {
         HttpSession session = request.getSession(true);
 
 		String parameter = request.getParameter("letter");
-		String query = "letter="+parameter;
 		
 		if(parameter == null || parameter.length() == 0)
 			response.sendRedirect(request.getContextPath());
 		else {
+			String query = "letter="+parameter;
 			char letter = parameter.charAt(0);
-			List<Movie> list = MovieTitle.getMovieList(letter);
-			session.setAttribute("fullMovieList", list);
+			String sql = "select * from movies where title like '" + letter + "%'";
         	request.setAttribute("prevpage", "MoviesByTitle");
+        	request.setAttribute("sql", sql);
         	request.setAttribute("query", query);
         	Service.forward(request, response, "/MovieList");
 		}

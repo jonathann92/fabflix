@@ -48,24 +48,27 @@ public class GenreSearch extends HttpServlet {
 	}
 	
 	protected void listMovies(HttpServletRequest request, HttpServletResponse response, int id) throws ServletException, IOException{
+		String sql =  "select distinct movies.* from genres_in_movies, movies where "
+				+ id + " = genres_in_movies.genre_id "
+				+ "and genres_in_movies.movie_id = movies.id";
+		
 		String query = "id="+id;
-		HttpSession session = request.getSession(true);
-		List<Movie> movies = GenreService.moviesInGenre(id);
-		session.setAttribute("fullMovieList", movies);
-		session.setAttribute("fullMovieList", movies);
+    	request.setAttribute("sql", sql);
 		request.setAttribute("prevpage", "GenreSearch");
     	request.setAttribute("query", query);
     	Service.forward(request, response, "MovieList");
 	}
 	
 	protected void listMovies(HttpServletRequest request, HttpServletResponse response, String name) throws ServletException, IOException {
+    	String sql = "select distinct movies.* from genres, genres_in_movies, movies where "
+				+ "genres.name = '" + name + "' and genres.id = genres_in_movies.genre_id "
+				+ "and genres_in_movies.movie_id = movies.id";
+    	
 		String query = "name=" + name;
-		HttpSession session = request.getSession(true);
-		List<Movie> movies = GenreService.moviesInGenre(name);
-		session.setAttribute("fullMovieList", movies);
+    	request.setAttribute("sql", sql);
 		request.setAttribute("prevpage", "GenreSearch");
     	request.setAttribute("query", query);
-    	Service.forward(request, response, "MovieList");
+    	Service.forward(request, response, "/MovieList");
 	}
 	
 	protected void listAllGenres(){

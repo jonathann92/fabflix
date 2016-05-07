@@ -67,7 +67,9 @@ public class Service {
 		return g;
 	}
 	
-	public static List<Movie> subMovieList(List<Movie> movieList, int low, int high){
+	public static List<Movie> subMovieList(List<Movie> movieList, int rows, int page){
+		int high = rows * page - 1;
+		int low = rows * page - rows;
 		if(low > movieList.size() - 1) return movieList;
 		return movieList.subList(low, high > movieList.size() ? movieList.size() : high);
 	}
