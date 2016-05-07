@@ -23,9 +23,12 @@ public class XMLParser extends HttpServlet {
 		String genre = request.getParameter("genre");
 		String starFirst = request.getParameter("starFirst");
 		String starLast = request.getParameter("starLast");
+		String url = "/WEB-INF/EmployeeDashboard.jsp";
+		
 		
 		
     	Service.doXMLStuff(title, director, year, starFirst, starLast, genre);
+    	Service.forward(request, response, url);
 	}
 
 

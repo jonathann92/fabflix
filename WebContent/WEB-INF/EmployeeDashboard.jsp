@@ -67,8 +67,8 @@
    				</div>
 	   		</form>
 	   		
-	   		<h2>XML Parser</h2>
-	   		<form action="XMLParser" 
+	   		<h2>Add Movie Details</h2>
+	   		<form action="${pageContext.request.contextPath}/XMLParser" 
 				class="form-horizontal" role="form" method="POST">
 			
 				<div class="form-group">
@@ -111,7 +111,8 @@
 					<div class="col-xs-5">
 						<input type="text" class="form-control lgn" name="starLast">
 					</div>
-				</div>				
+				</div>
+				<button type="submit" class="btn btn-success lgn">Submit</button>	
 			</form>
 	   		
 	   		<hr/>

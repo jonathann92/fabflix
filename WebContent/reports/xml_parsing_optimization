@@ -1,0 +1,7 @@
+hi TA,
+
+Here are my optimizations:
+1) I used autoCommit = false and then commited every 1000 row inserts to not run out of memory.
+2) Also I used PreparedStatements to optimize my code.
+
+My program takes a little of 10 seconds to run if there are no duplicate entries, however it will take longer if there are duplicate entries.

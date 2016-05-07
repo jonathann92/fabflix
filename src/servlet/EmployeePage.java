@@ -14,6 +14,7 @@ import objects.Employee;
 import services.CustomerService;
 import services.EmployeeService;
 import services.Service;
+import services.VerifyRecaptcha;
 
 /**
  * Servlet implementation class EmployeePage
@@ -34,9 +35,11 @@ public class EmployeePage extends HttpServlet {
         String context = request.getContextPath();
         System.out.println(context);
         String redirect = "";
+        String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
+        
         try{
         	Employee user = employeeInfo(username, password);
-	        if(user != null){
+	        if(user != null && VerifyRecaptcha.verify(gRecaptchaResponse)){
 	        	out.print("SUCCESS");
 	        	session.setAttribute("user", user);
 	        	session.removeAttribute("Referer");

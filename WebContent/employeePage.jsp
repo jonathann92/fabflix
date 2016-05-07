@@ -3,6 +3,7 @@
 	<head>
 		<%@include file="/WEB-INF/includes/head.jsp" %>
 		<script src="lhttps://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+		<script src='https://www.google.com/recaptcha/api.js'></script>
 	</head>
 	<body>
 		<div class="container">	
@@ -22,7 +23,10 @@
 	      				<label>Password:</label>
 	      				<input type="password" class="form-control" name=password placeholder="Enter password">
 	    			</div>
-    				<input type="hidden" name="from" value="${pageContext.request.requestURI}" />	    			
+    				<input type="hidden" name="from" value="${pageContext.request.requestURI}" />	   
+    				<div class="g-recaptcha" data-sitekey="6LeTnB4TAAAAAPazHxTQUZYTeFkdu9Olq6rO-Wkr">
+
+</div> 			
 				    <button type="submit" id="employeeSubmit" class="btn btn-default">Log In</button>
 				</form>
 				<c:if test="${not empty sessionScope.error}">

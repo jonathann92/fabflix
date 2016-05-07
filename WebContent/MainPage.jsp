@@ -6,8 +6,7 @@
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 		
-		<!-- link rel='stylesheet' href='http://cdn.foundation5.zurb.com/foundation.css'-->
-    	<link rel='stylesheet' href='http://cdn.jsdelivr.net/jquery.slick/1.3.7/slick.css'>
+    	<link rel='stylesheet' href='https://cdn.jsdelivr.net/jquery.slick/1.3.7/slick.css'>
     	<style class="cp-pen-styles">   
 	      .content{
 	          min-height:200px;
@@ -103,10 +102,10 @@
 			</div>		
 			
 		</div>
-		<script src='http://cdn.foundation5.zurb.com/foundation.js'></script>
-		<script src='http://cdn.jsdelivr.net/jquery.slick/1.3.7/slick.min.js'></script>
+		<script src='https://cdn.foundation5.zurb.com/foundation.js'></script>
+		<script src='https://cdn.jsdelivr.net/jquery.slick/1.3.7/slick.min.js'></script>
 		<script>
-			$(document).foundation();
+			$(document).foundation;
 			var $windowWidth = $(window).width();
 			$(window).resize(function () {
 			    var $windowWidth = $(window).width();
@@ -120,7 +119,7 @@
 			            dots: false
 			        });
 			    } else {
-			        $('.slick-multislider').unslick();
+			        $('.slick-multislider').unslick;
 			        $('.slick-multislider').slick({
 			            slidesToShow: 4,
 			            slidesToScroll: 3,
