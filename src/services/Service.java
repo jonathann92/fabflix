@@ -1,12 +1,20 @@
 package services;
 
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import objects.*;
 import java.util.List;
 import java.util.ArrayList;
+
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -67,13 +75,6 @@ public class Service {
 		return g;
 	}
 	
-	public static List<Movie> subMovieList(List<Movie> movieList, int rows, int page){
-		int high = rows * page - 1;
-		int low = rows * page - rows;
-		if(low > movieList.size() - 1) return movieList;
-		return movieList.subList(low, high > movieList.size() ? movieList.size() : high);
-	}
-	
 	public static void doXMLStuff(String title, String director, String year, String starFirst, String starLast, String genre)
 	 {
 		 	try {
@@ -91,4 +92,22 @@ public class Service {
 	            e.printStackTrace();
 	        }
    }
+	
+	public static JsonArray movieList_JSON(List<Movie> movieList){
+		JsonArrayBuilder arrayFactory = Json.createArrayBuilder();
+		
+		for(Movie m : movieList){
+			arrayFactory.add(Json.createObjectBuilder()
+					        .add("id", m.getId())
+							.add("title", m.getTitle())
+							.add("year", m.getYear())
+							.add("director", m.getDirector())
+							.add("banner", m.getBanner())
+							.add("trailer", m.getTrailer())
+							);
+		}
+		
+		return arrayFactory.build();
+	}
+	
 }

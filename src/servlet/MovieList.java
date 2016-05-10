@@ -41,6 +41,8 @@ public class MovieList extends HttpServlet {
         
         List<Movie> movieList = SearchService.movieListQuery(sql);
         
+        Service.movieList_JSON(movieList);
+        
         request.setAttribute("movieList", movieList);
         request.setAttribute("prevpage", prevPage);
         
