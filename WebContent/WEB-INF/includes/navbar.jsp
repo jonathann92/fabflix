@@ -30,7 +30,9 @@ function ajaxFunction(){
 		if(ajaxRequest.readyState == 4){
 			document.searchbox.autocomplete.value = ajaxRequest.responseText;
 			document.getElementById('autocompletebox').innerHTML = ajaxRequest.responseText;
-
+			document.getElementById('autocompletebox').style.border = "1px solid";
+			if(ajaxRequest.responseText.length == 0)
+				document.getElementById('autocompletebox').style.border = "none";
 		}
 	}
 	ajaxRequest.open("GET", "${context}/AutoComplete?title=" + input, true);
@@ -55,9 +57,9 @@ function ajaxFunction(){
           
           <div id="navbar" class="navbar-collapse collapse">
           <form name="searchbox" action="AdvSearch" class="navbar-form navbar-left" role="search">
-          	<div class="form-group">
+          	<div class="form-group" style="position: relative; overflow: visible;">
 		      <input id="inputBox" type="text" onkeyup="ajaxFunction();" class="form-control" name=title placeholder="Enter title" value="${title }" autocomplete="off" >
-		      <div id="autocompletebox" style="background: white; ">
+		      <div id="autocompletebox">
 			  </div>
 		    </div>
 		    

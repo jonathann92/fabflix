@@ -25,3 +25,7 @@ table, th, td {
 .error-message{
 	color: red;
 }
+
+#autocompletebox{
+position:absolute; width: 300px; z-index: 999; background-color: #e0e0e0;
+}

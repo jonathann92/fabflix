@@ -36,7 +36,8 @@ public class AutoComplete extends HttpServlet {
 	        
 			List<Movie> movieList = AutoCompleteService.queryMovieList(sql);
 			request.setAttribute("movieList", movieList);
-			Service.forward(request, response, "/WEB-INF/autocomplete.jsp");
+			if(movieList.size() > 0)
+				Service.forward(request, response, "/WEB-INF/autocomplete.jsp");
         }
 	}
 	
