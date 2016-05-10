@@ -248,5 +248,4 @@ public class MovieService extends Service {
 		
 		return movies;
 	}
-	
 }

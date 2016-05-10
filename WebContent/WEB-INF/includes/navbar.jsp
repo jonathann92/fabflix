@@ -1,4 +1,46 @@
-<nav class="navbar navbar-default">
+<script language="javascript" type="text/javascript">
+var count = 0;
+//Browser Support Code
+function ajaxFunction(){
+	if(++count % 2 == 0){
+		return;
+	}
+	
+	var ajaxRequest;  // The variable that makes Ajax possible!
+	var input = document.getElementById('inputBox').value;
+	try{
+		// Opera 8.0+, Firefox, Safari
+		ajaxRequest = new XMLHttpRequest();
+	} catch (e){
+		// Internet Explorer Browsers
+		try{
+			ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
+		} catch (e) {
+			try{
+				ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+			} catch (e){
+				// Something went wrong
+				alert("Your browser broke!");
+				return false;
+			}
+		}
+	}
+	// Create a function that will receive data sent from the server
+	ajaxRequest.onreadystatechange = function(){
+		if(ajaxRequest.readyState == 4){
+			document.searchbox.autocomplete.value = ajaxRequest.responseText;
+			document.getElementById('autocompletebox').innerHTML = ajaxRequest.responseText;
+
+		}
+	}
+	ajaxRequest.open("GET", "${context}/AutoComplete?title=" + input, true);
+	ajaxRequest.send(null);
+}
+
+
+</script>
+
+<nav class="navbar navbar-default" style="max-height: 50px; overflow=visible">
         <div class="container-fluid">
           <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -12,6 +54,17 @@
           
           
           <div id="navbar" class="navbar-collapse collapse">
+          <form name="searchbox" action="AdvSearch" class="navbar-form navbar-left" role="search">
+          	<div class="form-group">
+		      <input id="inputBox" type="text" onkeyup="ajaxFunction();" class="form-control" name=title placeholder="Enter title" value="${title }" autocomplete="off" >
+		      <div id="autocompletebox" style="background: white; ">
+			  </div>
+		    </div>
+		    
+		    <button  type="submit" style="visibility:hidden; display: none" class="btn btn-default"></button>
+          </form>
+          
+          <!-- 
 			<form class="navbar-form navbar-left" role="search" id="frm1">
 			  <div class="form-group">
 			    <input type="text" class="form-control" placeholder="Search" name="search">
@@ -48,6 +101,7 @@
 		
 	  		
 			</form>
+			 -->
 			<ul class="nav navbar-nav">
 				<li>
 					<a href="${context}/search.jsp" style="text-decoration: underline;">Advanced Search</a>
@@ -80,3 +134,4 @@
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
       </nav>
+     

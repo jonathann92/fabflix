@@ -45,22 +45,24 @@ public class AdvSearch extends HttpServlet {
         {
         	String query = "id=" + id + "&title=" + title + "&year=" + year + "&director=" + director + "&first=" + first + "&last="+last;
         	String sql;
-        	if(first.length() > 0 || last.length() > 0){
-    			sql = "select movies.* from movies, stars, stars_in_movies " 
-    					+ (title.length() > 0 ? "where movies.title like '%"+ title + "%' " : "" )
-    					+ (director.length() > 0 ? "and movies.director like '%" + director +"%' " : "")
-    					+ (year.length() > 0 ? "and movies.year like '%" + year+ "%' " : "" )
-    					+ (first.length() > 0 ? "and stars.first like '%" + first + "%' " : "" )
-    					+ (last.length() > 0 ? "and stars.last like '%" + last + "%' " : "" )
-    					+ "and stars.id = stars_in_movies.star_id "
-    					+ "and movies.id = stars_in_movies.movie_id "
-    					+ (id.length() > 0 ? "and movies.id = " + id : "") ;
+        	if(isValid(first) || isValid(last)){
+    			sql = "select movies.* from movies, stars, stars_in_movies where" 
+    					+ (isValid(title) ? " movies.title like '%"+ title + "%' and" : "" )
+    					+ (isValid(director) ? " movies.director like '%" + director +"%' and" : "")
+    					+ (isValid(year) ? "  movies.year = " + year + " and": "" )
+    					+ (isValid(first) ? "  stars.first like '%" + first + "%' and" : "" )
+    					+ (isValid(last) ? "  stars.last like '%" + last + "%' and" : "" )
+    					+ " stars.id = stars_in_movies.star_id and"
+    					+ " movies.id = stars_in_movies.movie_id and"
+    					+ (isValid(id) ? " movies.id = " + id + " and": "") 
+    					+ " true";
     		} else {
-    			sql = "select * from movies "
-    					+ (title.length() > 0 ? "where title like '%"+ title + "%' " : "" )
-    					+ (director.length() > 0 ? "and director like '%" + director +"%' " : "")
-    					+ (year.length() > 0 ? "and year like '%" + year+ "%' " : "")
-    					+ (id.length() > 0 ? "and id = " + id : "");				
+    			sql = "select * from movies where"
+    					+ (isValid(title) ? " title like '%"+ title + "%' and" : "" )
+    					+ (isValid(director) ? " director like '%" + director +"%' and" : "")
+    					+ (isValid(year) ? " year = " + year +" and" : "")
+    					+ (isValid(id) ? " id = " + id + " and": "")
+    					+ " true";
     		} 
         	
 	    	request.setAttribute("prevpage", "AdvSearch");
@@ -75,23 +77,28 @@ public class AdvSearch extends HttpServlet {
 	private boolean checkParameters(HttpServletRequest request, HttpServletResponse response, String idParam, String title,
 			String year, String director, String first, String last) {
 		String error;
-		if(idParam.length() == 0 && title.length() == 0 && year.length() == 0 && director.length() == 0 &&  first.length() == 0 && last.length() == 0)
+
+		if(isValid(idParam) || isValid(title) || isValid(year) || isValid(director) || isValid(first) || isValid(last))
         {
-        	error = "No parameters given";
-        	request.setAttribute("error", error);
-        	Service.forward(request, response, "/AdvancedSearch.jsp");
-        	return false;
+			return true;
         }
-		return true;
+		error = "No parameters given";
+    	request.setAttribute("error", error);
+    	Service.forward(request, response, "/AdvancedSearch.jsp");
+    	return false;
+	}
+	
+	private boolean isValid(String s){
+		return s != null && s.length() > 0;
 	}
 
 	private boolean checkIntParam(HttpServletRequest request, HttpServletResponse response, String idParam, String title,
 			String year, String director, String first, String last) throws IOException 
 	{
         try{
-        	if(idParam.length() > 0)
+        	if(idParam != null && idParam.length() > 0)
         		Integer.parseInt(idParam);
-        	if(year.length() > 0)
+        	if(year != null && year.length() > 0)
         		Integer.parseInt(year);
         } catch (Exception e){
         	String error = "ID or Year is not an integer";
