@@ -6,26 +6,40 @@
     import="objects.*, java.util.*, java.io.*"%>
 
 <style>
-/* unvisited link */
-.autocomplete-li a:link {
-    color: black;
-}
-
-ul{
-	list-style-type: none; padding:0; margin:0;
-}
-
 .autocomplete-li{
-	border-bottom: 1px solid; padding: 3px 0px 3px; color: black;
+	 padding: 3px 0px 3px; color: black;
 }
 
+.autocomplete-div{
+border-bottom: 1px solid;
+display: list-item;
 }
+
+
+a.autocomplete{
+	padding: 5px 7px 5px 7px;
+	display: list-item;
+	color: black;
+}
+
+div.autocomplete-div:nth-child(odd){
+	background-color: #f0f0f0;
+}
+
+div.autocomplete-div:nth-child(even){
+	background-color: #e0e0e0;
+	
+}
+
 </style>
   
-<ul>
+
 <c:forEach items="${movieList }" var="movie">
-<li class="autocomplete-li">
-<a href="${context}/MoviePage?id=${movie.id }">${movie.title }</a>
-</li>
+
+	<div  class="autocomplete-div hvr-reveal">
+		<a href="${context}/MoviePage?id=${movie.id }" class="autocomplete">${movie.title }</a>
+	</div>
+
+
 </c:forEach>
-</ul>
+

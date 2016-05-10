@@ -28,7 +28,6 @@ function ajaxFunction(){
 	// Create a function that will receive data sent from the server
 	ajaxRequest.onreadystatechange = function(){
 		if(ajaxRequest.readyState == 4){
-			document.searchbox.autocomplete.value = ajaxRequest.responseText;
 			document.getElementById('autocompletebox').innerHTML = ajaxRequest.responseText;
 			document.getElementById('autocompletebox').style.border = "1px solid";
 			if(ajaxRequest.responseText.length == 0)

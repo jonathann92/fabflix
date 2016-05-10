@@ -27,5 +27,5 @@ table, th, td {
 }
 
 #autocompletebox{
-position:absolute; width: 300px; z-index: 999; background-color: #e0e0e0;
+position:absolute; width: 300px; z-index: 999;
 }
