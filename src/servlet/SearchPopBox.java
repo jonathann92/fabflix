@@ -30,8 +30,8 @@ public class SearchPopBox extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		PrintWriter out = response.getWriter();
-		
-		
+		String id = request.getParameter("id");
+		out.println("MOVIE POP BOX FOR " + id + " goes here");
 	}
 
 	/**
