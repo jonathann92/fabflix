@@ -3,7 +3,7 @@
 <head>
 <%@include file="/WEB-INF/includes/head.jsp" %>
 <style>
-			.popbox {
+			#pop1 {
 				border: 1px solid #4D4F53;
 			    display: none;
 			    position: absolute;
@@ -185,17 +185,18 @@
 			
 		    var target = '#' + ($(this).attr('data-popbox'));
 		    
-
-		    $(target).show();
+		   $(target).show();
+		    
 		    moveLeft = $(this).outerWidth();
 		    moveDown = ($(target).outerHeight() / 2);
 		}, function () {
 		    var target = '#' + ($(this).attr('data-popbox'));
 		    if (!($("a.popper").hasClass ("show"))) {
+			    
 		        $(target).hide();
 		    }
 		});
-
+		
 		$('a.popper').mousemove(function (e) {
 		    var target = '#' + ($(this).attr('data-popbox'));
 		    
@@ -223,13 +224,7 @@
 
 		    $(target).css('top', topD).css('left', leftD);
 		});
-		$('a.popper').click(function (e) {
-		    var target = '#' + ($(this).attr('data-popbox'));
-		    if (!($(this).hasClass("show"))) {
-		        $(target).show();
-		    }
-		    $(this).toggleClass("show");
-		});
+		
 		</script>
 
 

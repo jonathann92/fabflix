@@ -12,7 +12,7 @@
 
 .autocomplete-div{
 border-bottom: 1px solid;
-display: list-item;
+display: list-item !important;
 }
 
 
