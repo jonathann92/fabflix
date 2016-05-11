@@ -8,10 +8,10 @@
 			    display: none;
 			    position: absolute;
 			    z-index: 99999;
-			    width: 400px;
-			    height: 400px;
+			    max-width: 100%;
+			    max-height: 700px;
 			    padding: 10px;
-			    overflow: hidden;
+			    overflow: visible;
 			    background-color: white;
 			    /*
 			    background: #EEEFEB;

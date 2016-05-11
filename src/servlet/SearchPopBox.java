@@ -41,6 +41,7 @@ public class SearchPopBox extends HttpServlet {
 		Movie m = MovieService.getMovieInfo(id);
 		Set<Star> stars = MovieService.getStarList(id);
 		Set<Genre> genres = MovieService.getGenreList(id);
+		System.out.println(stars.size());
 		
 		request.setAttribute("movie", m);
 		request.setAttribute("stars", stars);		
