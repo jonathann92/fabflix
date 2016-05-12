@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import javax.json.Json;
+import javax.json.JsonObjectBuilder;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import objects.Movie;
+import services.JSONService;
 import services.SearchService;
 import services.Service;
 
@@ -24,6 +27,7 @@ import services.Service;
 @WebServlet("/MovieList")
 public class MovieList extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	int count;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -34,24 +38,32 @@ public class MovieList extends HttpServlet {
         HttpSession session = request.getSession(true);
         
         String prevPage = (String) request.getAttribute("prevpage");
+        String params = (String) request.getAttribute("query");
+		String jsonParam = request.getParameter("json");
+
         String sql = processQuery(request);
         
-        out.print(sql);
         System.out.println(sql);
         
         List<Movie> movieList = SearchService.movieListQuery(sql);
-                
-        request.setAttribute("movieList", movieList);
-        request.setAttribute("prevpage", prevPage);
         
-        Service.forward(request, response, "/WEB-INF/SearchResults.jsp");
-        System.out.println();
+        if(jsonParam != null && jsonParam.equals("true")){
+        	JsonObjectBuilder factory = Json.createObjectBuilder();
+        	factory.add("movieList", JSONService.movieList_JSON(movieList));
+        	out.print(factory.build());
+        } else {
+	        request.setAttribute("movieList", movieList);
+	        request.setAttribute("prevpage", prevPage);
+	        
+	        Service.forward(request, response, "/WEB-INF/SearchResults.jsp");
+	        System.out.println();
+        }
 	}
 
 	private String processQuery(HttpServletRequest request) {
         String sql = (String) request.getAttribute("sql");
         
-        int count = SearchService.querySize(sql);
+        count = SearchService.querySize(sql);
         request.setAttribute("count", count);
         System.out.println("SIZE: " + count);
         

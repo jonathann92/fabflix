@@ -43,7 +43,7 @@ public class AdvSearch extends HttpServlet {
         
         if(checkParameters(request, response, id, title, year, director, first, last) && checkIntParam(request, response, id, title, year, director, first, last) )
         {
-        	String query = "id=" + id + "&title=" + title + "&year=" + year + "&director=" + director + "&first=" + first + "&last="+last;
+        	String query = formQuery(id, title, year, director, first, last);
         	String sql;
         	if(isValid(first) || isValid(last)){
     			sql = "select movies.* from movies, stars, stars_in_movies where" 
@@ -72,6 +72,17 @@ public class AdvSearch extends HttpServlet {
 			
         }
         
+	}
+
+	private String formQuery(String id, String title, String year, String director, String first, String last) {
+		String query = "";
+		query += id != null ? "&id=" + id : "";
+		query += title != null ? "&title=" + title : "";
+		query += year != null ? "&year=" + year : "";
+		query += director != null ? "&director=" + director : "";
+		query += first != null ? "&first=" + first : "";
+		query += last != null ? "&last=" + last : "";
+		return query;
 	}
 	
 	private boolean checkParameters(HttpServletRequest request, HttpServletResponse response, String idParam, String title,

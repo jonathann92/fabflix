@@ -93,21 +93,6 @@ public class Service {
 	        }
    }
 	
-	public static JsonArray movieList_JSON(List<Movie> movieList){
-		JsonArrayBuilder arrayFactory = Json.createArrayBuilder();
-		
-		for(Movie m : movieList){
-			arrayFactory.add(Json.createObjectBuilder()
-					        .add("id", m.getId())
-							.add("title", m.getTitle())
-							.add("year", m.getYear())
-							.add("director", m.getDirector())
-							.add("banner", m.getBanner())
-							.add("trailer", m.getTrailer())
-							);
-		}
-		
-		return arrayFactory.build();
-	}
+
 	
 }

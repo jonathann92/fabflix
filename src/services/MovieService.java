@@ -51,8 +51,8 @@ public class MovieService extends Service {
 		return m;
 	}
 	
-	public List<Star> getStarList() {
-		List<Star> s = null;
+	public Set<Star> getStarList() {
+		Set<Star> s = null;
 		Connection conn = null;
 		Statement select = null;
 		ResultSet rs = null;
@@ -63,7 +63,7 @@ public class MovieService extends Service {
 			select = (Statement) conn.createStatement();
 			String sql = "SELECT s.* FROM stars as s, movies as m, stars_in_movies as sm WHERE m.id = " + movieId + " AND sm.movie_id = m.id AND sm.star_id = s.id;";
 			rs = (ResultSet) select.executeQuery(sql);
-			s = new ArrayList<>();
+			s = new HashSet<>();
 			
 			while (rs.next()) {
 				s.add(new Star(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5)));
