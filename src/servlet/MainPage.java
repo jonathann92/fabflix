@@ -29,7 +29,7 @@ public class MainPage extends HttpServlet {
         
         Service.forward(request, response, "/MainPage.jsp");
     }
-
+    //aye yo bitch! look here
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
