@@ -45,31 +45,51 @@ public class LoginPage extends HttpServlet {
         String password = request.getParameter("password");
         String referrer = (String) session.getAttribute("refpage");
         String context = request.getContextPath();
+        String json = request.getParameter("json");
         String redirect = "";
-        out.print(context);
-        out.print("REF: " + referrer);
         
         String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
+        Customer user = null;
+        
         
         try{
-        	Customer user = custInfo(username, password);
-	        if(user != null && VerifyRecaptcha.verify(gRecaptchaResponse)){
-	        	out.print("SUCCESS");
-	        	session.setAttribute("user", user);
-	        	session.removeAttribute("Referer");
-	        	session.removeAttribute("refpage");
-	        	redirect = context;
-	        } else {
-	        	session.setAttribute("error", "Invalid Credentials");
-	        	redirect = context + "/LoginPrompt.jsp";
-	        	
-	        }
+        	user = custInfo(username, password);
         } catch (Exception e){
         	session.setAttribute("error", "SQL Server Down");
         	redirect = context + "/LoginPrompt.jsp";
         }
-                
-        response.sendRedirect(redirect);
+        
+        if(json != null && json.equals("true")){
+        	System.out.println("JAMES IS ATTACKING! HIDE YO KIDS HIDE YO WIFE");
+        	if(user != null){
+        		System.out.println("shit we just got fucked");
+        		out.print("true");
+        	} else {
+        		System.out.println("Get outta here james");
+        		out.print("false");
+        	}
+        } else {
+	        browserLogin(response, out, session, context, gRecaptchaResponse, user);
+        }
+	}
+
+
+	private void browserLogin(HttpServletResponse response, PrintWriter out, HttpSession session, String context,
+			String gRecaptchaResponse, Customer user) throws IOException {
+		String redirect;
+		if(user != null && VerifyRecaptcha.verify(gRecaptchaResponse)){
+			out.print("SUCCESS");
+			session.setAttribute("user", user);
+			session.removeAttribute("Referer");
+			session.removeAttribute("refpage");
+			redirect = context;
+		} else {
+			session.setAttribute("error", "Invalid Credentials");
+			redirect = context + "/LoginPrompt.jsp";
+			
+		}
+		        
+		response.sendRedirect(redirect);
 	}
 
 	/**
