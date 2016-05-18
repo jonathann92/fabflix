@@ -32,6 +32,9 @@ public class AdvSearch extends HttpServlet {
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession(true);
         
+        String OS = System.getProperty("os.name");
+        //System.out.println(OS);
+        
         String error = null;
         
         String id = request.getParameter("id");
@@ -45,33 +48,82 @@ public class AdvSearch extends HttpServlet {
         {
         	String query = formQuery(id, title, year, director, first, last);
         	String sql;
-        	if(isValid(first) || isValid(last)){
-    			sql = "select movies.* from movies, stars, stars_in_movies where" 
-    					+ (isValid(title) ? " movies.title like '%"+ title + "%' and" : "" )
-    					+ (isValid(director) ? " movies.director like '%" + director +"%' and" : "")
-    					+ (isValid(year) ? "  movies.year = " + year + " and": "" )
-    					+ (isValid(first) ? "  stars.first like '%" + first + "%' and" : "" )
-    					+ (isValid(last) ? "  stars.last like '%" + last + "%' and" : "" )
-    					+ " stars.id = stars_in_movies.star_id and"
-    					+ " movies.id = stars_in_movies.movie_id and"
-    					+ (isValid(id) ? " movies.id = " + id + " and": "") 
-    					+ " true";
-    		} else {
-    			sql = "select * from movies where"
-    					+ (isValid(title) ? " title like '%"+ title + "%' and" : "" )
-    					+ (isValid(director) ? " director like '%" + director +"%' and" : "")
-    					+ (isValid(year) ? " year = " + year +" and" : "")
-    					+ (isValid(id) ? " id = " + id + " and": "")
-    					+ " true";
-    		} 
         	
-	    	request.setAttribute("prevpage", "AdvSearch");
-	    	request.setAttribute("query", query);
-        	request.setAttribute("sql", sql);
-	    	Service.forward(request, response, "/MovieList");
+        	
+//        	if(OS.toLowerCase().contains("zzzzzz"))
+//        		sql = windowsSQL(id, title, year, director, first, last); 
+//        	else 
+//        	{
+        		if(isValid(first) || isValid(last)){
+        			sql = "select movies.* from movies, stars, stars_in_movies where " 
+        					+ (isValid(title) ? fuzzyTitle(title) : "" )
+        					+ (isValid(director) ? fuzzyAttr("movies.director", director) : "")
+        					+ (isValid(year) ? "  movies.year = " + year + " and": "" )
+        					+ (isValid(first) ? fuzzyAttr("stars.first", first) : "" )
+        					+ (isValid(last) ? fuzzyAttr("stars.last", last) : "" )
+        					+ " stars.id = stars_in_movies.star_id and"
+        					+ " movies.id = stars_in_movies.movie_id and"
+        					+ (isValid(id) ? " movies.id = " + id + " and": "") 
+        					+ " true";
+        		} else {
+        			sql = "select * from movies where"
+        					+ (isValid(title) ? fuzzyTitle(title) : "" )
+        					+ (isValid(director) ? fuzzyAttr("director", director) : "")
+        					+ (isValid(year) ? " year = " + year +" and" : "")
+        					+ (isValid(id) ? " id = " + id + " and": "")
+        					+ " true";
+        		}
+//        	}
+        	
+        	System.out.println(sql);
+        	out.print(sql);
+        	
+//	    	request.setAttribute("prevpage", "AdvSearch");
+//	    	request.setAttribute("query", query);
+//        	request.setAttribute("sql", sql);
+//	    	Service.forward(request, response, "/MovieList");
 			
         }
         
+	}
+	
+	private String fuzzyAttr(String attr, String parameter){
+		return " edrec(lower('" + parameter + "'), lower(" + attr + "), 2) and ";
+	}
+	
+	private String fuzzyTitle(String title){
+		String sql = "";
+		String[] tokens = title.split("\\W+");
+		
+		for(String s: tokens){
+			sql += fuzzyAttr("movies.title", s);
+		}
+		
+		return sql;
+	}
+
+	private String windowsSQL(String id, String title, String year, String director, String first, String last) {
+		String sql;
+		if(isValid(first) || isValid(last)){
+			sql = "select movies.* from movies, stars, stars_in_movies where" 
+					+ (isValid(title) ? " movies.title like '%"+ title + "%' and" : "" )
+					+ (isValid(director) ? " movies.director like '%" + director +"%' and" : "")
+					+ (isValid(year) ? "  movies.year = " + year + " and": "" )
+					+ (isValid(first) ? "  stars.first like '%" + first + "%' and" : "" )
+					+ (isValid(last) ? "  stars.last like '%" + last + "%' and" : "" )
+					+ " stars.id = stars_in_movies.star_id and"
+					+ " movies.id = stars_in_movies.movie_id and"
+					+ (isValid(id) ? " movies.id = " + id + " and": "") 
+					+ " true";
+		} else {
+			sql = "select * from movies where"
+					+ (isValid(title) ? " title like '%"+ title + "%' and" : "" )
+					+ (isValid(director) ? " director like '%" + director +"%' and" : "")
+					+ (isValid(year) ? " year = " + year +" and" : "")
+					+ (isValid(id) ? " id = " + id + " and": "")
+					+ " true";
+		}
+		return sql;
 	}
 
 	private String formQuery(String id, String title, String year, String director, String first, String last) {
