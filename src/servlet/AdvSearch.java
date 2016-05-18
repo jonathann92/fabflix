@@ -44,16 +44,18 @@ public class AdvSearch extends HttpServlet {
         String first = request.getParameter("first");
         String last = request.getParameter("last");
         
+        System.out.println(OS);
+        
         if(checkParameters(request, response, id, title, year, director, first, last) && checkIntParam(request, response, id, title, year, director, first, last) )
         {
         	String query = formQuery(id, title, year, director, first, last);
         	String sql;
         	
         	
-//        	if(OS.toLowerCase().contains("zzzzzz"))
-//        		sql = windowsSQL(id, title, year, director, first, last); 
-//        	else 
-//        	{
+        	if(OS.toLowerCase().contains("windows"))
+        		sql = windowsSQL(id, title, year, director, first, last); 
+        	else 
+        	{
         		if(isValid(first) || isValid(last)){
         			sql = "select movies.* from movies, stars, stars_in_movies where " 
         					+ (isValid(title) ? fuzzyTitle(title) : "" )
@@ -73,15 +75,15 @@ public class AdvSearch extends HttpServlet {
         					+ (isValid(id) ? " id = " + id + " and": "")
         					+ " true";
         		}
-//        	}
+        	}
         	
         	System.out.println(sql);
         	out.print(sql);
         	
-//	    	request.setAttribute("prevpage", "AdvSearch");
-//	    	request.setAttribute("query", query);
-//        	request.setAttribute("sql", sql);
-//	    	Service.forward(request, response, "/MovieList");
+	    	request.setAttribute("prevpage", "AdvSearch");
+	    	request.setAttribute("query", query);
+        	request.setAttribute("sql", sql);
+	    	Service.forward(request, response, "/MovieList");
 			
         }
         
@@ -106,7 +108,7 @@ public class AdvSearch extends HttpServlet {
 		String sql;
 		if(isValid(first) || isValid(last)){
 			sql = "select movies.* from movies, stars, stars_in_movies where" 
-					+ (isValid(title) ? " movies.title like '%"+ title + "%' and" : "" )
+					+ (isValid(title) ? titleQuery(title) : "" )
 					+ (isValid(director) ? " movies.director like '%" + director +"%' and" : "")
 					+ (isValid(year) ? "  movies.year = " + year + " and": "" )
 					+ (isValid(first) ? "  stars.first like '%" + first + "%' and" : "" )
@@ -117,12 +119,23 @@ public class AdvSearch extends HttpServlet {
 					+ " true";
 		} else {
 			sql = "select * from movies where"
-					+ (isValid(title) ? " title like '%"+ title + "%' and" : "" )
+					+ (isValid(title) ? titleQuery(title) : "" )
 					+ (isValid(director) ? " director like '%" + director +"%' and" : "")
 					+ (isValid(year) ? " year = " + year +" and" : "")
 					+ (isValid(id) ? " id = " + id + " and": "")
 					+ " true";
 		}
+		return sql;
+	}
+	
+	private String titleQuery(String title){
+		String sql = "";
+		String[] tokens = title.split("\\W+");
+		
+		for(String s : tokens){
+			sql += " movies.title like '%" + s + "%' and";
+		}
+		
 		return sql;
 	}
 
