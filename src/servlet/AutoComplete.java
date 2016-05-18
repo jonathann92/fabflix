@@ -46,9 +46,12 @@ public class AutoComplete extends HttpServlet {
 		
 		
 		String sql = "select id, title from movies where true ";
-		for(String token: tokens){
-			sql += "and title rlike '[[:<:]]" + token + ".*' ";
+		
+		for(int i = 0; i < tokens.length - 1; ++i){
+			sql += "and title like '%" + tokens[i] + "%' ";
 		}
+		
+		sql += "and title rlike '[[:<:]]" + tokens[tokens.length - 1] + ".*' ";
 		
 		sql += "limit 10;";
 		return sql;
