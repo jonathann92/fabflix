@@ -63,9 +63,6 @@ public class VerifyRecaptcha {
         }
         in.close();
  
-        // print result
-        System.out.println(response.toString());
-
         //parse JSON response and return 'success' value
         JsonReader jsonReader = Json.createReader(new StringReader(response.toString()));
         JsonObject jsonObject = jsonReader.readObject();

@@ -1,10 +1,7 @@
 <script language="javascript" type="text/javascript">
-var count = 0;
 //Browser Support Code
 function ajaxFunction(){
-	if(++count % 2 == 0){
-		return;
-	}
+
 	
 	var ajaxRequest;  // The variable that makes Ajax possible!
 	var input = document.getElementById('inputBox').value;
