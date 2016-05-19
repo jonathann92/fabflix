@@ -1,10 +1,17 @@
 <script language="javascript" type="text/javascript">
-var count = 0;
+
+$('#autocomplete').autocomplete({
+	input = document.getElementById('inputBox').value;
+    serviceUrl: '${context}/AutoComplete?title=' + input,
+    onSelect: function (suggestion) {
+        alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
+    }
+});
+
+
 //Browser Support Code
 function ajaxFunction(){
-	if(++count % 2 == 0){
-		return;
-	}
+
 	
 	var ajaxRequest;  // The variable that makes Ajax possible!
 	var input = document.getElementById('inputBox').value;
