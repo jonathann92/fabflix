@@ -1,14 +1,4 @@
 <script language="javascript" type="text/javascript">
-
-$('#autocomplete').autocomplete({
-	input = document.getElementById('inputBox').value;
-    serviceUrl: '${context}/AutoComplete?title=' + input,
-    onSelect: function (suggestion) {
-        alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
-    }
-});
-
-
 //Browser Support Code
 function ajaxFunction(){
 
