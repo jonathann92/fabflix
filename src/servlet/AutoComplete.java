@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+import javax.json.Json;
+import javax.json.JsonObjectBuilder;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import objects.Movie;
 import services.AutoCompleteService;
+import services.JSONService;
 import services.Service;
 
 /**
@@ -29,15 +32,23 @@ public class AutoComplete extends HttpServlet {
     	response.setContentType("text/html");
         PrintWriter out = response.getWriter();
         String title = request.getParameter("title");
+        
+        System.out.println("Calling AutoComplete servlet");
 		
         if(title.length() > 0){
 	        String sql = generateSQL(title);
 	        System.out.println(sql);
 	        
 			List<Movie> movieList = AutoCompleteService.queryMovieList(sql);
-			request.setAttribute("movieList", movieList);
-			if(movieList.size() > 0)
-				Service.forward(request, response, "/WEB-INF/autocomplete.jsp");
+			JsonObjectBuilder factory = Json.createObjectBuilder();
+			factory.add("suggestions", JSONService.autocompleteMovieList_JSON(movieList));
+			out.print(factory.build());
+			
+			
+//			request.setAttribute("movieList", movieList);
+//			if(movieList.size() > 0)
+//				Service.forward(request, response, "/WEB-INF/autocomplete.jsp");
+			
         }
 	}
 	

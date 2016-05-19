@@ -55,6 +55,19 @@ public class JSONService {
 		return arrayFactory;
 	}
 	
+	public static JsonArrayBuilder autocompleteMovieList_JSON(List<Movie> movieList){
+		JsonArrayBuilder arrayFactory = Json.createArrayBuilder();
+		
+		for(Movie m :movieList){
+			arrayFactory.add(Json.createObjectBuilder()
+					     	 	 .add("value", m.getTitle())
+					     	 	 .add("id", m.getId())
+					     	 	 );
+		}
+		
+		return arrayFactory;
+	}
+	
 	public static JsonArrayBuilder movieList_JSON(List<Movie> movieList){
 		JsonArrayBuilder arrayFactory = Json.createArrayBuilder();
 		
