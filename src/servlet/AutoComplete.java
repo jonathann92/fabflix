@@ -40,14 +40,14 @@ public class AutoComplete extends HttpServlet {
 	        System.out.println(sql);
 	        
 			List<Movie> movieList = AutoCompleteService.queryMovieList(sql);
-			JsonObjectBuilder factory = Json.createObjectBuilder();
-			factory.add("suggestions", JSONService.autocompleteMovieList_JSON(movieList));
-			out.print(factory.build());
+//			JsonObjectBuilder factory = Json.createObjectBuilder();
+//			factory.add("suggestions", JSONService.autocompleteMovieList_JSON(movieList));
+//			out.print(factory.build());
 			
 			
-//			request.setAttribute("movieList", movieList);
-//			if(movieList.size() > 0)
-//				Service.forward(request, response, "/WEB-INF/autocomplete.jsp");
+			request.setAttribute("movieList", movieList);
+			if(movieList.size() > 0)
+				Service.forward(request, response, "/WEB-INF/autocomplete.jsp");
 			
         }
 	}

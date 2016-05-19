@@ -56,25 +56,7 @@ public class AdvSearch extends HttpServlet {
         		sql = windowsSQL(id, title, year, director, first, last); 
         	else 
         	{
-        		if(isValid(first) || isValid(last)){
-        			sql = "select movies.* from movies, stars, stars_in_movies where " 
-        					+ (isValid(title) ? fuzzyTitle(title) : "" )
-        					+ (isValid(director) ? fuzzyAttr("movies.director", director) : "")
-        					+ (isValid(year) ? "  movies.year = " + year + " and": "" )
-        					+ (isValid(first) ? fuzzyAttr("stars.first", first) : "" )
-        					+ (isValid(last) ? fuzzyAttr("stars.last", last) : "" )
-        					+ " stars.id = stars_in_movies.star_id and"
-        					+ " movies.id = stars_in_movies.movie_id and"
-        					+ (isValid(id) ? " movies.id = " + id + " and": "") 
-        					+ " true";
-        		} else {
-        			sql = "select * from movies where"
-        					+ (isValid(title) ? fuzzyTitle(title) : "" )
-        					+ (isValid(director) ? fuzzyAttr("director", director) : "")
-        					+ (isValid(year) ? " year = " + year +" and" : "")
-        					+ (isValid(id) ? " id = " + id + " and": "")
-        					+ " true";
-        		}
+        		sql = fuzzySearchSQL(id, title, year, director, first, last);
         	}
         	
         	System.out.println(sql);
@@ -88,17 +70,45 @@ public class AdvSearch extends HttpServlet {
         }
         
 	}
-	
-	private String fuzzyAttr(String attr, String parameter){
-		return " edrec(lower('" + parameter + "'), lower(" + attr + "), 2) and ";
+
+	private String fuzzySearchSQL(String id, String title, String year, String director, String first, String last) {
+		String sql;
+		if(isValid(first) || isValid(last)){
+			sql = "select movies.* from movies, stars, stars_in_movies where " 
+					+ (isValid(title) ? fuzzyString(title, "movies.title") : "" )
+					+ (isValid(director) ? fuzzyString(director, "movies.director") : "")
+					+ (isValid(year) ? "  movies.year = " + year + " and": "" )
+					+ (isValid(first) ? fuzzyKeyword(first, "stars.first") : "" )
+					+ (isValid(last) ? fuzzyKeyword(last, "stars.last") : "" )
+					+ " stars.id = stars_in_movies.star_id and"
+					+ " movies.id = stars_in_movies.movie_id and"
+					+ (isValid(id) ? " movies.id = " + id + " and": "") 
+					+ " true";
+		} else {
+			sql = "select * from movies where"
+					+ (isValid(title) ? fuzzyString(title, "title") : "" )
+					+ (isValid(director) ? fuzzyString(director, "director") : "")
+					+ (isValid(year) ? " year = " + year +" and" : "")
+					+ (isValid(id) ? " id = " + id + " and": "")
+					+ " true";
+		}
+		return sql;
 	}
 	
-	private String fuzzyTitle(String title){
+	private String fuzzyKeyword(String keyword, String attr){
+		return " edth(lower('"+keyword +"'), lower(" + attr +"), 1) and ";
+	}
+	
+	private String fuzzyAttr(String parameter, String attr){
+		return " edrec(lower('" + parameter + "'), lower(" + attr + "), 1) and ";
+	}
+	
+	private String fuzzyString(String title, String attr){
 		String sql = "";
 		String[] tokens = title.split("\\W+");
 		
 		for(String s: tokens){
-			sql += fuzzyAttr("movies.title", s);
+			sql += fuzzyAttr(s, attr);
 		}
 		
 		return sql;
