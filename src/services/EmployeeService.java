@@ -11,14 +11,16 @@ public class EmployeeService extends Service{
 		Class.forName(JDBC_DRIVER);
 		Employee emp = null;
 		Connection conn = null;
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
 		String query = "select * from employees "
-				+ "where email='" + email + "' and password ='" + password +"';";
+				+ "where email='?' and password ='?';";
 		
 		conn = DriverManager.getConnection("jdbc:mysql:///"+db, user, pass);
-		stmt = conn.createStatement();
+		stmt = conn.preparedStatement(query);
+		stmt.setString(1, email);
+		stmt.setString(2, password);
 		rs = stmt.executeQuery(query);
 		while(rs.next()) {
 			emp =  new Employee(rs.getString(1), rs.getString(2), rs.getString(3));
