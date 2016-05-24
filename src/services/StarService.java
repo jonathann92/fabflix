@@ -14,16 +14,17 @@ public class StarService extends Service{
 		Star s = null;
 		
 		Connection conn = null;
-		Statement select = null;
+		PreparedStatement select = null;
 		ResultSet rs = null;
 		
 		try {
 			Class.forName(JDBC_DRIVER);
 			conn = DriverManager.getConnection(DB_URL, user, pass);
-			select = conn.createStatement();
-			String sql = "SELECT * FROM stars where id = " + starId + ";";
 			
-			rs =  select.executeQuery(sql);
+			String sql = "SELECT * FROM stars where id = ?;";
+			select = conn.prepareStatement(sql);
+			select.setInt(1, starId);
+			rs =  select.executeQuery();
 			if(rs.next())
 				s = new Star(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
 
@@ -38,19 +39,20 @@ public class StarService extends Service{
 		Set<Movie> movies = null;
 		
 		Connection conn = null;
-		Statement select = null;
+		PreparedStatement select = null;
 		ResultSet rs = null;
 		
 		try {
 			movies = new HashSet<Movie>();
 			Class.forName(JDBC_DRIVER);
 			conn = DriverManager.getConnection(DB_URL, user, pass);
-			select = conn.createStatement();
-			String query = "select movies.* from stars, stars_in_movies, movies "
-				     + "where stars.id = " + starId + " and stars.id=stars_in_movies.star_id "
-				     + "and stars_in_movies.movie_id = movies.id";
 			
-			rs = select.executeQuery(query);
+			String query = "select movies.* from stars, stars_in_movies, movies "
+				     + "where stars.id = ? and stars.id=stars_in_movies.star_id "
+				     + "and stars_in_movies.movie_id = movies.id";
+			select = conn.prepareStatement(query);
+			select.setInt(1, starId);
+			rs = select.executeQuery();
 			while (rs.next()){
 				Movie m = new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6));
 				movies.add(m);

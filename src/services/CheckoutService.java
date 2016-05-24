@@ -2,6 +2,7 @@ package services;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.DateFormat;
@@ -22,7 +23,7 @@ public class CheckoutService extends Service{
 		List<Integer> transactionId = new ArrayList<Integer>();
 		
 		Connection conn = null;
-		Statement select = null;
+		PreparedStatement select = null;
 		ResultSet rs = null;
 		
 		int customerId = cust.getId();
@@ -31,21 +32,27 @@ public class CheckoutService extends Service{
 	  	String transactionDate = dateFormat.format(date);
 	  	
 	  	conn = DriverManager.getConnection("jdbc:mysql:///"+db, user, pass);
-		select = conn.createStatement();
+		
 	  	
 		for (Movie m : cart.keySet()) {
 		    int movieId = m.getId();
 		    String query = "INSERT INTO sales (`customers`, `movie`, `sale`) "
-		    		     + "VALUES (" + customerId + ", " + movieId + ", '" + transactionDate + "' );";
+		    		     + "VALUES (?, ?, ?);";
 		    System.out.println(query);
-		    int rows = select.executeUpdate(query);
+		    select = conn.prepareStatement(query);
+		    select.setInt(1, customerId);
+		    select.setInt(2, movieId);
+		    select.setString(3, transactionDate);
+		    int rows = select.executeUpdate();
 		    query = "select last_insert_id();";
-		    rs = select.executeQuery(query);
+		    select = conn.prepareStatement(query);
+		    rs = select.executeQuery();
 		    while(rs.next()){
 		    	System.out.print("LAST ID: " + rs.getInt(1) );
 		    	transactionId.add(Integer.parseInt(rs.getString(1)));
 		    }
 		}
+		conn.close();
 		
 		return transactionId;
 	}
@@ -55,24 +62,30 @@ public class CheckoutService extends Service{
 		
 		System.out.println("HERE");
 		Connection conn = null;
-		Statement select = null;
+		PreparedStatement select = null;
 		ResultSet rs = null;
 		
 		String exp = year + "-" + month + "-" + day;
 		
 		String query = "select * from creditcards "
-				+ "where id='" + card + "' and first ='" + first +"' "
-				+ "and last = '" + last + "' and expiration = '" + exp +"'";
+				+ "where id=? and first =? "
+				+ "and last =? and expiration =?";
 		
 		System.out.println(query);
 		
 		conn = DriverManager.getConnection("jdbc:mysql:///"+db, user, pass);
-		select = conn.createStatement();
-		rs = select.executeQuery(query);
+		select = conn.prepareStatement(query);
+		select.setString(1, card);
+		select.setString(2, first);
+		select.setString(3, last);
+		select.setString(4, exp);
+		rs = select.executeQuery();
 		
-		if(rs.next())
+		if(rs.next()) {
+			conn.close();
 			return true;
-		
+		}
+		conn.close();
 		return false;
 	}
 

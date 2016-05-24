@@ -21,16 +21,17 @@ public class MovieService extends Service {
 	public Movie getMovieInfo() {
 		Movie m = null;
 		Connection conn = null;
-		Statement select = null;
+		PreparedStatement select = null;
 		ResultSet rs = null;
 		
 		try {
 			Class.forName(JDBC_DRIVER);
 			conn = (Connection) DriverManager.getConnection(DB_URL, user, pass);
-			select = (Statement) conn.createStatement();
-			String sql = "SELECT * FROM movies where movies.id = " + movieId + ";";
 			
-			rs = (ResultSet) select.executeQuery(sql);
+			String sql = "SELECT * FROM movies where movies.id = ?;";
+			select = conn.prepareStatement(sql);
+			select.setInt(1, movieId);
+			rs = (ResultSet) select.executeQuery();
 			while (rs.next()){
 				m = new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6));
 				
@@ -54,15 +55,17 @@ public class MovieService extends Service {
 	public Set<Star> getStarList() {
 		Set<Star> s = null;
 		Connection conn = null;
-		Statement select = null;
+		PreparedStatement select = null;
 		ResultSet rs = null;
 		
 		try {
 			Class.forName(JDBC_DRIVER);
 			conn = (Connection) DriverManager.getConnection(DB_URL, user, pass);
-			select = (Statement) conn.createStatement();
-			String sql = "SELECT s.* FROM stars as s, movies as m, stars_in_movies as sm WHERE m.id = " + movieId + " AND sm.movie_id = m.id AND sm.star_id = s.id;";
-			rs = (ResultSet) select.executeQuery(sql);
+			
+			String sql = "SELECT s.* FROM stars as s, movies as m, stars_in_movies as sm WHERE m.id = ? AND sm.movie_id = m.id AND sm.star_id = s.id;";
+			select = conn.prepareStatement(sql);
+			select.setInt(1, movieId);
+			rs = (ResultSet) select.executeQuery();
 			s = new HashSet<>();
 			
 			while (rs.next()) {
@@ -85,15 +88,17 @@ public class MovieService extends Service {
 	public List<Genre> getGenreList() {
 		List<Genre> g = null;
 		Connection conn = null;
-		Statement select = null;
+		PreparedStatement select = null;
 		ResultSet rs = null;
 		
 		try {
 			Class.forName(JDBC_DRIVER);
 			conn = (Connection) DriverManager.getConnection(DB_URL, user, pass);
-			select = (Statement) conn.createStatement();
-			String sql = "SELECT g.* FROM genres as g, movies as m, genres_in_movies as gm WHERE m.id = " + movieId + " and gm.genre_id=g.id and gm.movie_id=m.id;";
-			rs = (ResultSet) select.executeQuery(sql);
+			
+			String sql = "SELECT g.* FROM genres as g, movies as m, genres_in_movies as gm WHERE m.id = ? and gm.genre_id=g.id and gm.movie_id=m.id;";
+			select = conn.prepareStatement(sql);
+			select.setInt(1, movieId);
+			rs = (ResultSet) select.executeQuery();
 			g = new ArrayList<>();
 			
 			while (rs.next()) {
@@ -116,16 +121,17 @@ public class MovieService extends Service {
 	public static Movie getMovieInfo(int id) {
 		Movie m = null;
 		Connection conn = null;
-		Statement select = null;
+		PreparedStatement select = null;
 		ResultSet rs = null;
 		
 		try {
 			Class.forName(JDBC_DRIVER);
 			conn = (Connection) DriverManager.getConnection(DB_URL, user, pass);
-			select = (Statement) conn.createStatement();
-			String sql = "SELECT * FROM movies where movies.id = " + id + ";";
 			
-			rs = (ResultSet) select.executeQuery(sql);
+			String sql = "SELECT * FROM movies where movies.id = ?;";
+			select = conn.prepareStatement(sql);
+			select.setInt(1, id);
+			rs = (ResultSet) select.executeQuery();
 			while (rs.next()){
 				m = new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6));
 				
@@ -150,15 +156,17 @@ public class MovieService extends Service {
 		// This only makes a Set of Stars with id, first, and last name
 		Set<Star> s = null;
 		Connection conn = null;
-		Statement select = null;
+		PreparedStatement select = null;
 		ResultSet rs = null;
 		
 		try {
 			Class.forName(JDBC_DRIVER);
 			conn = DriverManager.getConnection(DB_URL, user, pass);
-			select =  conn.createStatement();
-			String sql = "SELECT s.* FROM stars as s, movies as m, stars_in_movies as sm WHERE m.id = " + id + " AND sm.movie_id = m.id AND sm.star_id = s.id;";
-			rs = select.executeQuery(sql);
+			
+			String sql = "SELECT s.* FROM stars as s, movies as m, stars_in_movies as sm WHERE m.id = ? AND sm.movie_id = m.id AND sm.star_id = s.id;";
+			select =  conn.prepareStatement(sql);
+			select.setInt(1, id);
+			rs = select.executeQuery();
 			s = new HashSet<Star>();
 			
 			while (rs.next()) {
@@ -181,15 +189,17 @@ public class MovieService extends Service {
 	public static Set<Genre> getGenreList(int id) {
 		Set<Genre> g = null;
 		Connection conn = null;
-		Statement select = null;
+		PreparedStatement select = null;
 		ResultSet rs = null;
 		
 		try {
 			Class.forName(JDBC_DRIVER);
 			conn = DriverManager.getConnection(DB_URL, user, pass);
-			select =  conn.createStatement();
-			String sql = "SELECT g.* FROM genres as g, movies as m, genres_in_movies as gm WHERE m.id = " + id + " and gm.genre_id=g.id and gm.movie_id=m.id;";
-			rs = select.executeQuery(sql);
+			
+			String sql = "SELECT g.* FROM genres as g, movies as m, genres_in_movies as gm WHERE m.id = ? and gm.genre_id=g.id and gm.movie_id=m.id;";
+			select =  conn.prepareStatement(sql);
+			select.setInt(1, id);
+			rs = select.executeQuery();
 			g = new HashSet<Genre>();
 			
 			while (rs.next()) {

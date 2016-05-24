@@ -3,6 +3,7 @@ package services;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import objects.*;
@@ -80,11 +81,18 @@ public class Service {
 		 	try {
 	        	Class.forName("com.mysql.jdbc.Driver").newInstance();
 	            Connection connection = (Connection) DriverManager.getConnection("jdbc:mysql:///"+db,user, pass);
-	            Statement stmt = (Statement) connection.createStatement();
 	            
-	            String sql = "call add_movie('" + title + "', '" + director + "', " + year + ",'" + starFirst + "', '" + starLast + "', '" + genre + "');";
-	        	
-	        	stmt.execute(sql);
+	            
+	            String sql = "call add_movie(?, ?, ?, ?, ?, ?);";
+	            
+	            PreparedStatement stmt = connection.prepareStatement(sql);
+	            stmt.setString(1, title);
+	            stmt.setString(2, director);
+	            stmt.setString(3, year);
+	            stmt.setString(4, starFirst);
+	            stmt.setString(5, starLast);
+	            stmt.setString(6,  genre);
+	        	stmt.execute();
 	            
 	            connection.close();	        
 			} 
