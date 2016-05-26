@@ -2,6 +2,7 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.json.Json;
@@ -32,14 +33,12 @@ public class AutoComplete extends HttpServlet {
     	response.setContentType("text/html");
         PrintWriter out = response.getWriter();
         String title = request.getParameter("title");
-        
-        System.out.println("Calling AutoComplete servlet");
-		
+        		
         if(title.length() > 0){
 	        String sql = generateSQL(title);
-	        System.out.println(sql);
+	        List<String> questionMarks = questionMarksTokenizer(title); 
 	        
-			List<Movie> movieList = AutoCompleteService.queryMovieList(sql);
+			List<Movie> movieList = AutoCompleteService.queryMovieList(sql, questionMarks);
 //			JsonObjectBuilder factory = Json.createObjectBuilder();
 //			factory.add("suggestions", JSONService.autocompleteMovieList_JSON(movieList));
 //			out.print(factory.build());
@@ -59,13 +58,26 @@ public class AutoComplete extends HttpServlet {
 		String sql = "select id, title from movies where true ";
 		
 		for(int i = 0; i < tokens.length - 1; ++i){
-			sql += "and title like '%" + tokens[i] + "%' ";
+			sql += "and title like ? "; //'%" + tokens[i] + "%' ";
 		}
 		
-		sql += "and title rlike '[[:<:]]" + tokens[tokens.length - 1] + ".*' ";
+		sql += "and title rlike ?"; //'[[:<:]]" + tokens[tokens.length - 1] + ".*' ";
 		
-		sql += "limit 10;";
+		sql += " limit 10;";
 		return sql;
+	}
+	
+	protected List<String> questionMarksTokenizer(String title){
+		List<String> toReturn = new ArrayList<String>();
+		String[] tokens = title.split("\\W+");
+		
+		for(int i = 0; i < tokens.length - 1; ++i){
+			toReturn.add("%" + tokens[i] + "%");
+		}
+		
+		toReturn.add("[[:<:]]"+tokens[tokens.length - 1] + ".*");
+		
+		return toReturn;
 	}
 
 	/**
