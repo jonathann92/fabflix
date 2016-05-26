@@ -40,12 +40,12 @@ public class MovieList extends HttpServlet {
         String prevPage = (String) request.getAttribute("prevpage");
         String params = (String) request.getAttribute("query");
 		String jsonParam = request.getParameter("json");
+		List<String> questionMarks = (List<String>) request.getAttribute("questionMarks");
 
-        String sql = processQuery(request);
-        
+        String sql = processQuery(request, questionMarks);
         System.out.println(sql);
         
-        List<Movie> movieList = SearchService.movieListQuery(sql);
+        List<Movie> movieList = SearchService.movieListQuery(sql, questionMarks);
         
         if(jsonParam != null && jsonParam.equals("true")){
         	JsonObjectBuilder factory = Json.createObjectBuilder();
@@ -56,41 +56,41 @@ public class MovieList extends HttpServlet {
 	        request.setAttribute("prevpage", prevPage);
 	        
 	        Service.forward(request, response, "/WEB-INF/SearchResults.jsp");
-	        System.out.println();
         }
 	}
 
-	private String processQuery(HttpServletRequest request) {
+	private String processQuery(HttpServletRequest request, List<String> questionMarks) {
         String sql = (String) request.getAttribute("sql");
-        
-        count = SearchService.querySize(sql);
+
+        count = SearchService.querySize(sql, questionMarks);
         request.setAttribute("count", count);
         System.out.println("SIZE: " + count);
         
-        sql = addParameters(request, sql, count);
+        sql = addParameters(request, sql, count, questionMarks);
         
 		return sql;
 	}
 
-	private String addParameters(HttpServletRequest request, String sql, int size) {
+	private String addParameters(HttpServletRequest request, String sql, int size, List<String> questionMarks) {
 		String sort = request.getParameter("sortby");
         if(sort != null && sort.length() > 0 && !sort.equals("null")){
         	sql += " order by " + sort;
         }
         
         int page = requestInt("page", 1, request);        		
-        int rows = requestInt("rows", 10, request); 
+        Integer rows = requestInt("rows", 10, request); 
         if(size < rows * (page - 1 )){
         	int temp = page;
         	page = (size / rows) + 1;
         	
         	System.out.println("Page out of index resetting page from " + temp + " to " + page);
         }
-        int offset = rows * page - rows;
+        Integer offset = rows * page - rows;
+        questionMarks.add(rows.toString());
+        questionMarks.add(offset.toString());
         
-        
-        sql += " limit " + rows;
-        sql += " offset " + offset;
+        sql += " limit ?";
+        sql += " offset ?";
         
         request.setAttribute("page", page);
         request.setAttribute("sortby", sort);

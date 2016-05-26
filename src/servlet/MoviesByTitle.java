@@ -2,6 +2,7 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -38,10 +39,14 @@ public class MoviesByTitle extends HttpServlet {
 		else {
 			String query = "letter="+parameter;
 			char letter = parameter.charAt(0);
-			String sql = "select * from movies where title like '" + letter + "%'";
+			String sql = "select * from movies where title like ?"; //'" + letter + "%'";
+			List<String> questionMarks = new ArrayList<String>();
+			questionMarks.add(letter + "%");
         	request.setAttribute("prevpage", "MoviesByTitle");
         	request.setAttribute("sql", sql);
         	request.setAttribute("query", query);
+	    	request.setAttribute("questionMarks", questionMarks);
+
         	Service.forward(request, response, "/MovieList");
 		}
 		

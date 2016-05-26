@@ -1,5 +1,7 @@
 package servlet;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.io.IOException;
@@ -59,16 +61,46 @@ public class AdvSearch extends HttpServlet {
         		sql = fuzzySearchSQL(id, title, year, director, first, last);
         	}
         	
-        	System.out.println(sql);
-        	out.print(sql);
+        	List<String> questMarks = questionMarks(id, title, year, director, first, last);       	
         	
 	    	request.setAttribute("prevpage", "AdvSearch");
+	    	request.setAttribute("questionMarks", questMarks);
 	    	request.setAttribute("query", query);
         	request.setAttribute("sql", sql);
+        	
 	    	Service.forward(request, response, "/MovieList");
 			
         }
         
+	}
+
+	private List<String> questionMarks(String id, String title, String year, String director, String first,
+			String last) {
+		List<String> questionMarks = new ArrayList<String>();
+		if(isValid(title)){
+			questionMarks.addAll(tokenizer(title));
+		}
+		
+		if(isValid(director)){
+			questionMarks.addAll(tokenizer(director));
+		}
+		
+		if(isValid(year)){
+			questionMarks.add(year);
+		}
+		
+		if(isValid(first)){
+			questionMarks.add("%" + first + "%");
+		}
+		
+		if(isValid(last)){
+			questionMarks.add("%" + last + "%");
+		}
+		
+		if(isValid(id)){
+			questionMarks.add(id);
+		}
+		return questionMarks;
 	}
 
 	private String fuzzySearchSQL(String id, String title, String year, String director, String first, String last) {
@@ -77,30 +109,44 @@ public class AdvSearch extends HttpServlet {
 			sql = "select movies.* from movies, stars, stars_in_movies where " 
 					+ (isValid(title) ? fuzzyString(title, "movies.title") : "" )
 					+ (isValid(director) ? fuzzyString(director, "movies.director") : "")
-					+ (isValid(year) ? "  movies.year = " + year + " and": "" )
+					+ (isValid(year) ? "  movies.year = ? and ": "" )
 					+ (isValid(first) ? fuzzyKeyword(first, "stars.first") : "" )
 					+ (isValid(last) ? fuzzyKeyword(last, "stars.last") : "" )
 					+ " stars.id = stars_in_movies.star_id and"
 					+ " movies.id = stars_in_movies.movie_id and"
-					+ (isValid(id) ? " movies.id = " + id + " and": "") 
+					+ (isValid(id) ? " movies.id = ? and": "") 
 					+ " true";
 		} else {
 			sql = "select * from movies where"
 					+ (isValid(title) ? fuzzyString(title, "title") : "" )
 					+ (isValid(director) ? fuzzyString(director, "director") : "")
-					+ (isValid(year) ? " year = " + year +" and" : "")
-					+ (isValid(id) ? " id = " + id + " and": "")
+					+ (isValid(year) ? " year = ? and" : "")
+					+ (isValid(id) ? " id = ? and": "")
 					+ " true";
 		}
 		return sql;
 	}
 	
+	
+	private List<String> tokenizer(String s){
+		String[] tokens = s.split("\\W+");
+		List<String> toReturn = new ArrayList<String>();
+		
+		for(String token : tokens){
+			toReturn.add("%" + token + "%");
+		}
+		
+		return toReturn;
+	}
+	
+	
+	
 	private String fuzzyKeyword(String keyword, String attr){
-		return " edth(lower('"+keyword +"'), lower(" + attr +"), 1) and ";
+		return " edth(lower(?), lower(" + attr +"), 1) and ";
 	}
 	
 	private String fuzzyAttr(String parameter, String attr){
-		return " edrec(lower('" + parameter + "'), lower(" + attr + "), 1) and ";
+		return " edrec(lower(?), lower(" + attr + "), 1) and ";
 	}
 	
 	private String fuzzyString(String title, String attr){
@@ -119,13 +165,13 @@ public class AdvSearch extends HttpServlet {
 		if(isValid(first) || isValid(last)){
 			sql = "select movies.* from movies, stars, stars_in_movies where" 
 					+ (isValid(title) ? titleQuery(title) : "" )
-					+ (isValid(director) ? " movies.director like '%" + director +"%' and" : "")
-					+ (isValid(year) ? "  movies.year = " + year + " and": "" )
-					+ (isValid(first) ? "  stars.first like '%" + first + "%' and" : "" )
-					+ (isValid(last) ? "  stars.last like '%" + last + "%' and" : "" )
+					+ (isValid(director) ? directorQuery(director) : "")
+					+ (isValid(year) ? "  movies.year = ? and": "" )
+					+ (isValid(first) ? "  stars.first like ? and" : "" )
+					+ (isValid(last) ? "  stars.last like ? and" : "" )
 					+ " stars.id = stars_in_movies.star_id and"
 					+ " movies.id = stars_in_movies.movie_id and"
-					+ (isValid(id) ? " movies.id = " + id + " and": "") 
+					+ (isValid(id) ? " movies.id = ? and": "") 
 					+ " true";
 		} else {
 			sql = "select * from movies where"
@@ -143,7 +189,18 @@ public class AdvSearch extends HttpServlet {
 		String[] tokens = title.split("\\W+");
 		
 		for(String s : tokens){
-			sql += " movies.title like '%" + s + "%' and";
+			sql += " movies.title like ? and";
+		}
+		
+		return sql;
+	}
+	
+	private String directorQuery(String dir){
+		String sql = "";
+		String[] tokens = dir.split("\\W+");
+		
+		for(String s : tokens){
+			sql += " movies.director like ? and";
 		}
 		
 		return sql;
@@ -195,9 +252,7 @@ public class AdvSearch extends HttpServlet {
         
 		return true;
 	}
-
 	
-
 	private void setParams(HttpServletRequest request, String error, String id, String title, String year, String director,
 			String first, String last) {
 		request.setAttribute("error", error);

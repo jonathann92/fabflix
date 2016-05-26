@@ -2,6 +2,7 @@ package services;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -12,6 +13,33 @@ import java.util.Set;
 import objects.Movie;
 
 public class SearchService extends Service {
+	
+	public static int querySize(String query, List<String> params){
+		int count = 0;
+		Connection conn = null;
+		PreparedStatement select = null;
+		ResultSet rs = null;
+		
+		try {
+			Class.forName(JDBC_DRIVER);
+			conn = DriverManager.getConnection(DB_URL, user, pass);
+			select =  conn.prepareStatement(query);
+			
+			for(int i = 0; i < params.size(); ++i){
+				select.setString(i+1, params.get(i));
+			}
+			
+			rs =  select.executeQuery();
+            if(rs.last()){
+                count = rs.getRow();
+            }
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally { try { rs.close(); select.close(); conn.close(); } catch (Exception e2) {} }
+		
+		return count;
+	}
 	
 	public static int querySize(String query){
 		int count = 0;
@@ -35,6 +63,49 @@ public class SearchService extends Service {
 		} finally { try { rs.close(); select.close(); conn.close(); } catch (Exception e2) {} }
 		
 		return count;
+	}
+	
+	public static List<Movie> movieListQuery(String query, List<String> params){
+		Set<Movie> movieList = new HashSet<Movie>();
+		
+		Connection conn = null;
+		PreparedStatement select = null;
+		ResultSet rs = null;
+		
+		try {
+			System.out.println(params);
+			Class.forName(JDBC_DRIVER);
+			conn = DriverManager.getConnection(DB_URL, user, pass);
+			select =  conn.prepareStatement(query);
+			
+			for(int i = 0; i < params.size() - 2; ++i){
+				select.setString(i+1, params.get(i));
+				System.out.println((i+1) + " " + params.get(i)); 
+			}
+			
+			for(int i = params.size() - 2; i < params.size(); ++i){
+				
+				Integer k = Integer.parseInt(params.get(i));
+				System.out.println((i+1) + " " + params.get(i)); 
+				select.setInt(i+1, k);
+			}
+			
+			rs =  select.executeQuery();
+					
+			while(rs.next()){
+				Movie m = new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6));
+				movieList.add(m);
+			}
+			
+			MovieService.populateMovieStars(movieList);
+			MovieService.populateMovieGenres(movieList);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally { try { rs.close(); select.close(); conn.close(); } catch (Exception e2) {} }
+		
+		
+		return new ArrayList<Movie>(movieList);
 	}
 	
 	public static List<Movie> movieListQuery(String query){
@@ -64,6 +135,41 @@ public class SearchService extends Service {
 		
 		
 		return new ArrayList<Movie>(movieList);
+	}
+	
+	public static void main(String[] args){
+Set<Movie> movieList = new HashSet<Movie>();
+		
+		Connection conn = null;
+		PreparedStatement select = null;
+		ResultSet rs = null;
+		
+		String query = "select * from movies where movies.title like ? and true order by year desc limit ? offset ?";
+		
+		
+		try {
+			Class.forName(JDBC_DRIVER);
+			conn = DriverManager.getConnection(DB_URL, user, pass);
+			select =  conn.prepareStatement(query);
+			
+			select.setString(1, "%star%");
+			select.setInt(2, 10);
+			select.setInt(3, 0);
+			
+			rs =  select.executeQuery();
+					
+			while(rs.next()){
+				System.out.println(rs.getString("year"));
+				Movie m = new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6));
+				movieList.add(m);
+			}
+			
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally { try { rs.close(); select.close(); conn.close(); } catch (Exception e2) {} }
+		
+		
 	}
 
 }

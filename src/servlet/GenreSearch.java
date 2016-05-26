@@ -2,6 +2,7 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -49,9 +50,13 @@ public class GenreSearch extends HttpServlet {
 	
 	protected void listMovies(HttpServletRequest request, HttpServletResponse response, int id) throws ServletException, IOException{
 		String sql =  "select distinct movies.* from genres_in_movies, movies where "
-				+ id + " = genres_in_movies.genre_id "
+				+ "? = genres_in_movies.genre_id "
 				+ "and genres_in_movies.movie_id = movies.id";
 		
+		List<String> questionMarks = new ArrayList<String>();
+		questionMarks.add(id + "");
+    	request.setAttribute("questionMarks", questionMarks);
+
 		String query = "id="+id;
     	request.setAttribute("sql", sql);
 		request.setAttribute("prevpage", "GenreSearch");
@@ -61,8 +66,13 @@ public class GenreSearch extends HttpServlet {
 	
 	protected void listMovies(HttpServletRequest request, HttpServletResponse response, String name) throws ServletException, IOException {
     	String sql = "select distinct movies.* from genres, genres_in_movies, movies where "
-				+ "genres.name = '" + name + "' and genres.id = genres_in_movies.genre_id "
+				+ "genres.name = ? and genres.id = genres_in_movies.genre_id "
 				+ "and genres_in_movies.movie_id = movies.id";
+    	
+    	List<String> questionMarks = new ArrayList<String>();
+		questionMarks.add(name);
+    	request.setAttribute("questionMarks", questionMarks);
+
     	
 		String query = "name=" + name;
     	request.setAttribute("sql", sql);
