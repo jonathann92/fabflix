@@ -37,6 +37,7 @@ public class MovieList extends HttpServlet {
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession(true);
         
+        Long startTS = (Long) request.getAttribute("startTS");
         String prevPage = (String) request.getAttribute("prevpage");
         String params = (String) request.getAttribute("query");
 		String jsonParam = request.getParameter("json");
@@ -45,7 +46,10 @@ public class MovieList extends HttpServlet {
         String sql = processQuery(request, questionMarks);
         System.out.println(sql);
         
+        Long startTJ = System.nanoTime();
         List<Movie> movieList = SearchService.movieListQuery(sql, questionMarks);
+        Long endTJ = System.nanoTime();
+        Long timeTJ = endTJ - startTJ;
         
         if(jsonParam != null && jsonParam.equals("true")){
         	JsonObjectBuilder factory = Json.createObjectBuilder();
@@ -57,6 +61,14 @@ public class MovieList extends HttpServlet {
 	        
 	        Service.forward(request, response, "/WEB-INF/SearchResults.jsp");
         }
+        
+        if(startTS != null){
+        	Long endTS = System.nanoTime();
+        	Long timeTS = endTS - startTS;
+        	System.out.println("<TS>"+timeTS+"</TS>");
+        	System.out.println("<TJ>"+timeTJ+"</TS>");
+        }
+        
 	}
 
 	private String processQuery(HttpServletRequest request, List<String> questionMarks) {

@@ -30,6 +30,8 @@ public class AdvSearch extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		long startTS = System.nanoTime();
+		
 		response.setContentType("text/html");
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession(true);
@@ -67,9 +69,9 @@ public class AdvSearch extends HttpServlet {
 	    	request.setAttribute("questionMarks", questMarks);
 	    	request.setAttribute("query", query);
         	request.setAttribute("sql", sql);
+        	request.setAttribute("startTS", startTS);
         	
 	    	Service.forward(request, response, "/MovieList");
-			
         }
         
 	}
