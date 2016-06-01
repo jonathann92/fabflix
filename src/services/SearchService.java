@@ -66,7 +66,7 @@ public class SearchService extends Service {
 	}
 	
 	public static List<Movie> movieListQuery(String query, List<String> params){
-		Set<Movie> movieList = new HashSet<Movie>();
+		List<Movie> movieList = new ArrayList<Movie>();
 		
 		Connection conn = null;
 		PreparedStatement select = null;
@@ -93,6 +93,7 @@ public class SearchService extends Service {
 			rs =  select.executeQuery();
 					
 			while(rs.next()){
+				System.out.println(rs.getString("year"));
 				Movie m = new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6));
 				movieList.add(m);
 			}
@@ -138,21 +139,21 @@ public class SearchService extends Service {
 	}
 	
 	public static void main(String[] args){
-Set<Movie> movieList = new HashSet<Movie>();
+		Set<Movie> movieList = new HashSet<Movie>();
 		
 		Connection conn = null;
 		PreparedStatement select = null;
 		ResultSet rs = null;
 		
-		String query = "select * from movies where movies.title like ? and true order by year desc limit ? offset ?";
+		String query = "select * from movies where edrec(lower(?), lower(title), 1) and  true order by year desc limit ? offset ?";
 		
-		
+		System.out.println(query);
 		try {
 			Class.forName(JDBC_DRIVER);
 			conn = DriverManager.getConnection(DB_URL, user, pass);
 			select =  conn.prepareStatement(query);
 			
-			select.setString(1, "%star%");
+			select.setString(1, "star");
 			select.setInt(2, 10);
 			select.setInt(3, 0);
 			

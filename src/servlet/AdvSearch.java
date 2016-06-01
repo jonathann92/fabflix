@@ -53,20 +53,23 @@ public class AdvSearch extends HttpServlet {
         if(checkParameters(request, response, id, title, year, director, first, last) && checkIntParam(request, response, id, title, year, director, first, last) )
         {
         	String query = formQuery(id, title, year, director, first, last);
-        	String sql;
+        	String sql = "";
         	
+        	List<String> questionMarks = new ArrayList<String>();
         	
-        	if(OS.toLowerCase().contains("windows"))
+        	if(OS.toLowerCase().contains("windows")){
         		sql = windowsSQL(id, title, year, director, first, last); 
+        		questionMarks = questionMarksWindows(id, title, year, director, first, last);
+        	}
         	else 
         	{
         		sql = fuzzySearchSQL(id, title, year, director, first, last);
+        		questionMarks = questionMarksFuzzy(id, title, year, director, first, last);
         	}
         	
-        	List<String> questMarks = questionMarks(id, title, year, director, first, last);       	
         	
 	    	request.setAttribute("prevpage", "AdvSearch");
-	    	request.setAttribute("questionMarks", questMarks);
+	    	request.setAttribute("questionMarks", questionMarks);
 	    	request.setAttribute("query", query);
         	request.setAttribute("sql", sql);
         	request.setAttribute("startTS", startTS);
@@ -75,16 +78,45 @@ public class AdvSearch extends HttpServlet {
         }
         
 	}
-
-	private List<String> questionMarks(String id, String title, String year, String director, String first,
+	
+	private List<String> questionMarksFuzzy(String id, String title, String year, String director, String first,
 			String last) {
 		List<String> questionMarks = new ArrayList<String>();
 		if(isValid(title)){
-			questionMarks.addAll(tokenizer(title));
+			questionMarks.addAll(tokenizer(title, ""));
 		}
 		
 		if(isValid(director)){
-			questionMarks.addAll(tokenizer(director));
+			questionMarks.addAll(tokenizer(director, ""));
+		}
+		
+		if(isValid(year)){
+			questionMarks.add(year);
+		}
+		
+		if(isValid(first)){
+			questionMarks.add( first );
+		}
+		
+		if(isValid(last)){
+			questionMarks.add(last);
+		}
+		
+		if(isValid(id)){
+			questionMarks.add(id);
+		}
+		return questionMarks;
+	}
+
+	private List<String> questionMarksWindows(String id, String title, String year, String director, String first,
+			String last) {
+		List<String> questionMarks = new ArrayList<String>();
+		if(isValid(title)){
+			questionMarks.addAll(tokenizer(title, "%"));
+		}
+		
+		if(isValid(director)){
+			questionMarks.addAll(tokenizer(director, "%"));
 		}
 		
 		if(isValid(year)){
@@ -130,12 +162,12 @@ public class AdvSearch extends HttpServlet {
 	}
 	
 	
-	private List<String> tokenizer(String s){
+	private List<String> tokenizer(String s, String p){
 		String[] tokens = s.split("\\W+");
 		List<String> toReturn = new ArrayList<String>();
 		
 		for(String token : tokens){
-			toReturn.add("%" + token + "%");
+			toReturn.add(p + token + p);
 		}
 		
 		return toReturn;
