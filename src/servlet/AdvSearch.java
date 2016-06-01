@@ -37,7 +37,6 @@ public class AdvSearch extends HttpServlet {
         HttpSession session = request.getSession(true);
         
         String OS = System.getProperty("os.name");
-        //System.out.println(OS);
         
         String error = null;
         
@@ -48,7 +47,6 @@ public class AdvSearch extends HttpServlet {
         String first = request.getParameter("first");
         String last = request.getParameter("last");
         
-        System.out.println(OS);
         
         if(checkParameters(request, response, id, title, year, director, first, last) && checkIntParam(request, response, id, title, year, director, first, last) )
         {

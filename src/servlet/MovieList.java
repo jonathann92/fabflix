@@ -44,7 +44,6 @@ public class MovieList extends HttpServlet {
 		List<String> questionMarks = (List<String>) request.getAttribute("questionMarks");
 
         String sql = processQuery(request, questionMarks);
-        System.out.println(sql);
         
         Long startTJ = System.nanoTime();
         List<Movie> movieList = SearchService.movieListQuery(sql, questionMarks);
@@ -76,7 +75,6 @@ public class MovieList extends HttpServlet {
 
         count = SearchService.querySize(sql, questionMarks);
         request.setAttribute("count", count);
-        System.out.println("SIZE: " + count);
         
         sql = addParameters(request, sql, count, questionMarks);
         
@@ -95,7 +93,6 @@ public class MovieList extends HttpServlet {
         	int temp = page;
         	page = (size / rows) + 1;
         	
-        	System.out.println("Page out of index resetting page from " + temp + " to " + page);
         }
         Integer offset = rows * page - rows;
         questionMarks.add(rows.toString());
