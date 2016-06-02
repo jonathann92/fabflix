@@ -2,9 +2,12 @@ package services;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import objects.*;
 import java.util.List;
@@ -25,9 +28,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.ResultSet;
-import com.mysql.jdbc.Statement;
 
 import objects.Movie;
 
@@ -55,7 +55,7 @@ public class Service {
 		try {
 			Context initCtx = new InitialContext();
 			Context envCtx = (Context) initCtx.lookup("java:comp/env");
-			DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb"); //NOT moviedb
+			DataSource ds = (DataSource) envCtx.lookup("jdbc/read"); //NOT moviedb
 			if (initCtx == null || envCtx == null) {
 				System.out.println("THEYRE NULL YO!");
 			} else {
@@ -65,8 +65,8 @@ public class Service {
 			Statement select = null;
 			ResultSet rs = null;
 		
-			conn = (Connection) ds.getConnection();
-			select = (Statement) conn.createStatement();
+			conn = ds.getConnection();
+			select =  conn.createStatement();
 			String sql = "SELECT * FROM genres;";
 			
 			rs = (ResultSet) select.executeQuery(sql);
