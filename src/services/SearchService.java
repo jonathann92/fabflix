@@ -73,27 +73,23 @@ public class SearchService extends Service {
 		ResultSet rs = null;
 		
 		try {
-			System.out.println(params);
 			Class.forName(JDBC_DRIVER);
 			conn = DriverManager.getConnection(DB_URL, user, pass);
 			select =  conn.prepareStatement(query);
 			
 			for(int i = 0; i < params.size() - 2; ++i){
 				select.setString(i+1, params.get(i));
-				System.out.println((i+1) + " " + params.get(i)); 
 			}
 			
 			for(int i = params.size() - 2; i < params.size(); ++i){
 				
 				Integer k = Integer.parseInt(params.get(i));
-				System.out.println((i+1) + " " + params.get(i)); 
 				select.setInt(i+1, k);
 			}
 			
 			rs =  select.executeQuery();
 					
 			while(rs.next()){
-				System.out.println(rs.getString("year"));
 				Movie m = new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6));
 				movieList.add(m);
 			}
@@ -147,7 +143,6 @@ public class SearchService extends Service {
 		
 		String query = "select * from movies where edrec(lower(?), lower(title), 1) and  true order by year desc limit ? offset ?";
 		
-		System.out.println(query);
 		try {
 			Class.forName(JDBC_DRIVER);
 			conn = DriverManager.getConnection(DB_URL, user, pass);
@@ -160,7 +155,6 @@ public class SearchService extends Service {
 			rs =  select.executeQuery();
 					
 			while(rs.next()){
-				System.out.println(rs.getString("year"));
 				Movie m = new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6));
 				movieList.add(m);
 			}

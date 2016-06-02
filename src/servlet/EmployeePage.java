@@ -33,7 +33,6 @@ public class EmployeePage extends HttpServlet {
         String password = request.getParameter("password");        
         String referrer = (String) session.getAttribute("refpage");
         String context = request.getContextPath();
-        System.out.println(context);
         String redirect = "";
         String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
         

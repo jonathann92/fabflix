@@ -37,15 +37,18 @@ public class MovieList extends HttpServlet {
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession(true);
         
+        Long startTS = (Long) request.getAttribute("startTS");
         String prevPage = (String) request.getAttribute("prevpage");
         String params = (String) request.getAttribute("query");
 		String jsonParam = request.getParameter("json");
 		List<String> questionMarks = (List<String>) request.getAttribute("questionMarks");
 
         String sql = processQuery(request, questionMarks);
-        System.out.println(sql);
         
+        Long startTJ = System.nanoTime();
         List<Movie> movieList = SearchService.movieListQuery(sql, questionMarks);
+        Long endTJ = System.nanoTime();
+        Long timeTJ = endTJ - startTJ;
         
         if(jsonParam != null && jsonParam.equals("true")){
         	JsonObjectBuilder factory = Json.createObjectBuilder();
@@ -57,6 +60,14 @@ public class MovieList extends HttpServlet {
 	        
 	        Service.forward(request, response, "/WEB-INF/SearchResults.jsp");
         }
+        
+        if(startTS != null){
+        	Long endTS = System.nanoTime();
+        	Long timeTS = endTS - startTS;
+        	System.out.println("<TS>"+timeTS+"</TS>");
+        	System.out.println("<TJ>"+timeTJ+"</TS>");
+        }
+        
 	}
 
 	private String processQuery(HttpServletRequest request, List<String> questionMarks) {
@@ -64,7 +75,6 @@ public class MovieList extends HttpServlet {
 
         count = SearchService.querySize(sql, questionMarks);
         request.setAttribute("count", count);
-        System.out.println("SIZE: " + count);
         
         sql = addParameters(request, sql, count, questionMarks);
         
@@ -83,7 +93,6 @@ public class MovieList extends HttpServlet {
         	int temp = page;
         	page = (size / rows) + 1;
         	
-        	System.out.println("Page out of index resetting page from " + temp + " to " + page);
         }
         Integer offset = rows * page - rows;
         questionMarks.add(rows.toString());

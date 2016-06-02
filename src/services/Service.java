@@ -16,10 +16,14 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonWriter;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.ResultSet;
@@ -45,15 +49,23 @@ public class Service {
 		}
 	}
 	
+	//EXAMPLE FOR CONNECTION POOLING!!!! 
 	public static List<Genre> getAllGenres() {
 		List<Genre> g = new ArrayList<>();
-		Connection conn = null;
-		Statement select = null;
-		ResultSet rs = null;
-		
 		try {
-			Class.forName(JDBC_DRIVER);
-			conn = (Connection) DriverManager.getConnection(DB_URL, user, pass);
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb"); //NOT moviedb
+			if (initCtx == null || envCtx == null) {
+				System.out.println("THEYRE NULL YO!");
+			} else {
+				System.out.println("YOURE GOOD YO");
+			}
+			Connection conn = null;
+			Statement select = null;
+			ResultSet rs = null;
+		
+			conn = (Connection) ds.getConnection();
 			select = (Statement) conn.createStatement();
 			String sql = "SELECT * FROM genres;";
 			
@@ -68,7 +80,7 @@ public class Service {
 			
 		} catch(SQLException e) {
 			e.printStackTrace();
-		} catch(ClassNotFoundException e) {
+		} catch(NamingException e) {
 			e.printStackTrace();
 		} catch (NullPointerException e) {
 			e.printStackTrace();
