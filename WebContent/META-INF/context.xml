@@ -5,4 +5,9 @@
 		 username="root" password="futurama5" driverClassName="com.mysql.jdbc.Driver"
 		 url="jdbc:mysql://localhost:3306/moviedb" />
 		 
+	<Resource name="jdbc/write" auth="Container" type="javax.sql.DataSource"
+		 maxActive="100" maxIdle="30" maxWait="10000"
+		 username="root" password="futurama5" driverClassName="com.mysql.jdbc.Driver"
+		 url="jdbc:mysql://172.31.36.98:3306/moviedb" />
+		 
 </Context>
