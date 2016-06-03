@@ -65,7 +65,7 @@ public class MovieList extends HttpServlet {
         	Long endTS = System.nanoTime();
         	Long timeTS = endTS - startTS;
         	System.out.println("<TS>"+timeTS+"</TS>");
-        	System.out.println("<TJ>"+timeTJ+"</TS>");
+        	System.out.println("<TJ>"+timeTJ+"</TJ>");
         }
         
 	}
