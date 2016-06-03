@@ -10,6 +10,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+
 import objects.Movie;
 
 public class SearchService extends Service {
@@ -21,9 +25,17 @@ public class SearchService extends Service {
 		ResultSet rs = null;
 		
 		try {
-			Class.forName(JDBC_DRIVER);
-			conn = DriverManager.getConnection(DB_URL, user, pass);
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			DataSource ds = (DataSource) envCtx.lookup("jdbc/read");
+			
+			//Class.forName(JDBC_DRIVER);
+			//conn = DriverManager.getConnection(DB_URL, user, pass);
+			conn = ds.getConnection();
 			select =  conn.prepareStatement(query);
+			
+			
+			
 			
 			for(int i = 0; i < params.size(); ++i){
 				select.setString(i+1, params.get(i));
@@ -37,7 +49,7 @@ public class SearchService extends Service {
 		} catch(Exception e) {
 			e.printStackTrace();
 		} finally { try { rs.close(); select.close(); conn.close(); } catch (Exception e2) {} }
-		
+		System.out.println("COUNT: " + count);
 		return count;
 	}
 	
@@ -73,8 +85,15 @@ public class SearchService extends Service {
 		ResultSet rs = null;
 		
 		try {
-			Class.forName(JDBC_DRIVER);
-			conn = DriverManager.getConnection(DB_URL, user, pass);
+			
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			DataSource ds = (DataSource) envCtx.lookup("jdbc/read");
+			
+//			Class.forName(JDBC_DRIVER);
+//			conn = DriverManager.getConnection(DB_URL, user, pass);
+			
+			conn = ds.getConnection();
 			select =  conn.prepareStatement(query);
 			
 			for(int i = 0; i < params.size() - 2; ++i){
