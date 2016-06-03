@@ -50,9 +50,6 @@ public class MovieList extends HttpServlet {
         Long endTJ = System.nanoTime();
         Long timeTJ = endTJ - startTJ;
         
-        System.out.println(sql);
-        System.out.println(questionMarks);
-        
         if(jsonParam != null && jsonParam.equals("true")){
         	JsonObjectBuilder factory = Json.createObjectBuilder();
         	factory.add("movieList", JSONService.movieList_JSON(movieList));

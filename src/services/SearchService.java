@@ -49,7 +49,6 @@ public class SearchService extends Service {
 		} catch(Exception e) {
 			e.printStackTrace();
 		} finally { try { rs.close(); select.close(); conn.close(); } catch (Exception e2) {} }
-		System.out.println("COUNT: " + count);
 		return count;
 	}
 	
