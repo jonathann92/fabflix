@@ -1,0 +1,146 @@
+ <!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+    background-color: linen;
+}
+
+td {
+}
+</style>
+</head>
+<body>
+
+<table border=1 style="width:100%">
+  <tr style="font-weight:bold; background-color: orange">
+    <td width="300px">Single-instance version cases</td>
+    <td>Graph Results Screenshot</td>
+    <td>Average Query Time(ms)</td>
+    <td>Average Search Servlet Time(ms)</td>
+    <td>Average JDBC Time(ms)</td>
+    <td>Analysis</td>
+  </tr>
+  <tr>
+    <td>Case 1: HTTP/1 thread</td>
+    <td><img src="../img/single-1.png" alt="Graph Results Screenshot Case 1" style="width:304px;height:228px;"></td>
+    <td>97</td>
+    <td>42.6516</td>
+    <td>29.9436</td>
+    <td>
+		I found the single instance was faster than the load balancer because we are making a direct connection.
+		However with the load balancer we have to go through one more node before we get our request.
+		I also found that with 1 thread the responses come back faster because there is only 1 request being served.
+	</td>
+  </tr>
+  <tr>
+    <td>Case 2: HTTP/10 threads</td>
+    <td><img src="../img/single-2.png" alt="Graph Results Screenshot Case 2" style="width:304px;height:228px;"></td>
+    <td>433</td>
+    <td>350.7398</td>
+    <td>243.5634</td>
+    <td>
+		Having multiple threads making requests to the web application causes the response times to be slower and jdbc is affected as well.
+		Multiple request consume more cpu power. However when using 10 threads, going through the whole query_load.txt file was faster than using a single thread.
+		This is because the overall average query time did not increase 10x. However the servlet time and jdbc was affected by about 10x
+	</td>
+  </tr>
+  <tr>
+    <td>Case 3: HTTPS/10 threads</td>
+    <td><img src="../img/single-3.png" alt="Graph Results Screenshot Case 3" style="width:304px;height:228px;"></td>
+    <td>461</td>
+    <td>362.4191</td>
+    <td>256.4008</td>
+    <td>
+		Using a secure connection seemed to be a little bit slower because there is more overhead making the connection to the servlet.
+		JDBC and servlet time did not increase as much as the Average query time. This is because when the timer for the servlet and jdbc are made
+		we don't include the overhead of making the secure connection.
+	</td>
+  </tr>
+  <tr>
+    <td>Case 4: HTTP/10 threads/No prepared statements</td>
+    <td><img src="../img/single-4.png" alt="Graph Results Screenshot Case 4" style="width:304px;height:228px;"></td>
+    <td>438</td>
+    <td>355.1321</td>
+    <td>243.3292</td>
+    <td>
+		Having prepared statements did not affect the jdbc time too much. Prepared statements prevent sql injection and are compiled.
+		If we were making batch queries then the prepared statements would improve our average jdbc time. However we are only making one 
+		query at a time.
+	</td>
+  </tr>
+  <tr>
+    <td>Case 5: HTTP/10 threads/No connection pooling</td>
+    <td><img src="../img/single-5.png" alt="Graph Results Screenshot Case 4" style="width:304px;height:228px;"></td>
+    <td>503</td>
+    <td>415.7025</td>
+    <td>279.0054</td>
+    <td>
+		Connection pooling improved our jdbc average time. This is because we do not have the extra over head of creating a new connection everytime a new request is made.
+		We are taking already open connections and making queries from those connections. Then after we are done we put the connections back into the pool.
+	</td>
+  </tr>
+
+</table> 
+
+
+<table border=1 style="width:100%">
+  <tr style="font-weight:bold; background-color: orange">
+    <td width="300px">Scaled version cases</td>
+    <td>Graph Results Screenshot</td>
+    <td>Average Query Time(ms)</td>
+    <td>Average Search Servlet Time(ms)</td>
+    <td>Average JDBC Time(ms)</td>
+    <td>Analysis</td>
+  </tr>
+  <tr>
+    <td>Case 1: HTTP/1 thread</td>
+    <td><img src="../img/load-1.png" alt="Graph Results Screenshot Case 1" style="width:304px;height:228px;"></td>
+    <td>104</td>
+    <td>44.8163</td>
+    <td>33.0464</td>
+    <td>
+		The response times for the load balancer are slower because we are not making a direct connection to the end server. We have to ask
+		go through one extra node before reaching the destination. Then the load balancer passes back the request. Using 1 thread with load balancing is slower
+		because a single instance can easily handle 1 request quickly.
+	</td>
+  </tr>
+  <tr>
+    <td>Case 2: HTTP/10 threads</td>
+    <td><img src="../img/load-2.png" alt="Graph Results Screenshot Case 2" style="width:304px;height:228px;"></td>
+    <td>282</td>
+    <td>207.3321</td>
+    <td>155.4785</td>
+    <td>
+		Using multiple threads to make requests to the servers with load balancing helped a significant amount. All the average times are about 2x as fast as a single instance.
+		The load balancer would put about half the request in the master and half into the slave so that the user would get responses faster.
+		The average query time multiplied by a little under 3x. The servlet time increased by 5x and jdbc increased by 5x as well.
+	</td>
+  </tr>
+  <tr>
+    <td>Case 3: HTTP/10 threads/No prepared statements</td>
+    <td><img src="../img/load-3.png" alt="Graph Results Screenshot Case 4" style="width:304px;height:228px;"></td>
+    <td>280</td>
+    <td>206.6705</td>
+    <td>155.4977</td>
+    <td>
+		Having no prepared statements did not make a noticable difference in any of the times. They were all about the same. This is because we are only making 1 prepared statement per request.
+		If we batched the prepared statements it would be faster.
+	</td>
+  </tr>
+  <tr>
+    <td>Case 4: HTTP/10 threads/No connection pooling</td>
+    <td><img src="../img/load-4.png" alt="Graph Results Screenshot Case 4" style="width:304px;height:228px;"></td>
+    <td>320</td>
+    <td>242.1212</td>
+    <td>169.5906</td>
+    <td>
+		Having no connection pooling increased our average times by a notable amount. This is because the jdbc average time increases. There is overhead with making new connections.
+		
+	</td>
+  </tr>
+
+</table> 
+
+</body>
+</html>
