@@ -35,7 +35,7 @@ public class MoviesByTitle extends HttpServlet {
 		String parameter = request.getParameter("letter");
 		
 		if(parameter == null || parameter.length() == 0)
-			response.sendRedirect(request.getContextPath());
+			response.sendRedirect(request.getContextPath().concat("/"));
 		else {
 			String query = "letter="+parameter;
 			char letter = parameter.charAt(0);

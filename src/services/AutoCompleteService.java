@@ -11,11 +11,12 @@ import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 import objects.Movie;
 
 public class AutoCompleteService extends Service {
-	public static List<Movie> queryMovieList(String sql){
+	public static List<Movie> queryMovieList(String sql) {
 		//This only gets ID and title
 		List<Movie> movieList = new ArrayList<Movie>();
 		
@@ -45,9 +46,9 @@ public class AutoCompleteService extends Service {
 			
 		} catch(SQLException e) {
 			e.printStackTrace();
-		} catch(ClassNotFoundException e) {
+		} catch (NamingException e) {
 			e.printStackTrace();
-		}
+		} 
 		
 		return movieList;
 	}
@@ -86,7 +87,8 @@ public class AutoCompleteService extends Service {
 			
 		} catch(SQLException e) {
 			e.printStackTrace();
-		} catch(ClassNotFoundException e) {
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

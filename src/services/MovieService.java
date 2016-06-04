@@ -9,6 +9,7 @@ import java.util.HashSet;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 import objects.Star;
 import objects.Movie;
@@ -50,9 +51,10 @@ public class MovieService extends Service {
 			
 		} catch(SQLException e) {
 			e.printStackTrace();
-		} catch(ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (NullPointerException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
 		
@@ -89,7 +91,8 @@ public class MovieService extends Service {
 			
 		} catch(SQLException e) {
 			e.printStackTrace();
-		} catch(ClassNotFoundException e) {
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -126,7 +129,8 @@ public class MovieService extends Service {
 			
 		} catch(SQLException e) {
 			e.printStackTrace();
-		} catch(ClassNotFoundException e) {
+		}  catch (NamingException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -162,9 +166,10 @@ public class MovieService extends Service {
 			
 		} catch(SQLException e) {
 			e.printStackTrace();
-		} catch(ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (NullPointerException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
 		
@@ -202,7 +207,8 @@ public class MovieService extends Service {
 			
 		} catch(SQLException e) {
 			e.printStackTrace();
-		} catch(ClassNotFoundException e) {
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -239,7 +245,8 @@ public class MovieService extends Service {
 			
 		} catch(SQLException e) {
 			e.printStackTrace();
-		} catch(ClassNotFoundException e) {
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

@@ -69,6 +69,9 @@ public class Metadata extends Service {
 	 
 	 public boolean addStar(String first, String last, String dob, String photo) {
 		 boolean val = false;
+		 Connection conn = null;
+		 PreparedStatement stmt = null;
+		 ResultSet rs = null;
 		 try {
 			 //Class.forName(JDBC_DRIVER);
 			 //Connection conn = DriverManager.getConnection("jdbc:mysql:///"+db, user, pass);
@@ -76,10 +79,9 @@ public class Metadata extends Service {
 			 Context envCtx = (Context) initCtx.lookup("java:comp/env");
 			 DataSource ds = (DataSource) envCtx.lookup("jdbc/write");
 
-			 Connection conn = ds.getConnection();
-			 ResultSet rs = null;
+			 conn = ds.getConnection();
 			 String query = "select count(*) from stars where first = ? and last = ? and dob = ?;";
-			 PreparedStatement stmt = conn.prepareStatement(query);
+			 stmt = conn.prepareStatement(query);
 			 stmt.setString(1, first);
 			 stmt.setString(2, last);
 			 stmt.setString(3, dob);
@@ -88,6 +90,7 @@ public class Metadata extends Service {
 			 while (rs.next()) {
 				 count = Integer.parseInt(rs.getString(1));
 			 }
+			 stmt.close();
 			 if (count == 0 ) {
 				 String insert = "INSERT INTO stars VALUES (NULL, ?, ?, ?, ?)";
 				 stmt = conn.prepareStatement(insert);
@@ -100,9 +103,15 @@ public class Metadata extends Service {
 			 }
 		 } catch (Exception e) {
 			 e.printStackTrace();
+		 } finally {
+			 try {
+				 rs.close();
+				 stmt.close();
+				 conn.close();
+			 } catch (Exception e){
+				 
+			 }
 		 }
-		 conn.close();
-		 stmt.close();
 		 return val;
 	 }
 	

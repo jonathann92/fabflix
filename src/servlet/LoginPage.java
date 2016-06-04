@@ -89,7 +89,7 @@ public class LoginPage extends HttpServlet {
 			
 		}
 		        
-		response.sendRedirect(redirect);
+		response.sendRedirect(redirect.concat("/"));
 	}
 
 	/**

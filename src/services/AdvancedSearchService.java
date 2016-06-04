@@ -12,6 +12,7 @@ import java.util.Set;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import objects.Genre;
@@ -78,10 +79,11 @@ public class AdvancedSearchService extends Service{
 			rs.close();
 			select.close();
 			conn.close();
-		} catch (ClassNotFoundException e) {
-			throw new ClassNotFoundException("Class no found " + JDBC_DRIVER);
 		} catch (SQLException e) {
 			throw new SQLException("No Server Connected");
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} finally { try { rs.close(); select.close(); conn.close(); } catch (Exception e2) {} }
 		
 		return movieList;

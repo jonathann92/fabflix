@@ -90,6 +90,7 @@ public class Service {
 	
 	public static void doXMLStuff(String title, String director, String year, String starFirst, String starLast, String genre)
 	 {
+		Connection connection = null;
 		 	try {
 	        	//Class.forName("com.mysql.jdbc.Driver").newInstance();
 	            //Connection connection = (Connection) DriverManager.getConnection("jdbc:mysql:///"+db,user, pass);
@@ -110,8 +111,8 @@ public class Service {
 	            stmt.setString(6,  genre);
 	        	stmt.execute();
 	            
+	            stmt.close();
 	            connection.close();
-				stmt.close();
 			} 
            catch (Exception e) {
 	            e.printStackTrace();

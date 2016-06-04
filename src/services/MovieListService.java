@@ -1,15 +1,17 @@
 package services;
 
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.ResultSet;
-import com.mysql.jdbc.Statement;
+
 import java.util.List;
+import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 import objects.Star;
 import objects.Movie;
@@ -55,9 +57,10 @@ public class MovieListService extends Service {
 			
 		} catch(SQLException e) {
 			e.printStackTrace();
-		} catch(ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (NullPointerException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -91,7 +94,8 @@ public class MovieListService extends Service {
 			
 		} catch(SQLException e) {
 			e.printStackTrace();
-		} catch(ClassNotFoundException e) {
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
