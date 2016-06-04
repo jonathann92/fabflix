@@ -12,6 +12,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+
 import objects.Customer;
 import objects.Movie;
 import objects.MutableInt;
@@ -19,7 +23,7 @@ import objects.MutableInt;
 public class CheckoutService extends Service{
 	
 	public static List<Integer> recordTransaction(Customer cust, Map<Movie, MutableInt> cart) throws Exception{
-		Class.forName(JDBC_DRIVER);
+		//Class.forName(JDBC_DRIVER);
 		List<Integer> transactionId = new ArrayList<Integer>();
 		
 		Connection conn = null;
@@ -30,8 +34,12 @@ public class CheckoutService extends Service{
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
  	   	Date date = new Date();
 	  	String transactionDate = dateFormat.format(date);
-	  	
-	  	conn = DriverManager.getConnection("jdbc:mysql:///"+db, user, pass);
+
+		Context initCtx = new InitialContext();
+		Context envCtx = (Context) initCtx.lookup("java:comp/env");
+		DataSource ds = (DataSource) envCtx.lookup("jdbc/write");
+	  	//conn = DriverManager.getConnection("jdbc:mysql:///"+db, user, pass);
+		conn = ds.getConnection();
 		
 	  	
 		for (Movie m : cart.keySet()) {
@@ -58,7 +66,7 @@ public class CheckoutService extends Service{
 	}
 	
 	public static boolean runCreditCard(String first, String last, String card, String year, String month, String day) throws Exception {
-		Class.forName(JDBC_DRIVER);
+		//Class.forName(JDBC_DRIVER);
 		
 		System.out.println("HERE");
 		Connection conn = null;
@@ -72,8 +80,13 @@ public class CheckoutService extends Service{
 				+ "and last =? and expiration =?";
 		
 		System.out.println(query);
-		
-		conn = DriverManager.getConnection("jdbc:mysql:///"+db, user, pass);
+
+		Context initCtx = new InitialContext();
+		Context envCtx = (Context) initCtx.lookup("java:comp/env");
+		DataSource ds = (DataSource) envCtx.lookup("jdbc/read");
+
+		//conn = DriverManager.getConnection("jdbc:mysql:///"+db, user, pass);
+		conn = ds.getConnection();
 		select = conn.prepareStatement(query);
 		select.setString(1, card);
 		select.setString(2, first);

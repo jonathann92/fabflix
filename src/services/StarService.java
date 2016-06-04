@@ -4,7 +4,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import java.sql.*;
+import javax.sql.DataSource;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import objects.Movie;
 import objects.Star;
 
@@ -18,9 +22,13 @@ public class StarService extends Service{
 		ResultSet rs = null;
 		
 		try {
-			Class.forName(JDBC_DRIVER);
-			conn = DriverManager.getConnection(DB_URL, user, pass);
-			
+			//Class.forName(JDBC_DRIVER);
+			//conn = DriverManager.getConnection(DB_URL, user, pass);
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			DataSource ds = (DataSource) envCtx.lookup("jdbc/read");
+			conn = ds.getConnection();
+
 			String sql = "SELECT * FROM stars where id = ?;";
 			select = conn.prepareStatement(sql);
 			select.setInt(1, starId);
@@ -44,9 +52,13 @@ public class StarService extends Service{
 		
 		try {
 			movies = new HashSet<Movie>();
-			Class.forName(JDBC_DRIVER);
-			conn = DriverManager.getConnection(DB_URL, user, pass);
-			
+			//Class.forName(JDBC_DRIVER);
+			//conn = DriverManager.getConnection(DB_URL, user, pass);
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			DataSource ds = (DataSource) envCtx.lookup("jdbc/read");
+			conn = ds.getConnection();
+
 			String query = "select movies.* from stars, stars_in_movies, movies "
 				     + "where stars.id = ? and stars.id=stars_in_movies.star_id "
 				     + "and stars_in_movies.movie_id = movies.id";

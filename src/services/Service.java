@@ -91,10 +91,14 @@ public class Service {
 	public static void doXMLStuff(String title, String director, String year, String starFirst, String starLast, String genre)
 	 {
 		 	try {
-	        	Class.forName("com.mysql.jdbc.Driver").newInstance();
-	            Connection connection = (Connection) DriverManager.getConnection("jdbc:mysql:///"+db,user, pass);
-	            
-	            
+	        	//Class.forName("com.mysql.jdbc.Driver").newInstance();
+	            //Connection connection = (Connection) DriverManager.getConnection("jdbc:mysql:///"+db,user, pass);
+
+				Context initCtx = new InitialContext();
+				Context envCtx = (Context) initCtx.lookup("java:comp/env");
+				DataSource ds = (DataSource) envCtx.lookup("jdbc/read");
+				connection = ds.getConnection();
+
 	            String sql = "call add_movie(?, ?, ?, ?, ?, ?);";
 	            
 	            PreparedStatement stmt = connection.prepareStatement(sql);
@@ -106,7 +110,8 @@ public class Service {
 	            stmt.setString(6,  genre);
 	        	stmt.execute();
 	            
-	            connection.close();	        
+	            connection.close();
+				stmt.close();
 			} 
            catch (Exception e) {
 	            e.printStackTrace();

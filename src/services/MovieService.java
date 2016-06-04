@@ -7,6 +7,9 @@ import java.util.Set;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 import objects.Star;
 import objects.Movie;
 import objects.Genre;
@@ -25,9 +28,13 @@ public class MovieService extends Service {
 		ResultSet rs = null;
 		
 		try {
-			Class.forName(JDBC_DRIVER);
-			conn = (Connection) DriverManager.getConnection(DB_URL, user, pass);
-			
+			//Class.forName(JDBC_DRIVER);
+			//conn = (Connection) DriverManager.getConnection(DB_URL, user, pass);
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			DataSource ds = (DataSource) envCtx.lookup("jdbc/read");
+
+			conn = ds.getConnection();
 			String sql = "SELECT * FROM movies where movies.id = ?;";
 			select = conn.prepareStatement(sql);
 			select.setInt(1, movieId);
@@ -59,9 +66,13 @@ public class MovieService extends Service {
 		ResultSet rs = null;
 		
 		try {
-			Class.forName(JDBC_DRIVER);
-			conn = (Connection) DriverManager.getConnection(DB_URL, user, pass);
-			
+			//Class.forName(JDBC_DRIVER);
+			//conn = (Connection) DriverManager.getConnection(DB_URL, user, pass);
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			DataSource ds = (DataSource) envCtx.lookup("jdbc/read");
+
+			conn = ds.getConnection();
 			String sql = "SELECT s.* FROM stars as s, movies as m, stars_in_movies as sm WHERE m.id = ? AND sm.movie_id = m.id AND sm.star_id = s.id;";
 			select = conn.prepareStatement(sql);
 			select.setInt(1, movieId);
@@ -92,9 +103,13 @@ public class MovieService extends Service {
 		ResultSet rs = null;
 		
 		try {
-			Class.forName(JDBC_DRIVER);
-			conn = (Connection) DriverManager.getConnection(DB_URL, user, pass);
-			
+			//Class.forName(JDBC_DRIVER);
+			//conn = (Connection) DriverManager.getConnection(DB_URL, user, pass);
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			DataSource ds = (DataSource) envCtx.lookup("jdbc/read");
+			conn = ds.getConnection();
+
 			String sql = "SELECT g.* FROM genres as g, movies as m, genres_in_movies as gm WHERE m.id = ? and gm.genre_id=g.id and gm.movie_id=m.id;";
 			select = conn.prepareStatement(sql);
 			select.setInt(1, movieId);
@@ -125,9 +140,13 @@ public class MovieService extends Service {
 		ResultSet rs = null;
 		
 		try {
-			Class.forName(JDBC_DRIVER);
-			conn = (Connection) DriverManager.getConnection(DB_URL, user, pass);
-			
+			//Class.forName(JDBC_DRIVER);
+			//conn = (Connection) DriverManager.getConnection(DB_URL, user, pass);
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			DataSource ds = (DataSource) envCtx.lookup("jdbc/read");
+			conn = ds.getConnection();
+
 			String sql = "SELECT * FROM movies where movies.id = ?;";
 			select = conn.prepareStatement(sql);
 			select.setInt(1, id);
@@ -160,9 +179,13 @@ public class MovieService extends Service {
 		ResultSet rs = null;
 		
 		try {
-			Class.forName(JDBC_DRIVER);
-			conn = DriverManager.getConnection(DB_URL, user, pass);
-			
+			//Class.forName(JDBC_DRIVER);
+			//conn = DriverManager.getConnection(DB_URL, user, pass);
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			DataSource ds = (DataSource) envCtx.lookup("jdbc/read");
+			conn = ds.getConnection();
+
 			String sql = "SELECT s.* FROM stars as s, movies as m, stars_in_movies as sm WHERE m.id = ? AND sm.movie_id = m.id AND sm.star_id = s.id;";
 			select =  conn.prepareStatement(sql);
 			select.setInt(1, id);
@@ -193,9 +216,13 @@ public class MovieService extends Service {
 		ResultSet rs = null;
 		
 		try {
-			Class.forName(JDBC_DRIVER);
-			conn = DriverManager.getConnection(DB_URL, user, pass);
-			
+			//Class.forName(JDBC_DRIVER);
+			//conn = DriverManager.getConnection(DB_URL, user, pass);
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			DataSource ds = (DataSource) envCtx.lookup("jdbc/read");
+
+			conn = ds.getConnection();
 			String sql = "SELECT g.* FROM genres as g, movies as m, genres_in_movies as gm WHERE m.id = ? and gm.genre_id=g.id and gm.movie_id=m.id;";
 			select =  conn.prepareStatement(sql);
 			select.setInt(1, id);

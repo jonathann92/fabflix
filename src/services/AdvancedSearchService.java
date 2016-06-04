@@ -10,6 +10,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+
 import objects.Genre;
 import objects.Movie;
 import objects.Star;
@@ -55,8 +59,13 @@ public class AdvancedSearchService extends Service{
 		
 		
 		try {
-			Class.forName(JDBC_DRIVER);
-			conn = DriverManager.getConnection("jdbc:mysql:///"+db, user, pass);
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			DataSource ds = (DataSource) envCtx.lookup("jdbc/read");
+
+			//Class.forName(JDBC_DRIVER);
+			//conn = DriverManager.getConnection("jdbc:mysql:///"+db, user, pass);
+			conn =  ds.getConnection();
 			select = conn.createStatement();
 			rs = select.executeQuery(query);
 			
@@ -73,7 +82,7 @@ public class AdvancedSearchService extends Service{
 			throw new ClassNotFoundException("Class no found " + JDBC_DRIVER);
 		} catch (SQLException e) {
 			throw new SQLException("No Server Connected");
-		}
+		} finally { try { rs.close(); select.close(); conn.close(); } catch (Exception e2) {} }
 		
 		return movieList;
 	}

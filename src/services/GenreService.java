@@ -8,6 +8,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 import objects.Genre;
 import objects.Movie;
 
@@ -20,8 +23,12 @@ public class GenreService extends Service {
 		ResultSet rs = null;
 		
 		try {
-			Class.forName(JDBC_DRIVER);			
-			conn =  DriverManager.getConnection(DB_URL, user, pass);
+			//Class.forName(JDBC_DRIVER);
+			//conn =  DriverManager.getConnection(DB_URL, user, pass);
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			DataSource ds = (DataSource) envCtx.lookup("jdbc/read");
+			conn = ds.getConnection();
 			String query = "select * from genres";
 			select =  (PreparedStatement) conn.prepareStatement(query);
 			genres = new ArrayList<Genre>();
@@ -46,9 +53,13 @@ public class GenreService extends Service {
 		ResultSet rs = null;
 		
 		try {
-			Class.forName(JDBC_DRIVER);
-			conn =  DriverManager.getConnection(DB_URL, user, pass);
-			
+			//Class.forName(JDBC_DRIVER);
+			//conn =  DriverManager.getConnection(DB_URL, user, pass);
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			DataSource ds = (DataSource) envCtx.lookup("jdbc/read");
+
+			conn = ds.getConnection();
 			movies = new ArrayList<Movie>();
 			String query = "select distinct movies.* from genres_in_movies, movies where "
 					+ "? = genres_in_movies.genre_id "
@@ -81,9 +92,13 @@ public class GenreService extends Service {
 		ResultSet rs = null;
 		
 		try {
-			Class.forName(JDBC_DRIVER);
-			conn =  DriverManager.getConnection(DB_URL, user, pass);
-			
+			//Class.forName(JDBC_DRIVER);
+			//conn =  DriverManager.getConnection(DB_URL, user, pass);
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			DataSource ds = (DataSource) envCtx.lookup("jdbc/read");
+			conn = ds.getConnection();
+
 			movies = new ArrayList<Movie>();
 			String query = "select distinct movies.* from genres, genres_in_movies, movies where "
 							+ "genres.name = ? and genres.id = genres_in_movies.genre_id "

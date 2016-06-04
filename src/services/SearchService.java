@@ -59,8 +59,13 @@ public class SearchService extends Service {
 		ResultSet rs = null;
 		
 		try {
-			Class.forName(JDBC_DRIVER);
-			conn = DriverManager.getConnection(DB_URL, user, pass);
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			DataSource ds = (DataSource) envCtx.lookup("jdbc/read");
+
+			//Class.forName(JDBC_DRIVER);
+			//conn = DriverManager.getConnection(DB_URL, user, pass);
+			conn = ds.getConnection();
 			select =  conn.createStatement();
 			
 			rs =  select.executeQuery(query);
@@ -131,8 +136,13 @@ public class SearchService extends Service {
 		ResultSet rs = null;
 		
 		try {
-			Class.forName(JDBC_DRIVER);
-			conn = DriverManager.getConnection(DB_URL, user, pass);
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			DataSource ds = (DataSource) envCtx.lookup("jdbc/read");
+
+			//Class.forName(JDBC_DRIVER);
+			//conn = DriverManager.getConnection(DB_URL, user, pass);
+			conn = ds.getConnection();
 			select =  conn.createStatement();
 			
 			rs =  select.executeQuery(query);
@@ -162,8 +172,13 @@ public class SearchService extends Service {
 		String query = "select * from movies where edrec(lower(?), lower(title), 1) and  true order by year desc limit ? offset ?";
 		
 		try {
-			Class.forName(JDBC_DRIVER);
-			conn = DriverManager.getConnection(DB_URL, user, pass);
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			DataSource ds = (DataSource) envCtx.lookup("jdbc/read");
+
+			//Class.forName(JDBC_DRIVER);
+			//conn = DriverManager.getConnection(DB_URL, user, pass);
+			conn = ds.getConnection();
 			select =  conn.prepareStatement(query);
 			
 			select.setString(1, "star");

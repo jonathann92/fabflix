@@ -9,6 +9,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 import objects.Movie;
 
 public class AutoCompleteService extends Service {
@@ -21,8 +24,13 @@ public class AutoCompleteService extends Service {
 		ResultSet rs = null;
 		
 		try {
-			Class.forName(JDBC_DRIVER);
-			conn = DriverManager.getConnection(DB_URL, user, pass);
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			DataSource ds = (DataSource) envCtx.lookup("jdbc/read");
+
+			//Class.forName(JDBC_DRIVER);
+			//conn = DriverManager.getConnection(DB_URL, user, pass);
+			conn = ds.getConnection();
 			select =  conn.createStatement();
 			rs = select.executeQuery(sql);
 			
@@ -53,8 +61,12 @@ public class AutoCompleteService extends Service {
 		ResultSet rs = null;
 		
 		try {
-			Class.forName(JDBC_DRIVER);
-			conn = DriverManager.getConnection(DB_URL, user, pass);
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			DataSource ds = (DataSource) envCtx.lookup("jdbc/read");
+			//Class.forName(JDBC_DRIVER);
+			//conn = DriverManager.getConnection(DB_URL, user, pass);
+			conn = ds.getConnection();
 			select =  conn.prepareStatement(sql);
 			
 			for(int i = 0; i < params.size(); ++i){

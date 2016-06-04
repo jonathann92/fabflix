@@ -8,6 +8,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 import objects.Star;
 import objects.Movie;
 import objects.Genre;
@@ -30,8 +33,12 @@ public class MovieListService extends Service {
 		ResultSet rs = null;
 		
 		try {
-			Class.forName(JDBC_DRIVER);
-			conn = (Connection) DriverManager.getConnection(DB_URL, user, pass);
+			//Class.forName(JDBC_DRIVER);
+			//conn = (Connection) DriverManager.getConnection(DB_URL, user, pass);
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			DataSource ds = (DataSource) envCtx.lookup("jdbc/read");
+			conn = ds.getConnection();
 			select = (Statement) conn.createStatement();
 			String sql = "SELECT * FROM movies limit " + listSize + ";";
 			
@@ -53,8 +60,7 @@ public class MovieListService extends Service {
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
-		
-		
+
 		return m;
 	}
 	
@@ -65,8 +71,12 @@ public class MovieListService extends Service {
 		ResultSet rs = null;
 		
 		try {
-			Class.forName(JDBC_DRIVER);
-			conn = (Connection) DriverManager.getConnection(DB_URL, user, pass);
+			//Class.forName(JDBC_DRIVER);
+			//conn = (Connection) DriverManager.getConnection(DB_URL, user, pass);
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			DataSource ds = (DataSource) envCtx.lookup("jdbc/read");
+			conn = ds.getConnection();
 			select =  (Statement) conn.createStatement();
 			String sql = "select * from movies order by RAND() limit " + listSize + ";";
 			rs = (ResultSet) select.executeQuery(sql);

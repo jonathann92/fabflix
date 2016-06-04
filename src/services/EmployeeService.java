@@ -5,13 +5,16 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 import com.mysql.jdbc.PreparedStatement;
 
 import objects.Employee;
 
 public class EmployeeService extends Service{
 	public static Employee verifyCredentials(String email, String password) throws Exception {
-		Class.forName(JDBC_DRIVER);
+		//Class.forName(JDBC_DRIVER);
 		Employee emp = null;
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -19,7 +22,11 @@ public class EmployeeService extends Service{
 		
 		String query = "select * from employees where email=? and password=?;";
 		
-		conn = DriverManager.getConnection("jdbc:mysql:///"+db, user, pass);
+		Context initCtx = new InitialContext();
+		Context envCtx = (Context) initCtx.lookup("java:comp/env");
+		DataSource ds = (DataSource) envCtx.lookup("jdbc/read");
+		//conn = DriverManager.getConnection("jdbc:mysql:///"+db, user, pass);
+		conn = ds.getConnection();
 		stmt = (PreparedStatement) conn.prepareStatement(query);
 		stmt.setString(1, email);
 		stmt.setString(2, password);
@@ -30,6 +37,9 @@ public class EmployeeService extends Service{
 				break;
 			}
 		}
+		conn.close();
+		stmt.close();
+
 		return emp;
 	}
 }

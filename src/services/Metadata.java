@@ -10,6 +10,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 
 public class Metadata extends Service {
 	private PrintWriter out;
@@ -44,9 +47,13 @@ public class Metadata extends Service {
 	 public void getDatabaseMetaData()
 	 {
 		 	try {
-	        	Class.forName("com.mysql.jdbc.Driver").newInstance();
-	            Connection connection = DriverManager.getConnection("jdbc:mysql:///"+db,user, pass);
-	            
+	        	//Class.forName("com.mysql.jdbc.Driver").newInstance();
+	            //Connection connection = DriverManager.getConnection("jdbc:mysql:///"+db,user, pass);
+				Context initCtx = new InitialContext();
+				Context envCtx = (Context) initCtx.lookup("java:comp/env");
+				DataSource ds = (DataSource) envCtx.lookup("jdbc/read");
+
+				Connection connection = ds.getConnection();
 	            List<String> tableNames = getTableNames(connection);
 	            for(String table : tableNames){
 	            	System.out.println(table);
@@ -63,9 +70,13 @@ public class Metadata extends Service {
 	 public boolean addStar(String first, String last, String dob, String photo) {
 		 boolean val = false;
 		 try {
-			 Class.forName(JDBC_DRIVER);
-			 Connection conn = DriverManager.getConnection("jdbc:mysql:///"+db, user, pass);
-			 
+			 //Class.forName(JDBC_DRIVER);
+			 //Connection conn = DriverManager.getConnection("jdbc:mysql:///"+db, user, pass);
+			 Context initCtx = new InitialContext();
+			 Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			 DataSource ds = (DataSource) envCtx.lookup("jdbc/write");
+
+			 Connection conn = ds.getConnection();
 			 ResultSet rs = null;
 			 String query = "select count(*) from stars where first = ? and last = ? and dob = ?;";
 			 PreparedStatement stmt = conn.prepareStatement(query);
@@ -90,6 +101,8 @@ public class Metadata extends Service {
 		 } catch (Exception e) {
 			 e.printStackTrace();
 		 }
+		 conn.close();
+		 stmt.close();
 		 return val;
 	 }
 	

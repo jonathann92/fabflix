@@ -3,6 +3,9 @@ package services;
 import java.sql.*;
 import java.util.*;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 import objects.*;
 
 public class MovieTitle extends Service {
@@ -16,8 +19,12 @@ public class MovieTitle extends Service {
 		ResultSet rs = null;
 		
 		try {
-			Class.forName(JDBC_DRIVER);
-			conn = DriverManager.getConnection(DB_URL, user, pass);
+			//Class.forName(JDBC_DRIVER);
+			//conn = DriverManager.getConnection(DB_URL, user, pass);
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			DataSource ds = (DataSource) envCtx.lookup("jdbc/read");
+			conn = ds.getConnection();
 			select =  conn.createStatement();
 			//movieList = new HashSet<Movie>();
 			
