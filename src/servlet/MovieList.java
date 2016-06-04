@@ -39,7 +39,6 @@ public class MovieList extends HttpServlet {
         
         Long startTS = (Long) request.getAttribute("startTS");
         String prevPage = (String) request.getAttribute("prevpage");
-        String params = (String) request.getAttribute("query");
 		String jsonParam = request.getParameter("json");
 		List<String> questionMarks = (List<String>) request.getAttribute("questionMarks");
 
