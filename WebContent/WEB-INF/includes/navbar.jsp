@@ -47,7 +47,7 @@ function ajaxFunction(){
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="${context}/">Film DB</a>
+            <a class="navbar-brand" href="${context}/index.jsp">Film DB</a>
           </div>
           
           

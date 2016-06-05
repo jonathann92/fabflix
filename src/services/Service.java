@@ -55,12 +55,8 @@ public class Service {
 		try {
 			Context initCtx = new InitialContext();
 			Context envCtx = (Context) initCtx.lookup("java:comp/env");
-			DataSource ds = (DataSource) envCtx.lookup("jdbc/read"); //NOT moviedb
-			if (initCtx == null || envCtx == null) {
-				System.out.println("THEYRE NULL YO!");
-			} else {
-				System.out.println("YOURE GOOD YO");
-			}
+			DataSource ds = (DataSource) envCtx.lookup("jdbc/read");
+
 			Connection conn = null;
 			Statement select = null;
 			ResultSet rs = null;
