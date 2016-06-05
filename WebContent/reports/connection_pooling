@@ -1,0 +1,18 @@
+To establish connection pooling using two tomcat instances, we added two resource tags inside context.html (within META-INF folder).
+
+Inside the context.xml, which mimics server.xml but only within the context of a specific webapp, we created two resource tags where one would 
+be used for reading and the other would be used for writing. 
+
+After setting up the Master/Slave SQL databases, connection pooling would be able to distribute out the SQL QUERIES with a max active being 100 connections 
+and a max waiting of 10000. 
+
+Specifically for write commands, we used the second resource tag to connect to the master instance so that we were able to keep the Master/Slave heiarchy. 
+
+And inside the .java code we were able to call the connections via:
+
+Context initCtx = new InitialContext();
+Context envCtx = (Context) initCtx.lookup("java:comp/env");
+DataSource ds = (DataSource) envCtx.lookup("jdbc/read"); //<-- "jdbc/read" is for QUERIES | "jdbc/write" is for INSERTS/UPDATES
+Connection conn = ds.getConnection();
+
+and make a query with the 'conn' variable;
